@@ -23,8 +23,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&family=Space+Mono:wght@700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=1781809583q" />
-  <link rel="stylesheet" href="companion.css?v=1781809583q" />
+  <link rel="stylesheet" href="styles.css?v=REBUILT1" />
+  <link rel="stylesheet" href="companion.css?v=REBUILT1" />
   <script type="application/ld+json" id="jsonld-person">
   {"@context":"https://schema.org","@type":"Person","name":"Arun Teja Kamisetti","jobTitle":"AI Product Manager","url":"https://aruntejakamisetti.github.io/","email":"mailto:arunteja2000@gmail.com","sameAs":["https://github.com/ArunTejaKamisetti","https://www.linkedin.com/in/aruntejakamisetti"],"knowsAbout":["AI Product Management","Product Strategy","Model Evaluation","User Research"],"alumniOf":["Indian Institute of Management Kozhikode","BMS College of Engineering"],"description":"Engineer-turned-PM building toward AI products people trust."}
   </script>
@@ -52,10 +52,9 @@
     <symbol id="i-rocket" viewBox="0 0 24 24"><path d="M12 3c3 1 6 4 6 9l-3 3H9l-3-3c0-5 3-8 6-9z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="10" r="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 18c-1 1-1 3-1 3s2 0 3-1M15 18c1 1 1 3 1 3s-2 0-3-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M7.5 15h9" stroke="currentColor" stroke-width="2"/></symbol>
     <symbol id="i-trend" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8M21 7v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></symbol>
     <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-linkedin" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4M11 17v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
-    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" fill="currentColor"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></symbol>
   </defs></svg>
 
   <header class="nav">
@@ -71,9 +70,7 @@
             <li><a href="#github">GitHub</a></li>
             <li><a href="#contact" class="nav__cta">Contact</a></li>
           </ul>
-          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark theme">
-            <svg class="ico" id="theme-ico" width="18" height="18"><use href="#i-spark"/></svg>
-          </button>
+          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark theme"><svg class="ico" id="theme-ico" width="18" height="18"><use href="#i-bulb"/></svg></button>
           <button class="nav__toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
         </nav>
       </div>
@@ -87,10 +84,7 @@
           <div class="ph"><svg width="46" height="46" style="color:#fff"><use href="#i-cpu"/></svg></div>
           <div class="cap" id="hero-hi"></div>
         </div>
-        <div class="hero__aspiring">
-          <span class="hero__chip">&lt;/&gt;</span>
-          <span class="hero__aspiring-text">ASPIRING</span>
-        </div>
+        <div class="hero__aspiring"><span class="hero__chip">&lt;/&gt;</span><span class="hero__aspiring-text">ASPIRING</span></div>
         <h1 id="hero-title" class="hero__stack">
           <span class="hero__line hero__line--dotted">AI</span>
           <span class="hero__line hero__line--peach">PRODUCT</span>
@@ -111,12 +105,12 @@
         <span class="section__eyebrow reveal">Who I am</span>
         <h2 class="section__title reveal" id="about-title"><span class="title-ic"><svg width="28" height="28"><use href="#i-user"/></svg></span>About me</h2>
         <div class="about">
-          <div class="reveal" data-anim="left">
-            <p class="about__body" id="about-body"></p>
-            <div class="journey" id="journey"></div>
-            <div class="skills" id="skills" aria-label="Skills"></div>
-          </div>
+          <p class="about__body reveal" data-anim="left" id="about-body"></p>
           <ul class="about__highlights reveal" data-anim="right" data-delay="1" id="about-highlights"></ul>
+        </div>
+        <div class="about-extra">
+          <div class="about-extra__block reveal"><h3 class="about-extra__label">My journey</h3><div class="journey" id="journey"></div></div>
+          <div class="about-extra__block reveal" data-delay="1"><h3 class="about-extra__label">What I bring</h3><div class="skills" id="skills" aria-label="Skills"></div></div>
         </div>
       </div>
     </section>
@@ -190,6 +184,7 @@
       <span class="footer__meta">Designed &amp; built by me</span>
     </div>
   </footer>
+
   <script id="cw-content" type="application/json">
 {
   "meta": {
@@ -375,7 +370,7 @@
   }
 }
   </script>
-  <script src="app.js?v=1781809583q"></script>
-  <script src="companion.js?v=1781809583q"></script>
+  <script src="app.js?v=REBUILT1"></script>
+  <script src="companion.js?v=REBUILT1"></script>
 </body>
 </html>
