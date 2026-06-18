@@ -128,6 +128,7 @@
       "https://github-contributions-api.jogruber.de/v4/" + encodeURIComponent(username) + "?y=last",
       "https://github-contributions-api.jogruber.de/v4/" + encodeURIComponent(username)
     ];
+    const WEEKS = 17; // ~4 months
     for (const url of endpoints) {
       try {
         const res = await fetch(url);
@@ -135,20 +136,22 @@
         const data = await res.json();
         let days = (data.contributions || []);
         if (!days.length) continue;
-        // keep the most recent ~364 days so the current month (incl. June) is shown
-        days = days.slice(-364);
+        // align to whole weeks ending today: keep last WEEKS*7 days
+        days = days.slice(-(WEEKS * 7));
         const max = Math.max(1, ...days.map((d) => d.count));
+        // build column-per-week, row-per-weekday so it reads like GitHub's
         grid.innerHTML = days.map((d) => {
           let lvl = 0; if (d.count > 0) lvl = Math.min(4, Math.ceil((d.count / max) * 4));
-          return '<span class="cell" style="background:' + shades[lvl] + '" title="' + d.date + ': ' + d.count + ' contributions"></span>';
+          const dt = new Date(d.date + "T00:00:00");
+          return '<span class="cell" style="grid-row:' + (dt.getDay() + 1) + ';background:' + shades[lvl] + '" title="' + d.date + ': ' + d.count + ' contributions"></span>';
         }).join("");
         const total = days.reduce((s, d) => s + d.count, 0);
-        $("gh-total").textContent = total.toLocaleString() + " contributions";
+        $("gh-total").textContent = total.toLocaleString() + " contributions in the last 4 months";
         return;
       } catch (e) { /* try next endpoint */ }
     }
-    // all endpoints failed
-    grid.innerHTML = ""; for (let i = 0; i < 364; i++) { const s = document.createElement("span"); s.className = "cell"; grid.appendChild(s); }
+    // all endpoints failed — render an empty compact grid as placeholder
+    grid.innerHTML = ""; for (let i = 0; i < WEEKS * 7; i++) { const s = document.createElement("span"); s.className = "cell"; grid.appendChild(s); }
     $("gh-total").textContent = "Live contribution graph loads when hosted";
   }
 

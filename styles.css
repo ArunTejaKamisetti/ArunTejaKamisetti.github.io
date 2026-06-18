@@ -156,8 +156,8 @@ a{color:inherit;text-decoration:none;}
 .ghcard__total{font-family:var(--font-display);font-size:19px;font-weight:700;}
 .ghcard__link{font-size:14px;color:var(--ink);font-weight:600;}
 .ghcard__link:hover{color:var(--peach);}
-.ghgrid{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,1fr);gap:3px;overflow-x:auto;padding-bottom:6px;}
-.ghgrid .cell{width:12px;height:12px;border-radius:3px;background:var(--cream-2);}
+.ghgrid{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,1fr);grid-auto-columns:15px;gap:4px;justify-content:start;padding-bottom:6px;max-width:100%;overflow-x:auto;}
+.ghgrid .cell{width:15px;height:15px;border-radius:4px;background:var(--cream-2);}
 .ghlegend{display:flex;align-items:center;gap:8px;margin-top:16px;font-size:12px;color:var(--ink-faint);}
 .ghlegend__cells{display:inline-flex;gap:3px;}
 .ghlegend__cells .cell{width:12px;height:12px;border-radius:3px;}
@@ -246,4 +246,4 @@ a{color:inherit;text-decoration:none;}
 .about__body .inline-ic{display:inline-flex;align-items:center;justify-content:center;width:1.35em;height:1.35em;vertical-align:-.3em;margin:0 .12em;border-radius:8px;background:var(--ink);color:var(--cream);font-size:.78em;}
 .about__body .inline-ic.sage{background:var(--sage);} .about__body .inline-ic.peach{background:var(--peach);} .about__body .inline-ic.plum{background:var(--plum);} .about__body .inline-ic.gold{background:var(--gold);color:var(--ink);}
 /* heavier headings overall */
-.section__title{font-weight:700;} .card__title,.thought h3,.deck__body h3{font-weight:700;}
+.section__title{font-weight:700;
