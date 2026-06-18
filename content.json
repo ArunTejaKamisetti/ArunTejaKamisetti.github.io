@@ -9,7 +9,6 @@
     ],
     "tagline": "I build AI products people can actually trust.",
     "subtagline": "CSE grad and ex-Sandvine engineer, now an aspiring AI PM at IIM Kozhikode. I evaluate models, ship 0 to 1, and care most about outcomes — not output.",
-    "subtaglineHi": "भारतीय AI प्रोडक्ट मैनेजर — इंजीनियरिंग और बिज़नेस के बीच, ऐसे AI प्रोडक्ट बनाना जिन पर लोग सच में भरोसा कर सकें।",
     "location": "IIM Kozhikode, India",
     "email": "arunteja2000@gmail.com",
     "resumeUrl": "assets/Arun_Teja_Kamisetti_Resume.pdf",
@@ -30,7 +29,14 @@
       "I funneled ~220 small language models down to the one that actually fit.",
       "I declined a PPO to go all-in on becoming an AI PM at a frontier lab."
     ],
-    "quote": "Strong opinions, loosely held — show me a sound argument and I'll change my mind fast."
+    "quote": "Strong opinions, loosely held — show me a sound argument and I'll change my mind fast.",
+    "aiQuotes": [
+      "“Attention is all you need.”",
+      "“Scale is all you need.”",
+      "“The best way to predict the future is to build it.”",
+      "“Make something people want.”",
+      "“Models want to learn.”"
+    ]
   },
   "about": {
     "heading": "About me",

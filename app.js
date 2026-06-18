@@ -19,13 +19,28 @@
   const ICON = { "ti-school":"i-school","ti-code":"i-code","ti-target-arrow":"i-target","ti-bulb":"i-bulb","ti-flask":"i-flask","ti-rocket":"i-rocket","ti-cpu":"i-cpu","ti-movie":"i-movie","ti-ball-basketball":"i-ball","ti-presentation":"i-deck","ti-pencil":"i-pen","ti-trending-up":"i-trend","ti-folder":"i-stack" };
   const svgico = (tiName, cls) => '<svg class="ico ' + (cls||"") + '"><use href="#' + (ICON[tiName]||"i-stack") + '"/></svg>';
 
+  let _quoteTimer = null;
+  function startQuoteRotator(quotes) {
+    const el = $("hero-sub-hi");
+    if (!el) return;
+    if (!quotes || !quotes.length) { el.textContent = ""; return; }
+    clearInterval(_quoteTimer);
+    let i = 0;
+    const show = () => { el.style.opacity = "0"; setTimeout(() => { el.textContent = quotes[i % quotes.length]; el.style.opacity = "1"; i++; }, 300); };
+    el.style.transition = "opacity .3s ease";
+    show();
+    if (quotes.length > 1 && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      _quoteTimer = setInterval(show, 3500);
+    }
+  }
+
   function renderMeta(m) {
     if (!m) return;
     $("nav-brand").textContent = m.name;
     $("footer-name").textContent = "© " + new Date().getFullYear() + " " + m.name;
     $("hero-sub").innerHTML = '<span class="lead-dot"></span>' + esc(m.subtagline || "");
-    if ($("hero-sub-hi")) $("hero-sub-hi").textContent = m.subtaglineHi || "";
-    if ($("hero-hi")) $("hero-hi").innerHTML = 'भारतीय <b>AI PRODUCT MANAGER</b> — building products people trust.';
+    startQuoteRotator(m.aiQuotes || []);
+    if ($("hero-hi")) $("hero-hi").innerHTML = '<b>AI PRODUCT MANAGER</b> — building products people trust.';
     if (m.resumeUrl) $("resume-btn").setAttribute("href", m.resumeUrl);
     document.title = m.name + " — Aspiring AI Product Manager";
   }
@@ -59,7 +74,7 @@
     if (!projects || !projects.length) { grid.innerHTML = empty("No projects yet."); return; }
     grid.innerHTML = projects.map((p, i) => {
       const link = p.link && p.link !== "#" ? p.link : "";
-      const linkLabel = p.type === "deck" ? "View deck" : "Read case study";
+      const linkLabel = /github\.com/.test(link) ? "View on GitHub" : (p.type === "deck" ? "View deck" : "View project");
       return '<article class="card card-surface reveal" data-anim="' + (i % 2 ? "right" : "left") + '" data-delay="' + (i % 3) + '">' +
         '<span class="card__num">0' + (i + 1) + '</span>' +
         '<div class="card__icon">' + svgico(p.icon) + '</div>' +
@@ -76,11 +91,20 @@
   function renderDecks(decks) {
     const grid = $("decks-grid");
     if (!decks || !decks.length) { grid.innerHTML = empty("No decks yet."); return; }
-    grid.innerHTML = decks.map((d, i) =>
-      '<article class="deck card-surface reveal" data-anim="' + (i % 2 ? "right" : "left") + '">' +
-        '<div class="deck__frame">' + (d.embedUrl ? '<iframe src="' + esc(d.embedUrl) + '" loading="lazy" title="' + esc(d.title) + '" allowfullscreen></iframe>' : '<span class="deck__play"><svg width="24" height="24"><use href="#i-play"/></svg></span><svg width="40" height="40" style="opacity:.4"><use href="#i-deck"/></svg>') + '</div>' +
-        '<div class="deck__body"><h3>' + esc(d.title) + '</h3><p>' + esc(d.description || "") + '</p></div>' +
-      '</article>').join("");
+    grid.innerHTML = decks.map((d, i) => {
+      const src = d.embedUrl || d.file || "";
+      const isEmbed = /^https?:.*(docs\.google|youtube|drive\.google)/.test(src);
+      const isFile = src && !isEmbed;
+      const frame = isEmbed
+        ? '<iframe src="' + esc(src) + '" loading="lazy" title="' + esc(d.title) + '" allowfullscreen></iframe>'
+        : '<span class="deck__play"><svg width="24" height="24"><use href="#i-play"/></svg></span><svg width="40" height="40" style="opacity:.4"><use href="#i-deck"/></svg>';
+      const tags = (d.tags && d.tags.length) ? '<div class="card__tags">' + d.tags.map((t) => '<span>' + esc(t) + '</span>').join("") + '</div>' : "";
+      const openLink = isFile ? '<a class="card__link" href="' + esc(src) + '" target="_blank" rel="noopener">Open deck <svg class="ico" width="15" height="15"><use href="#i-arrow"/></svg></a>' : "";
+      return '<article class="deck card-surface reveal" data-anim="' + (i % 2 ? "right" : "left") + '">' +
+        '<div class="deck__frame">' + frame + '</div>' +
+        '<div class="deck__body"><h3>' + esc(d.title) + '</h3><p>' + esc(d.description || "") + '</p>' + tags + openLink + '</div>' +
+      '</article>';
+    }).join("");
   }
 
   function renderThoughts(thoughts) {
