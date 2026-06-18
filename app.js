@@ -119,35 +119,34 @@
 
   async function renderGitHub(username) {
     const grid = $("gh-grid"), legend = $("gh-legend");
-    const shades = ["var(--cell-empty,#e6dac8)", "#FFD9C2", "#FFB48A", "#FF6A2B", "#241B14"];
+    // High-contrast peach ramp that pops on light AND dark backgrounds
+    const shades = ["var(--cell-empty,#e6dac8)", "#FFC9A8", "#FF9D5C", "#FF6A2B", "#C9461A"];
     legend.innerHTML = shades.map((c) => '<span class="cell" style="background:' + c + '"></span>').join("");
     if (!username) return;
-    const WEEKS = 18;
     try {
       const res = await fetch("https://github-contributions-api.deno.dev/" + encodeURIComponent(username) + ".json");
       if (!res.ok) throw new Error("gh api");
       const data = await res.json();
-      // data.contributions = array of weeks; each week = array of 7 day objects
       let weeks = data.contributions || [];
       if (!weeks.length) throw new Error("empty");
-      weeks = weeks.slice(-WEEKS);
+      // show the FULL year so the count matches GitHub and the grid fills the card
       const max = Math.max(1, ...weeks.flat().map((d) => d.contributionCount || 0));
       let html = "";
-      let total = 0;
       weeks.forEach((week, col) => {
         week.forEach((d) => {
-          const cnt = d.contributionCount || 0; total += cnt;
+          const cnt = d.contributionCount || 0;
           const dow = new Date(d.date + "T00:00:00").getDay();
           let lvl = 0; if (cnt > 0) lvl = Math.min(4, Math.ceil((cnt / max) * 4));
           html += '<span class="cell" style="grid-column:' + (col + 1) + ';grid-row:' + (dow + 1) + ';background:' + shades[lvl] + '" title="' + d.date + ': ' + cnt + ' contributions"></span>';
         });
       });
       grid.innerHTML = html;
-      $("gh-total").textContent = total.toLocaleString() + " contributions in the last ~4 months";
+      const total = (typeof data.totalContributions === "number") ? data.totalContributions : weeks.flat().reduce((s, d) => s + (d.contributionCount||0), 0);
+      $("gh-total").textContent = total.toLocaleString() + " contributions in the last year";
       return;
-    } catch (e) { /* fall through to placeholder */ }
+    } catch (e) { /* placeholder */ }
     let html = "";
-    for (let i = 0; i < WEEKS * 7; i++) { html += '<span class="cell" style="grid-column:' + (Math.floor(i/7)+1) + ';grid-row:' + ((i%7)+1) + '"></span>'; }
+    for (let i = 0; i < 53 * 7; i++) { html += '<span class="cell" style="grid-column:' + (Math.floor(i/7)+1) + ';grid-row:' + ((i%7)+1) + '"></span>'; }
     grid.innerHTML = html;
     $("gh-total").textContent = "Live contribution graph loads when hosted";
   }
