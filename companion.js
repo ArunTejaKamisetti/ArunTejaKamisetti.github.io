@@ -117,7 +117,6 @@
 
   function konami(){ const seq=["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"]; let i=0; document.addEventListener("keydown",(e)=>{ const k=e.key.length===1?e.key.toLowerCase():e.key; i=k===seq[i]?i+1:(k===seq[0]?1:0); if(i===seq.length){ i=0; celebrate(); } }); }
 
-  function wireBlobCursor(){ const blob=document.createElement("div"); blob.id="blob-cursor"; document.body.appendChild(blob); document.addEventListener("mousemove",(e)=>{ blob.style.left=e.clientX+"px"; blob.style.top=e.clientY+"px"; }); function bind(){ document.querySelectorAll("#projects .card, #thoughts .thought").forEach((el)=>{ if(el._blob)return; el._blob=true; el.classList.add("cursor-zone"); el.addEventListener("mouseenter",()=>{ blob.classList.add("on"); blob.textContent=el.closest("#thoughts")?"read":"view"; }); el.addEventListener("mouseleave",()=>{ blob.classList.remove("on"); blob.textContent=""; }); }); } bind(); setTimeout(bind,1000); }
 
   function init(content){
     if(content && content.meta){ CONTENT.funFacts=content.meta.funFacts||[]; CONTENT.quote=content.meta.quote||""; }
@@ -125,7 +124,6 @@
     const tog=build(); setForm("cat"); setMood("happy");
     wrap.addEventListener("click",(e)=>{ e.stopPropagation(); onPoke(); });
     tog.addEventListener("click",()=>{ visit(); say("hi! 🐾",2200); });
-    wireBlobCursor();
     if(!reduced){
       // first surprise visit after a short delay, then on a long random cadence
       setTimeout(()=>{ visit(); scheduleVisit(); }, 4000);

@@ -97,8 +97,16 @@
     const grid = $("projects-grid");
     if (!projects || !projects.length) { grid.innerHTML = empty("No projects yet."); return; }
     grid.innerHTML = projects.map((p, i) => {
+      // Priority: on-site .md case study > external link (GitHub etc.) > no button
+      const slug = (p.mdFile || "").replace(/\.md$/i, "").replace(/[^a-zA-Z0-9\-_]/g, "");
       const link = p.link && p.link !== "#" ? p.link : "";
-      const linkLabel = /github\.com/.test(link) ? "View on GitHub" : (p.type === "deck" ? "View deck" : "View project");
+      let linkHtml = "";
+      if (slug) {
+        linkHtml = '<a class="card__link" href="post.html?p=' + encodeURIComponent(slug) + '">Read case study <svg class="ico" width="15" height="15"><use href="#i-arrow"/></svg></a>';
+      } else if (link) {
+        const linkLabel = /github\.com/.test(link) ? "View on GitHub" : (p.type === "deck" ? "View deck" : "View project");
+        linkHtml = '<a class="card__link" href="' + esc(link) + '" ' + (/^https?:/.test(link) ? 'target="_blank" rel="noopener"' : "") + '>' + linkLabel + ' <svg class="ico" width="15" height="15"><use href="#i-arrow"/></svg></a>';
+      }
       return '<article class="card card-surface reveal" data-anim="' + (i % 2 ? "right" : "left") + '" data-delay="' + (i % 3) + '">' +
         '<span class="card__num">0' + (i + 1) + '</span>' +
         '<div class="card__icon">' + svgico(p.icon) + '</div>' +
@@ -107,7 +115,7 @@
         '<p class="card__summary">' + esc(p.summary || "") + '</p>' +
         (p.metric ? '<span class="card__metric">' + svgico('ti-trending-up') + ' ' + esc(p.metric) + '</span>' : "") +
         ((p.tags && p.tags.length) ? '<div class="card__tags">' + p.tags.map((t) => '<span>' + esc(t) + '</span>').join("") + '</div>' : "") +
-        (link ? '<a class="card__link" href="' + esc(link) + '" ' + (/^https?:/.test(link) ? 'target="_blank" rel="noopener"' : "") + '>' + linkLabel + ' <svg class="ico" width="15" height="15"><use href="#i-arrow"/></svg></a>' : "") +
+        linkHtml +
       '</article>';
     }).join("");
   }
@@ -135,13 +143,20 @@
     const grid = $("thoughts-grid");
     if (!thoughts || !thoughts.length) { grid.innerHTML = empty("No posts yet."); return; }
     grid.innerHTML = thoughts.map((t, i) => {
-      const link = t.url && t.url !== "#" ? t.url : "";
       const date = t.date ? new Date(t.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "";
+      // Priority: on-site .md post > external URL > no button
+      const slug = (t.mdFile || "").replace(/\.md$/i, "").replace(/[^a-zA-Z0-9\-_]/g, "");
+      let linkHtml = "";
+      if (slug) {
+        linkHtml = '<a class="card__link" href="post.html?p=' + encodeURIComponent(slug) + '">Read <svg class="ico" width="15" height="15"><use href="#i-arrow"/></svg></a>';
+      } else if (t.url && t.url !== "#") {
+        linkHtml = '<a class="card__link" href="' + esc(t.url) + '" ' + (/^https?:/.test(t.url) ? 'target="_blank" rel="noopener"' : "") + '>Read <svg class="ico" width="15" height="15"><use href="#i-arrow"/></svg></a>';
+      }
       return '<article class="thought card-surface reveal" data-anim="zoom" data-delay="' + (i % 3) + '">' +
         '<span class="thought__tag"><svg width="17" height="17" style="color:#fff"><use href="#i-pen"/></svg></span>' +
         '<div class="thought__meta">' + (date ? '<span>' + esc(date) + '</span>' : "") + (t.readTime ? '<span>' + esc(t.readTime) + '</span>' : "") + '</div>' +
         '<h3>' + esc(t.title) + '</h3><p>' + esc(t.excerpt || "") + '</p>' +
-        (link ? '<a class="card__link" href="' + esc(link) + '" ' + (/^https?:/.test(link) ? 'target="_blank" rel="noopener"' : "") + '>Read <svg class="ico" width="15" height="15"><use href="#i-arrow"/></svg></a>' : "") +
+        linkHtml +
       '</article>';
     }).join("");
   }
