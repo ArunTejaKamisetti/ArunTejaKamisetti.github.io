@@ -62,6 +62,46 @@ Personal_Portfolio/
 
 ---
 
+## How to write a blog post (Thoughts)
+
+You have **two ways** to publish a thought. Pick per post.
+
+### Option A — a full post that opens *on your site* (recommended)
+
+1. **Write the post** as a plain-text Markdown file. Save it in `assets/thoughts/` with a simple lowercase name and no spaces, e.g. `lessons-from-model-eval.md`.
+2. At the very top, add this little header (called *frontmatter*) — it sets the title, date, and read time:
+
+   ```
+   ---
+   title: Lessons from evaluating 220 models
+   date: 2026-06-15
+   readTime: 5 min read
+   ---
+
+   Your first paragraph starts here…
+   ```
+3. Below the header, just write. Markdown basics:
+
+   - `## Heading` and `### Smaller heading`
+   - `**bold**`, `*italic*`
+   - `> a quote` for a highlighted callout
+   - `- item` for bullet lists, `1. item` for numbered
+   - `[link text](https://example.com)` for links
+   - blank line = new paragraph
+
+4. In **admin → Thoughts**, add/open the post and put the **filename** in the **"Post file"** field (e.g. `lessons-from-model-eval.md`). Leave *External link* blank.
+5. **Publish**, then run **deploy.bat**. Clicking **Read** on that card now opens the post inside your site, in your theme.
+
+### Option B — link to an external post
+
+If you published on Medium / LinkedIn / Substack instead, leave **Post file** blank and paste the URL into the **External link** field. **Read** opens it in a new tab.
+
+> Rule of thumb: a Post file always wins over an External link. Leave both blank and the card simply shows no Read button.
+
+**Work case studies** work the same way: the **Case-study file** field (optional `.md` in `assets/thoughts/`) takes priority over the GitHub link.
+
+---
+
 ## Tips
 - **Résumé:** drop the PDF in `assets/`, then admin → Profile → **Résumé path** → `assets/Arun_Resume.pdf` → Publish.
 - **Always Publish before deploy** — Publish writes the files; deploy.bat pushes them.

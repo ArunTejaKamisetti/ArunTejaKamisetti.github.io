@@ -100,8 +100,8 @@ a{color:inherit;text-decoration:none;}
 .about-extra{margin-top:8px;}
 .about-extra__label{font-family:var(--font-display);font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--peach);margin-bottom:18px;}
 /* Skills marquee — two rows drifting opposite ways, edge-faded */
-.skills-marquee{display:flex;flex-direction:column;gap:14px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
-.skills-track{display:flex;gap:14px;width:max-content;animation:marquee 38s linear infinite;}
+.skills-marquee{display:flex;flex-direction:column;gap:6px;overflow-x:hidden;overflow-y:visible;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
+.skills-track{display:flex;gap:14px;width:max-content;padding:8px 0;animation:marquee 38s linear infinite;}
 .skills-track--rev{animation-direction:reverse;animation-duration:46s;}
 .skills-marquee:hover .skills-track{animation-play-state:paused;}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
