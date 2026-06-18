@@ -147,6 +147,13 @@
     const shades = ["var(--cell-empty,#e6dac8)", "#FFC9A8", "#FF9D5C", "#FF6A2B", "#C9461A"];
     legend.innerHTML = shades.map((c) => '<span class="cell" style="background:' + c + '"></span>').join("");
     if (!username) return;
+    // In the admin live-preview, skip the network call (it's sandboxed) and show a neutral placeholder
+    if (window.__cwPreview) {
+      let ph = ""; for (let i = 0; i < 53 * 7; i++) ph += '<span class="cell" style="grid-column:' + (Math.floor(i/7)+1) + ';grid-row:' + ((i%7)+1) + '"></span>';
+      grid.innerHTML = ph;
+      $("gh-total").textContent = "GitHub graph shows on the live site";
+      return;
+    }
     try {
       const res = await fetch("https://github-contributions-api.deno.dev/" + encodeURIComponent(username) + ".json");
       if (!res.ok) throw new Error("gh api");
