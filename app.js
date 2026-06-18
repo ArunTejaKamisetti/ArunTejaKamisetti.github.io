@@ -78,6 +78,8 @@
         if (window.KaiCompanion && window.KaiCompanion.sayAt) {
           window.KaiCompanion.sayAt(el, where ? (name + " — " + where) : (name + ": I'm building this one."));
         }
+        // blur so no focus ring lingers on the chip as the marquee scrolls
+        if (el.blur) el.blur();
       });
     });
   }
@@ -286,5 +288,9 @@
     setTimeout(wireAutoScroll, 800);
     if (window.KaiCompanion) window.KaiCompanion.init(c || {});
   }
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
 })();
