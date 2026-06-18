@@ -132,5 +132,24 @@
       konami();
     }
   }
-  window.KaiCompanion = { init };
+
+  function sayAt(targetEl, msg) {
+    if (!wrap || !targetEl) return;
+    pinned = true; clearTimeout(hideTimer);
+    const r = targetEl.getBoundingClientRect();
+    const vw = window.innerWidth, vh = window.innerHeight;
+    let left = Math.min(vw - SIZE - 16, Math.max(16, r.left + r.width / 2 - SIZE / 2));
+    let top = Math.min(vh - SIZE - 16, r.bottom + 14);
+    wrap.style.display = "block";
+    wrap.style.left = left + "px";
+    wrap.style.top = top + "px";
+    setForm("cat"); setMood("curious");
+    requestAnimationFrame(() => { wrap.style.opacity = "1"; wrap.style.transform = "scale(1)"; poofAt(); });
+    say(msg, 6000);
+    setTimeout(() => setMood("happy"), 1600);
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => { pinned = false; leave(); }, 6200);
+  }
+
+  window.KaiCompanion = { init, sayAt };
 })();

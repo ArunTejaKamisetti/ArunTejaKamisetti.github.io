@@ -63,14 +63,23 @@
   function renderSkills(skills) {
     const t1 = $("skills"), t2 = $("skills2");
     if (!t1) return;
-    if (!skills.length) { t1.innerHTML = ""; if (t2) t2.innerHTML = ""; return; }
-    // split into two rows
-    const mid = Math.ceil(skills.length / 2);
-    const rowA = skills.slice(0, mid), rowB = skills.slice(mid);
-    const chip = (s) => '<span class="skill-chip">' + esc(s) + '</span>';
-    // duplicate each row so the marquee loops seamlessly
+    // normalize: accept strings or {name, where}
+    const norm = (skills || []).map((s) => (typeof s === "string") ? { name: s, where: "" } : s);
+    if (!norm.length) { t1.innerHTML = ""; if (t2) t2.innerHTML = ""; return; }
+    const mid = Math.ceil(norm.length / 2);
+    const rowA = norm.slice(0, mid), rowB = norm.slice(mid);
+    const chip = (s) => '<button type="button" class="skill-chip" data-where="' + esc(s.where || "") + '" data-name="' + esc(s.name) + '">' + esc(s.name) + '</button>';
     t1.innerHTML = (rowA.concat(rowA)).map(chip).join("");
     if (t2) t2.innerHTML = (rowB.concat(rowB)).map(chip).join("");
+    // click a skill -> Kai pops up and says where it was demonstrated
+    document.querySelectorAll(".skill-chip").forEach((el) => {
+      el.addEventListener("click", () => {
+        const where = el.getAttribute("data-where"), name = el.getAttribute("data-name");
+        if (window.KaiCompanion && window.KaiCompanion.sayAt) {
+          window.KaiCompanion.sayAt(el, where ? (name + " — " + where) : (name + ": I'm building this one."));
+        }
+      });
+    });
   }
 
   function renderJourney(steps) {
@@ -195,6 +204,36 @@
     $("gh-total").textContent = "Live contribution graph loads when hosted";
   }
 
+  // Gentle auto-scroll for the card rows. Pauses on hover/touch/manual scroll, loops seamlessly.
+  function wireAutoScroll() {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    ["projects-grid", "decks-grid", "thoughts-grid"].forEach((id) => {
+      const row = document.getElementById(id);
+      if (!row || row.scrollWidth <= row.clientWidth + 10) return; // nothing to scroll
+      let paused = false, resumeTimer = null, dir = 1;
+      const SPEED = 0.35; // px per frame — slow, classy
+      row.addEventListener("mouseenter", () => paused = true);
+      row.addEventListener("mouseleave", () => paused = false);
+      row.addEventListener("touchstart", () => { paused = true; }, { passive: true });
+      row.addEventListener("touchend", () => { clearTimeout(resumeTimer); resumeTimer = setTimeout(() => paused = false, 2500); });
+      // manual wheel/drag pauses briefly then resumes
+      row.addEventListener("scroll", () => {
+        if (!paused) return;
+      }, { passive: true });
+      row.addEventListener("wheel", () => { paused = true; clearTimeout(resumeTimer); resumeTimer = setTimeout(() => paused = false, 2500); }, { passive: true });
+      function tick() {
+        if (!paused) {
+          const max = row.scrollWidth - row.clientWidth;
+          row.scrollLeft += SPEED * dir;
+          if (row.scrollLeft >= max - 1) dir = -1;      // bounce back at the end
+          else if (row.scrollLeft <= 0) dir = 1;
+        }
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+  }
+
   function wireTheme() {
     const root = document.documentElement, btn = $("theme-toggle");
     let stored = null; try { stored = localStorage.getItem("theme"); } catch (e) {}
@@ -244,6 +283,7 @@
       renderGitHub(((c.meta && c.meta.social && c.meta.social.github) || "").replace(/.*github\.com\//, "").replace(/\/$/, "") || "ArunTejaKamisetti");
     }
     wireReveal(); wireCountUp();
+    setTimeout(wireAutoScroll, 800);
     if (window.KaiCompanion) window.KaiCompanion.init(c || {});
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
