@@ -119,39 +119,36 @@
 
   async function renderGitHub(username) {
     const grid = $("gh-grid"), legend = $("gh-legend");
-    const shades = ["var(--cream-2)", "#FFD9C2", "#FFB48A", "#FF6A2B", "#241B14"];
+    const shades = ["var(--cell-empty,#e6dac8)", "#FFD9C2", "#FFB48A", "#FF6A2B", "#241B14"];
     legend.innerHTML = shades.map((c) => '<span class="cell" style="background:' + c + '"></span>').join("");
     if (!username) return;
-    const yr = new Date().getFullYear();
-    const endpoints = [
-      "https://github-contributions-api.jogruber.de/v4/" + encodeURIComponent(username) + "?y=" + yr,
-      "https://github-contributions-api.jogruber.de/v4/" + encodeURIComponent(username) + "?y=last",
-      "https://github-contributions-api.jogruber.de/v4/" + encodeURIComponent(username)
-    ];
-    const WEEKS = 17; // ~4 months
-    for (const url of endpoints) {
-      try {
-        const res = await fetch(url);
-        if (!res.ok) continue;
-        const data = await res.json();
-        let days = (data.contributions || []);
-        if (!days.length) continue;
-        // align to whole weeks ending today: keep last WEEKS*7 days
-        days = days.slice(-(WEEKS * 7));
-        const max = Math.max(1, ...days.map((d) => d.count));
-        // build column-per-week, row-per-weekday so it reads like GitHub's
-        grid.innerHTML = days.map((d) => {
-          let lvl = 0; if (d.count > 0) lvl = Math.min(4, Math.ceil((d.count / max) * 4));
-          const dt = new Date(d.date + "T00:00:00");
-          return '<span class="cell" style="grid-row:' + (dt.getDay() + 1) + ';background:' + shades[lvl] + '" title="' + d.date + ': ' + d.count + ' contributions"></span>';
-        }).join("");
-        const total = days.reduce((s, d) => s + d.count, 0);
-        $("gh-total").textContent = total.toLocaleString() + " contributions in the last 4 months";
-        return;
-      } catch (e) { /* try next endpoint */ }
-    }
-    // all endpoints failed — render an empty compact grid as placeholder
-    grid.innerHTML = ""; for (let i = 0; i < WEEKS * 7; i++) { const s = document.createElement("span"); s.className = "cell"; grid.appendChild(s); }
+    const WEEKS = 18;
+    try {
+      const res = await fetch("https://github-contributions-api.deno.dev/" + encodeURIComponent(username) + ".json");
+      if (!res.ok) throw new Error("gh api");
+      const data = await res.json();
+      // data.contributions = array of weeks; each week = array of 7 day objects
+      let weeks = data.contributions || [];
+      if (!weeks.length) throw new Error("empty");
+      weeks = weeks.slice(-WEEKS);
+      const max = Math.max(1, ...weeks.flat().map((d) => d.contributionCount || 0));
+      let html = "";
+      let total = 0;
+      weeks.forEach((week, col) => {
+        week.forEach((d) => {
+          const cnt = d.contributionCount || 0; total += cnt;
+          const dow = new Date(d.date + "T00:00:00").getDay();
+          let lvl = 0; if (cnt > 0) lvl = Math.min(4, Math.ceil((cnt / max) * 4));
+          html += '<span class="cell" style="grid-column:' + (col + 1) + ';grid-row:' + (dow + 1) + ';background:' + shades[lvl] + '" title="' + d.date + ': ' + cnt + ' contributions"></span>';
+        });
+      });
+      grid.innerHTML = html;
+      $("gh-total").textContent = total.toLocaleString() + " contributions in the last ~4 months";
+      return;
+    } catch (e) { /* fall through to placeholder */ }
+    let html = "";
+    for (let i = 0; i < WEEKS * 7; i++) { html += '<span class="cell" style="grid-column:' + (Math.floor(i/7)+1) + ';grid-row:' + ((i%7)+1) + '"></span>'; }
+    grid.innerHTML = html;
     $("gh-total").textContent = "Live contribution graph loads when hosted";
   }
 

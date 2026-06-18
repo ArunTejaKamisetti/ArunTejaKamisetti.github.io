@@ -2,12 +2,10 @@ User-agent: *
 Allow: /
 Disallow: /admin.html
 
-# AI / GEO crawlers explicitly welcomed (helps you get cited by AI engines)
+# AI / GEO crawlers welcomed (helps you get cited)
 User-agent: GPTBot
 Allow: /
 User-agent: OAI-SearchBot
-Allow: /
-User-agent: ChatGPT-User
 Allow: /
 User-agent: PerplexityBot
 Allow: /
