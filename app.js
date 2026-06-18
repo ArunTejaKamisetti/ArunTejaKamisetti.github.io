@@ -57,7 +57,20 @@
       $("about-highlights").innerHTML = (a.highlights || [])
         .map((h) => '<li><span class="hi-ic">' + svgico(h.icon) + '</span><span><span class="lbl">' + esc(h.label) + '</span><span class="val">' + esc(h.value) + '</span></span></li>').join("");
     }
-    $("skills").innerHTML = (skills || []).map((s) => '<span>' + esc(s) + '</span>').join("");
+    renderSkills(skills || []);
+  }
+
+  function renderSkills(skills) {
+    const t1 = $("skills"), t2 = $("skills2");
+    if (!t1) return;
+    if (!skills.length) { t1.innerHTML = ""; if (t2) t2.innerHTML = ""; return; }
+    // split into two rows
+    const mid = Math.ceil(skills.length / 2);
+    const rowA = skills.slice(0, mid), rowB = skills.slice(mid);
+    const chip = (s) => '<span class="skill-chip">' + esc(s) + '</span>';
+    // duplicate each row so the marquee loops seamlessly
+    t1.innerHTML = (rowA.concat(rowA)).map(chip).join("");
+    if (t2) t2.innerHTML = (rowB.concat(rowB)).map(chip).join("");
   }
 
   function renderJourney(steps) {
@@ -225,7 +238,7 @@
     wireTheme(); wireNav();
     const c = await loadContent(); CONTENT = c;
     if (c) {
-      renderMeta(c.meta); renderAbout(c.about, c.skills); renderJourney(c.journey);
+      renderMeta(c.meta); renderAbout(c.about, c.skills);
       renderProjects(c.projects); renderDecks(c.decks); renderThoughts(c.thoughts);
       renderContact(c.contact, c.meta);
       renderGitHub(((c.meta && c.meta.social && c.meta.social.github) || "").replace(/.*github\.com\//, "").replace(/\/$/, "") || "ArunTejaKamisetti");

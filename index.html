@@ -108,9 +108,12 @@
           <p class="about__body reveal" data-anim="left" id="about-body"></p>
           <ul class="about__highlights reveal" data-anim="right" data-delay="1" id="about-highlights"></ul>
         </div>
-        <div class="about-extra">
-          <div class="about-extra__block reveal"><h3 class="about-extra__label">My journey</h3><div class="journey" id="journey"></div></div>
-          <div class="about-extra__block reveal" data-delay="1"><h3 class="about-extra__label">What I bring</h3><div class="skills" id="skills" aria-label="Skills"></div></div>
+        <div class="about-extra reveal">
+          <h3 class="about-extra__label">What I bring</h3>
+          <div class="skills-marquee" aria-label="Skills">
+            <div class="skills-track" id="skills"></div>
+            <div class="skills-track skills-track--rev" id="skills2" aria-hidden="true"></div>
+          </div>
         </div>
       </div>
     </section>
