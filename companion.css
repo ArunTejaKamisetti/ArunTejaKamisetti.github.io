@@ -5,12 +5,12 @@
 .kai-blink { }
 
 #kai-bubble {
-  position:absolute; bottom:64px; left:50%; transform:translateX(-50%) translateY(8px) scale(.95);
-  width:max-content; max-width:220px; background:var(--surface); color:var(--ink);
+  position:absolute; bottom:70px; left:0; transform:translateY(8px) scale(.95);
+  width:max-content; max-width:200px; background:var(--surface); color:var(--ink);
   font-size:12.5px; line-height:1.45; font-weight:500; padding:9px 13px; border:2px solid var(--ink);
-  border-radius:14px; box-shadow:3px 3px 0 var(--peach); opacity:0; transition:all .3s var(--ease); pointer-events:none; text-align:center;
+  border-radius:14px 14px 14px 4px; box-shadow:3px 3px 0 var(--peach); opacity:0; transition:opacity .3s var(--ease), transform .3s var(--ease); pointer-events:none; text-align:left;
 }
-#kai-bubble.show { opacity:1; transform:translateX(-50%) translateY(0) scale(1); }
+#kai-bubble.show { opacity:1; transform:translateY(0) scale(1); }
 
 .kai-particle { animation: kaiFly .85s ease-out forwards; }
 @keyframes kaiFly { 0%{transform:translate(0,0) scale(1);opacity:1} 100%{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0} }
@@ -22,5 +22,4 @@
   #kai-toggle { bottom:16px; right:16px; }
 }
 @media (prefers-reduced-motion: reduce){
-  #kai-svg { transition:none; }
-}
+  #kai-svg { transition:non
