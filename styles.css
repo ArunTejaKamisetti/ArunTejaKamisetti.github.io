@@ -252,3 +252,4 @@ a{color:inherit;text-decoration:none;}
 /* ===== Richer cards ===== */
 .card,.deck,.thought{position:relative;overflow:hidden;}
 .card::after,.thought::after{content:"";position:absolute;right:-30px;bottom:-30px;width:110px;height:110px;border-radius:30px;background:var(--peach-soft);opacity:.35;transform:rotate(18deg);transition:transform
+.footer__build{font-family:'Space Mono',monospace;font-size:11px;color:var(--ink-faint);opacity:.7;}
