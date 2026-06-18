@@ -2,7 +2,6 @@
 #kai { transition: opacity .4s; }
 #kai-body { position: relative; filter: drop-shadow(0 6px 12px rgba(60,42,24,.25)); }
 #kai-svg { display:block; transition: transform .3s var(--ease); }
-.kai-blink { }
 
 #kai-bubble {
   position:absolute; bottom:70px; left:0; transform:translateY(8px) scale(.95);
@@ -22,4 +21,14 @@
   #kai-toggle { bottom:16px; right:16px; }
 }
 @media (prefers-reduced-motion: reduce){
-  #kai-svg { transition:non
+  #kai-svg { transition:none; }
+}
+
+/* ===== Skill popup (Kai tells where a skill was used) — works on all screens ===== */
+#kai-pop{position:fixed;z-index:9998;display:flex;align-items:flex-start;gap:12px;max-width:320px;background:var(--surface);color:var(--ink);border:2px solid var(--ink);border-radius:16px;padding:12px 14px;box-shadow:5px 5px 0 var(--peach);opacity:0;transform:translateY(10px) scale(.96);transition:opacity .25s var(--ease),transform .25s var(--ease);}
+#kai-pop.show{opacity:1;transform:translateY(0) scale(1);}
+#kai-pop .kai-pop__cat{flex:none;filter:drop-shadow(0 4px 8px rgba(60,42,24,.25));animation:kaipopin .5s var(--ease);}
+@keyframes kaipopin{0%{transform:scale(.4) rotate(-12deg)}60%{transform:scale(1.12) rotate(4deg)}100%{transform:scale(1) rotate(0)}}
+#kai-pop .kai-pop__msg{font-size:13px;line-height:1.5;font-weight:500;padding-top:4px;}
+#kai-pop.kai-pop--sheet{left:12px;right:12px;bottom:16px;max-width:none;border-radius:18px;box-shadow:6px 6px 0 var(--line-strong);}
+@media (prefers-reduced-motion:reduce){#kai-pop,#kai-pop .kai-pop__cat{transition:none;animation:none;}}

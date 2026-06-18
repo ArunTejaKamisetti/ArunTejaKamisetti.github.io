@@ -133,23 +133,43 @@
     }
   }
 
+  // ---- Self-contained skill popup (works on ALL screens, incl. mobile) ----
+  var popEl = null, popTimer = null, popOutside = null;
+  function closePop() {
+    if (!popEl) return;
+    popEl.classList.remove("show");
+    var el = popEl; popEl = null;
+    clearTimeout(popTimer);
+    if (popOutside) { document.removeEventListener("pointerdown", popOutside, true); window.removeEventListener("scroll", popOutside, true); popOutside = null; }
+    setTimeout(function(){ if (el && el.parentNode) el.parentNode.removeChild(el); }, 280);
+  }
+  function escMsg(m){ return String(m||"").replace(/[&<>]/g, function(c){ return ({ "&":"&amp;", "<":"&lt;", ">":"&gt;" })[c]; }); }
+  var KAI_MINI = '<svg width="46" height="46" viewBox="0 0 104 104"><path d="M28 84 Q26 58 52 58 Q78 58 76 84 Z" fill="#7A5CFF"/><circle cx="52" cy="44" r="22" fill="#7A5CFF"/><path d="M34 30 L30 12 Q42 20 48 28 Z" fill="#7A5CFF"/><path d="M70 30 L74 12 Q62 20 56 28 Z" fill="#7A5CFF"/><path d="M35 24 L33 16 L40 22 Z" fill="#FF6A2B"/><path d="M69 24 L71 16 L64 22 Z" fill="#FF6A2B"/><circle cx="44" cy="44" r="6" fill="#fff"/><circle cx="60" cy="44" r="6" fill="#fff"/><circle cx="45" cy="45" r="3" fill="#1a1430"/><circle cx="61" cy="45" r="3" fill="#1a1430"/><path d="M46 53 Q52 58 58 53" stroke="#1a1430" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="37" cy="50" r="3" fill="#FF6A2B" opacity="0.45"/><circle cx="67" cy="50" r="3" fill="#FF6A2B" opacity="0.45"/></svg>';
+
   function sayAt(targetEl, msg) {
-    if (!wrap || !targetEl) return;
-    pinned = true; clearTimeout(hideTimer);
-    const r = targetEl.getBoundingClientRect();
-    const vw = window.innerWidth, vh = window.innerHeight;
-    let left = Math.min(vw - SIZE - 16, Math.max(16, r.left + r.width / 2 - SIZE / 2));
-    let top = Math.min(vh - SIZE - 16, r.bottom + 14);
-    wrap.style.display = "block";
-    wrap.style.left = left + "px";
-    wrap.style.top = top + "px";
-    setForm("cat"); setMood("curious");
-    requestAnimationFrame(() => { wrap.style.opacity = "1"; wrap.style.transform = "scale(1)"; poofAt(); });
-    say(msg, 6000);
-    setTimeout(() => setMood("happy"), 1600);
-    clearTimeout(hideTimer);
-    hideTimer = setTimeout(() => { pinned = false; leave(); }, 6200);
+    closePop();
+    var isMobile = window.innerWidth <= 720;
+    popEl = document.createElement("div");
+    popEl.id = "kai-pop";
+    popEl.setAttribute("role", "status");
+    popEl.innerHTML = '<span class="kai-pop__cat">' + KAI_MINI + '</span><span class="kai-pop__msg">' + escMsg(msg) + '</span>';
+    document.body.appendChild(popEl);
+    if (isMobile) {
+      popEl.classList.add("kai-pop--sheet");
+    } else {
+      var r = targetEl.getBoundingClientRect();
+      var pw = 320, ph = 96;
+      var left = Math.min(window.innerWidth - pw - 16, Math.max(16, r.left));
+      var top = r.bottom + 12;
+      if (top + ph > window.innerHeight) top = r.top - ph - 12;
+      popEl.style.left = left + "px";
+      popEl.style.top = Math.max(16, top) + "px";
+    }
+    requestAnimationFrame(function(){ if (popEl) popEl.classList.add("show"); });
+    popTimer = setTimeout(closePop, 6000);
+    popOutside = function (e) { if (popEl && !popEl.contains(e.target) && e.target !== targetEl) closePop(); };
+    setTimeout(function(){ document.addEventListener("pointerdown", popOutside, true); window.addEventListener("scroll", popOutside, true); }, 50);
   }
 
-  window.KaiCompanion = { init, sayAt };
+  window.KaiCompanion = { init: init, sayAt: sayAt };
 })();

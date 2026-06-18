@@ -135,7 +135,7 @@ a{color:inherit;text-decoration:none;}
 .skills span:hover{background:var(--sage);color:#fff;transform:translateY(-3px) rotate(2deg);}
 
 .grid{display:grid;gap:22px;}
-.grid--cards{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;padding:6px 4px 18px;scrollbar-width:thin;}
+.grid--cards{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;padding:6px 4px 18px;scrollbar-width:none;-ms-overflow-style:none;}
 .grid--cards::-webkit-scrollbar{display:none;}
 .grid--cards>*{flex:0 0 340px;scroll-snap-align:start;}
 .card{padding:28px;display:flex;flex-direction:column;transition:transform .25s var(--ease),box-shadow .25s var(--ease);position:relative;}
@@ -153,7 +153,7 @@ a{color:inherit;text-decoration:none;}
 .card__link{font-size:14px;font-weight:700;color:var(--ink);display:inline-flex;align-items:center;gap:5px;}
 .card__link:hover{gap:9px;color:var(--peach);}
 
-.grid--decks{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;padding:6px 4px 18px;scrollbar-width:thin;}
+.grid--decks{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;padding:6px 4px 18px;scrollbar-width:none;-ms-overflow-style:none;}
 .grid--decks::-webkit-scrollbar{display:none;}
 .grid--decks>*{flex:0 0 380px;scroll-snap-align:start;}
 .deck{overflow:hidden;transition:transform .25s var(--ease),box-shadow .25s var(--ease);}
@@ -164,7 +164,7 @@ a{color:inherit;text-decoration:none;}
 .deck__body h3{font-family:var(--font-display);font-size:18px;font-weight:700;margin-bottom:5px;}
 .deck__body p{font-size:14px;color:var(--ink-soft);}
 
-.grid--thoughts{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;padding:6px 4px 18px;scrollbar-width:thin;}
+.grid--thoughts{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;padding:6px 4px 18px;scrollbar-width:none;-ms-overflow-style:none;}
 .grid--thoughts::-webkit-scrollbar{display:none;}
 .grid--thoughts>*{flex:0 0 360px;scroll-snap-align:start;}
 .thought{padding:26px;transition:transform .25s var(--ease),box-shadow .25s var(--ease);}
@@ -259,5 +259,4 @@ a{color:inherit;text-decoration:none;}
 /* auto-scroll polish — hide scrollbar, soft edge fade */
 .grid--cards,.grid--decks,.grid--thoughts{scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent);mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent);scroll-behavior:auto;}
 .grid--cards::-webkit-scrollbar,.grid--decks::-webkit-scrollbar,.grid--thoughts::-webkit-scrollbar{display:none;}
-/* keep a touch of breathing room so card shadows aren't clipped by the mask */
-.grid--cards>*,.grid--decks>*,.grid--thoughts>*{margin:2px 0;}
+/* keep a touch o
