@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Content editor — Arun Teja Kamisetti</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
+<style>
+:root{--ink:#241B14;--ink-soft:#6B5D4F;--ink-faint:#9C8E7C;--peach:#FF6A2B;--sage:#5FAE7E;--plum:#7A5C8E;--gold:#E8B24C;--bg:#F7F0E6;--paper:#FFFDF9;--line:#E6DAC8;--radius:12px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;padding-bottom:140px;}
+.topbar{position:sticky;top:0;z-index:10;background:var(--paper);border-bottom:2px solid var(--ink);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.topbar h1{font-family:'Sora',sans-serif;font-size:18px;color:var(--ink);}
+.topbar h1 b{color:var(--peach);}
+.topbar .actions{display:flex;gap:8px;flex-wrap:wrap;}
+.wrap{max-width:900px;margin:24px auto;padding:0 20px;}
+.note{background:#fff;border:2px solid var(--ink);border-radius:var(--radius);padding:16px;font-size:14px;margin-bottom:24px;box-shadow:4px 4px 0 var(--peach);}
+.note b{color:var(--peach);}
+.note code{background:var(--bg);padding:1px 6px;border-radius:5px;font-size:13px;}
+fieldset{background:var(--paper);border:2px solid var(--ink);border-radius:16px;padding:22px;margin-bottom:20px;box-shadow:5px 5px 0 var(--line);}
+legend{font-family:'Sora',sans-serif;font-weight:700;font-size:16px;color:var(--ink);padding:2px 12px;background:var(--gold);border:2px solid var(--ink);border-radius:8px;}
+label{display:block;font-size:13px;font-weight:600;color:var(--ink-soft);margin:14px 0 6px;}
+input,textarea,select{width:100%;font-family:inherit;font-size:14px;padding:10px 12px;border:1.5px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--peach);box-shadow:0 0 0 3px rgba(255,106,43,.15);}
+textarea{min-height:90px;resize:vertical;}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.item{border:2px dashed var(--line);border-radius:10px;padding:16px;margin-top:14px;position:relative;background:#fff;}
+.item .del{position:absolute;top:10px;right:10px;background:#fce8e8;color:#a32d2d;border:1.5px solid #a32d2d;border-radius:6px;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer;}
+.btn{font-family:inherit;font-size:14px;font-weight:700;padding:9px 18px;border-radius:8px;border:2px solid var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--ink);}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink);}
+.btn-primary{background:var(--ink);color:#fff;}
+.btn-peach{background:var(--peach);color:#fff;}
+.btn-add{background:var(--sage);color:#fff;margin-top:14px;}
+.savebar{position:fixed;bottom:0;left:0;right:0;background:var(--paper);border-top:2px solid var(--ink);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;z-index:20;}
+.savebar .hint{font-size:13px;color:var(--ink-faint);max-width:50%;}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:10px;font-size:14px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:50;}
+.toast.show{opacity:1;}
+small.help{display:block;color:var(--ink-faint);font-size:12px;margin-top:4px;font-weight:400;}
+.filebox{border:2px dashed var(--peach);border-radius:10px;padding:14px;margin-top:8px;background:#fff;}
+@media(max-width:600px){.row{grid-template-columns:1fr;}.savebar .hint{max-width:100%;}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <h1>Portfolio <b>content editor</b></h1>
+  <div class="actions">
+    <button class="btn" id="reload">Reload</button>
+    <button class="btn" id="import">Import JSON…</button>
+    <input type="file" id="fileInput" accept="application/json" hidden />
+    <a class="btn" href="index.html" target="_blank">Preview ↗</a>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="note">
+    <b>How to publish your edits:</b> Edit anything below, then click <b>Save &amp; sync</b> at the bottom. It downloads an updated <code>content.json</code> AND an updated <code>index.html</code> (with your content embedded so it works on double-click too). Replace both files in your project folder, then run <code>deploy.bat</code> (or commit &amp; push) — your live site updates in ~1 minute. Everything here runs in your browser; nothing is uploaded anywhere.
+  </div>
+
+  <fieldset>
+    <legend>Profile</legend>
+    <label>Name</label><input data-path="meta.name" />
+    <div class="row">
+      <div><label>Role / badge</label><input data-path="meta.role" /></div>
+      <div><label>Location</label><input data-path="meta.location" /></div>
+    </div>
+    <label>Hero tagline</label><input data-path="meta.tagline" />
+    <label>Sub-headline</label><textarea data-path="meta.subtagline"></textarea>
+    <label>Sub-headline (Hindi, optional)</label><input data-path="meta.subtaglineHi" />
+    <div class="row">
+      <div><label>Email</label><input data-path="meta.email" /></div>
+      <div><label>Résumé file path</label><input data-path="meta.resumeUrl" /><small class="help">Put the PDF in <code>assets/</code> then use e.g. <code>assets/Arun_Resume.pdf</code></small></div>
+    </div>
+    <div class="row">
+      <div><label>GitHub URL</label><input data-path="meta.social.github" /></div>
+      <div><label>LinkedIn URL</label><input data-path="meta.social.linkedin" /></div>
+    </div>
+    <label>X / Twitter URL (optional)</label><input data-path="meta.social.twitter" />
+  </fieldset>
+
+  <fieldset>
+    <legend>About</legend>
+    <label>About text</label><textarea data-path="about.body" style="min-height:150px"></textarea>
+    <label style="margin-top:18px">Highlights</label>
+    <div id="highlights"></div>
+    <button class="btn btn-add" data-add="highlight">+ Add highlight</button>
+  </fieldset>
+
+  <fieldset>
+    <legend>Journey (timeline chips)</legend>
+    <label>One step per line</label>
+    <textarea id="journey" style="min-height:120px"></textarea>
+  </fieldset>
+
+  <fieldset>
+    <legend>Skills</legend>
+    <label>One skill per line</label>
+    <textarea id="skills" style="min-height:160px"></textarea>
+  </fieldset>
+
+  <fieldset>
+    <legend>Projects / Work</legend>
+    <div id="projects"></div>
+    <button class="btn btn-add" data-add="project">+ Add project</button>
+  </fieldset>
+
+  <fieldset>
+    <legend>Decks</legend>
+    <div id="decks"></div>
+    <button class="btn btn-add" data-add="deck">+ Add deck</button>
+  </fieldset>
+
+  <fieldset>
+    <legend>Thoughts / blog</legend>
+    <div id="thoughts"></div>
+    <button class="btn btn-add" data-add="thought">+ Add post</button>
+  </fieldset>
+
+  <fieldset>
+    <legend>Kai — fun facts &amp; quote</legend>
+    <small class="help">Power Kai's easter egg (click Kai 5× on the site, or the Konami code).</small>
+    <label>Personal quote / motto</label><input data-path="meta.quote" />
+    <label>Fun facts (one per line)</label><textarea id="funfacts" style="min-height:150px"></textarea>
+  </fieldset>
+
+  <fieldset>
+    <legend>Files (decks, résumé, images)</legend>
+    <div class="filebox">
+      <p style="font-size:14px;margin-bottom:10px;"><b>How file uploads work on a static site:</b></p>
+      <ol style="font-size:13px;color:var(--ink-soft);padding-left:20px;line-height:1.8;">
+        <li>Put your file (PPT exported as PDF, résumé, image) into the project's <code>assets/</code> folder — you can create subfolders like <code>assets/decks/</code>.</li>
+        <li>Reference it here: for a résumé use the <b>Résumé file path</b> field above; for a deck, paste its path/URL in the deck's <b>link</b>.</li>
+        <li>Save &amp; sync, then run <code>deploy.bat</code> (or commit &amp; push). The file ships with your repo and shows on the live site.</li>
+      </ol>
+      <p style="font-size:13px;margin-top:10px;color:var(--ink-faint);">Tip: for Google Slides decks, use <b>File → Share → Publish to web → Embed</b> and paste that URL in the deck's <b>Embed URL</b> — no file upload needed.</p>
+    </div>
+  </fieldset>
+</div>
+
+<div class="savebar">
+  <span class="hint">After saving, replace <code>content.json</code> + <code>index.html</code> in your repo, then push.</span>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;">
+    <button class="btn" id="copy">Copy JSON</button>
+    <button class="btn btn-peach" id="dljson">⬇ content.json</button>
+    <button class="btn btn-primary" id="save">⬇ Save &amp; sync (both files)</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+var data={};
+const $=(s)=>document.querySelector(s);
+const ICONS=["ti-flask","ti-target-arrow","ti-rocket","ti-cpu","ti-code","ti-school","ti-bulb","ti-movie","ti-ball-basketball","ti-presentation","ti-pencil"];
+function get(o,p){return p.split(".").reduce((a,k)=>(a==null?undefined:a[k]),o);}
+function set(o,p,v){var ks=p.split("."),x=o;for(var i=0;i<ks.length-1;i++){if(x[ks[i]]==null)x[ks[i]]={};x=x[ks[i]];}x[ks[ks.length-1]]=v;}
+function esc(s){return String(s==null?"":s).replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function toast(m){var t=$("#toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2600);}
+
+async function load(){
+  // Prefer the inline block from index.html (so admin always matches the live site), else content.json
+  try{
+    var r=await fetch("index.html",{cache:"no-store"}); var html=await r.text();
+    var m=html.match(/<script id="cw-content" type="application\/json">([\s\S]*?)<\/script>/);
+    if(m){ data=JSON.parse(m[1].trim()); hydrate(); toast("Loaded current content"); return; }
+  }catch(e){}
+  try{ var r2=await fetch("content.json",{cache:"no-store"}); data=await r2.json(); }
+  catch(e){ data={meta:{social:{}},about:{highlights:[]},journey:[],skills:[],projects:[],decks:[],thoughts:[],contact:{}}; toast("Started a blank file"); }
+  hydrate();
+}
+
+function hydrate(){
+  document.querySelectorAll("[data-path]").forEach(el=>{el.value=get(data,el.dataset.path)||"";});
+  $("#skills").value=(data.skills||[]).join("\n");
+  $("#journey").value=(data.journey||[]).join("\n");
+  $("#funfacts").value=((data.meta&&data.meta.funFacts)||[]).join("\n");
+  renderHighlights();renderProjects();renderDecks();renderThoughts();
+}
+
+function bindSimple(){
+  document.querySelectorAll("[data-path]").forEach(el=>el.addEventListener("input",()=>set(data,el.dataset.path,el.value)));
+  $("#skills").addEventListener("input",e=>{data.skills=e.target.value.split("\n").map(s=>s.trim()).filter(Boolean);});
+  $("#journey").addEventListener("input",e=>{data.journey=e.target.value.split("\n").map(s=>s.trim()).filter(Boolean);});
+  $("#funfacts").addEventListener("input",e=>{if(!data.meta)data.meta={};data.meta.funFacts=e.target.value.split("\n").map(s=>s.trim()).filter(Boolean);});
+}
+
+function iconSel(val,i,attr){return '<select '+attr+'>'+ICONS.map(ic=>'<option value="'+ic+'" '+(val===ic?"selected":"")+'>'+ic+'</option>').join("")+'</select>';}
+
+function renderHighlights(){
+  var c=$("#highlights");c.innerHTML="";
+  (data.about.highlights||[]).forEach((h,i)=>{
+    var d=document.createElement("div");d.className="item";
+    d.innerHTML='<button class="del">Remove</button><div class="row"><div><label>Label</label><input value="'+esc(h.label)+'" data-h="'+i+'" data-k="label"></div><div><label>Value</label><input value="'+esc(h.value)+'" data-h="'+i+'" data-k="value"></div></div><label>Icon</label>'+iconSel(h.icon,i,'data-h="'+i+'" data-k="icon"');
+    d.querySelector(".del").onclick=()=>{data.about.highlights.splice(i,1);renderHighlights();};
+    d.querySelectorAll("[data-k]").forEach(inp=>inp.oninput=()=>{data.about.highlights[inp.dataset.h][inp.dataset.k]=inp.value;});
+    c.appendChild(d);
+  });
+}
+function renderProjects(){
+  var c=$("#projects");c.innerHTML="";
+  (data.projects||[]).forEach((p,i)=>{
+    var d=document.createElement("div");d.className="item";
+    d.innerHTML='<button class="del">Remove</button><label>Title</label><input value="'+esc(p.title)+'" data-p="'+i+'" data-k="title"><div class="row"><div><label>Category</label><input value="'+esc(p.category)+'" data-p="'+i+'" data-k="category"></div><div><label>Icon</label>'+iconSel(p.icon,i,'data-p="'+i+'" data-k="icon"')+'</div></div><label>Summary</label><textarea data-p="'+i+'" data-k="summary">'+esc(p.summary)+'</textarea><div class="row"><div><label>Metric</label><input value="'+esc(p.metric)+'" data-p="'+i+'" data-k="metric"></div><div><label>Type</label><select data-p="'+i+'" data-k="type"><option value="case-study" '+(p.type==="case-study"?"selected":"")+'>Case study</option><option value="deck" '+(p.type==="deck"?"selected":"")+'>Deck</option></select></div></div><label>Tags (comma-separated)</label><input value="'+esc((p.tags||[]).join(", "))+'" data-p="'+i+'" data-k="tags"><label>Link (URL or assets/ path)</label><input value="'+esc(p.link==="#"?"":p.link)+'" data-p="'+i+'" data-k="link"><label>Details</label><textarea data-p="'+i+'" data-k="details">'+esc(p.details)+'</textarea>';
+    d.querySelector(".del").onclick=()=>{data.projects.splice(i,1);renderProjects();};
+    d.querySelectorAll("[data-k]").forEach(inp=>inp.oninput=()=>{var k=inp.dataset.k,idx=inp.dataset.p;data.projects[idx][k]=k==="tags"?inp.value.split(",").map(s=>s.trim()).filter(Boolean):inp.value;});
+    c.appendChild(d);
+  });
+}
+function renderDecks(){
+  var c=$("#decks");c.innerHTML="";
+  (data.decks||[]).forEach((dk,i)=>{
+    var d=document.createElement("div");d.className="item";
+    d.innerHTML='<button class="del">Remove</button><label>Title</label><input value="'+esc(dk.title)+'" data-d="'+i+'" data-k="title"><label>Description</label><input value="'+esc(dk.description)+'" data-d="'+i+'" data-k="description"><label>Embed URL (Google Slides / YouTube)</label><input value="'+esc(dk.embedUrl)+'" data-d="'+i+'" data-k="embedUrl"><small class="help">Google Slides: File → Share → Publish to web → Embed.</small>';
+    d.querySelector(".del").onclick=()=>{data.decks.splice(i,1);renderDecks();};
+    d.querySelectorAll("[data-k]").forEach(inp=>inp.oninput=()=>{data.decks[inp.dataset.d][inp.dataset.k]=inp.value;});
+    c.appendChild(d);
+  });
+}
+function renderThoughts(){
+  var c=$("#thoughts");c.innerHTML="";
+  (data.thoughts||[]).forEach((t,i)=>{
+    var d=document.createElement("div");d.className="item";
+    d.innerHTML='<button class="del">Remove</button><label>Title</label><input value="'+esc(t.title)+'" data-t="'+i+'" data-k="title"><div class="row"><div><label>Date</label><input type="date" value="'+esc(t.date)+'" data-t="'+i+'" data-k="date"></div><div><label>Read time</label><input value="'+esc(t.readTime)+'" data-t="'+i+'" data-k="readTime"></div></div><label>Excerpt</label><textarea data-t="'+i+'" data-k="excerpt">'+esc(t.excerpt)+'</textarea><label>Link (URL)</label><input value="'+esc(t.url==="#"?"":t.url)+'" data-t="'+i+'" data-k="url">';
+    d.querySelector(".del").onclick=()=>{data.thoughts.splice(i,1);renderThoughts();};
+    d.querySelectorAll("[data-k]").forEach(inp=>inp.oninput=()=>{data.thoughts[inp.dataset.t][inp.dataset.k]=inp.value;});
+    c.appendChild(d);
+  });
+}
+
+document.querySelectorAll("[data-add]").forEach(b=>b.onclick=()=>{
+  var t=b.dataset.add;
+  if(t==="highlight"){(data.about.highlights=data.about.highlights||[]).push({label:"",value:"",icon:"ti-bulb"});renderHighlights();}
+  if(t==="project"){(data.projects=data.projects||[]).push({title:"New project",category:"Product",icon:"ti-rocket",summary:"",metric:"",tags:[],type:"case-study",link:"",details:""});renderProjects();}
+  if(t==="deck"){(data.decks=data.decks||[]).push({title:"New deck",description:"",embedUrl:""});renderDecks();}
+  if(t==="thought"){(data.thoughts=data.thoughts||[]).push({title:"New post",date:"",readTime:"3 min read",excerpt:"",url:""});renderThoughts();}
+});
+
+function clean(o){(o.projects||[]).forEach(p=>{if(!p.link)p.link="#";});(o.thoughts||[]).forEach(t=>{if(!t.url)t.url="#";});}
+function jsonStr(){clean(data);return JSON.stringify(data,null,2);}
+function dl(name,text,type){var b=new Blob([text],{type:type});var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;a.click();}
+
+$("#dljson").onclick=()=>{dl("content.json",jsonStr(),"application/json");toast("content.json downloaded");};
+$("#copy").onclick=async()=>{try{await navigator.clipboard.writeText(jsonStr());toast("JSON copied");}catch(e){toast("Copy failed — use Download");}};
+
+// Save & sync: download content.json AND a fresh index.html with the inline block replaced
+$("#save").onclick=async()=>{
+  var js=jsonStr();
+  dl("content.json",js,"application/json");
+  try{
+    var r=await fetch("index.html",{cache:"no-store"}); var html=await r.text();
+    var newBlock='<script id="cw-content" type="application/json">\n'+js+'\n  <\/script>';
+    if(/<script id="cw-content"[\s\S]*?<\/script>/.test(html)){
+      html=html.replace(/<script id="cw-content"[\s\S]*?<\/script>/, newBlock);
+    }
+    // bump cache-bust version
+    var v=Date.now();
+    html=html.replace(/(styles\.css|companion\.css|app\.js|companion\.js)(\?v=\d+)?/g,"$1?v="+v);
+    setTimeout(()=>dl("index.html",html,"text/html"),400);
+    toast("Saved both — replace content.json + index.html, then push");
+  }catch(e){ toast("content.json saved. (Open via a local server to also sync index.html)"); }
+};
+
+$("#reload").onclick=load;
+$("#import").onclick=()=>$("#fileInput").click();
+$("#fileInput").onchange=(e)=>{var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=()=>{try{data=JSON.parse(r.result);hydrate();toast("Imported");}catch(err){toast("Invalid JSON");}};r.readAsText(f);};
+
+bindSimple();
+load();
+})();
+</script>
+</body>
+</html>

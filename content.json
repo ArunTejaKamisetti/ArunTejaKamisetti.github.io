@@ -1,0 +1,177 @@
+{
+  "meta": {
+    "name": "Arun Teja Kamisetti",
+    "role": "Aspiring AI Product Manager",
+    "heroLines": [
+      "AI",
+      "PRODUCT",
+      "MANAGER"
+    ],
+    "tagline": "I build AI products people can actually trust.",
+    "subtagline": "CSE grad and ex-Sandvine engineer, now an aspiring AI PM at IIM Kozhikode. I evaluate models, ship 0 to 1, and care most about outcomes — not output.",
+    "subtaglineHi": "भारतीय AI प्रोडक्ट मैनेजर — इंजीनियरिंग और बिज़नेस के बीच, ऐसे AI प्रोडक्ट बनाना जिन पर लोग सच में भरोसा कर सकें।",
+    "location": "IIM Kozhikode, India",
+    "email": "arunteja2000@gmail.com",
+    "resumeUrl": "assets/Arun_Teja_Kamisetti_Resume.pdf",
+    "siteUrl": "https://aruntejakamisetti.github.io",
+    "ogImage": "assets/og-image.png",
+    "social": {
+      "github": "https://github.com/ArunTejaKamisetti",
+      "linkedin": "https://www.linkedin.com/in/aruntejakamisetti",
+      "twitter": ""
+    },
+    "funFacts": [
+      "District & state-level quiz champion in school — I still chase a hard question.",
+      "Represented my school basketball team; I still hoop, plus badminton and football.",
+      "My brother is doing his MBA at IIM Calcutta while I'm at IIM Kozhikode — a friendly Holy Trinity rivalry.",
+      "Big Telugu cinema buff and an anime watcher across genres.",
+      "Core committee at Rotaract Club, BMSCE — led a bunch of goodwill events.",
+      "Interned at Fidelity and Samsung R&D before my Sandvine engineering stint.",
+      "I funneled ~220 small language models down to the one that actually fit.",
+      "I declined a PPO to go all-in on becoming an AI PM at a frontier lab."
+    ],
+    "quote": "Strong opinions, loosely held — show me a sound argument and I'll change my mind fast."
+  },
+  "about": {
+    "heading": "About me",
+    "body": "Hi, I'm Arun. I'm a CSE grad (BMSCE '22) who spent ~2 years as a software engineer at Sandvine, with earlier internships at Fidelity Investments and Samsung R&D. A layoff turned into a gap year — I used it to crack CAT and land at IIM Kozhikode. At my Wipro Consulting internship I evaluated ~220 small language models down to one and shipped a 0 to 1 BRD. Then I made the deliberate bet: I declined a pre-placement offer to chase becoming an AI Product Manager at a frontier lab. I think like an engineer, decide like a PM, and obsess over outcomes. I'm an ambivert — shy in new rooms, all-in once I'm comfortable — a critical thinker who'll happily change his mind for a better argument. Off the clock: anime, Telugu cinema, basketball, and trying new things.",
+    "highlights": [
+      {
+        "label": "Now",
+        "value": "PGP @ IIM Kozhikode (2025-27)",
+        "icon": "ti-school"
+      },
+      {
+        "label": "Before",
+        "value": "SWE @ Sandvine · CSE @ BMSCE '22",
+        "icon": "ti-code"
+      },
+      {
+        "label": "Recently",
+        "value": "Applied-AI intern @ Wipro Consulting",
+        "icon": "ti-flask"
+      },
+      {
+        "label": "Goal",
+        "value": "AI PM @ a frontier lab (Anthropic / OpenAI / Google)",
+        "icon": "ti-target-arrow"
+      }
+    ]
+  },
+  "journey": [
+    "CSE @ BMSCE",
+    "SWE @ Sandvine",
+    "Layoff to CAT",
+    "PGP @ IIM K",
+    "AI PM"
+  ],
+  "skills": [
+    "AI product strategy",
+    "Model & SLM evaluation",
+    "Guardrails & responsible AI",
+    "0 to 1 product thinking",
+    "BRDs & PRDs",
+    "User research & empathy",
+    "Roadmapping & prioritization",
+    "Data analysis (SQL)",
+    "Vibe coding / rapid prototyping",
+    "Stakeholder management",
+    "Critical thinking & problem-solving",
+    "Go-to-market"
+  ],
+  "projects": [
+    {
+      "id": "slm-evaluation",
+      "title": "SLM evaluation & guardrails",
+      "category": "Applied AI · Wipro",
+      "icon": "ti-flask",
+      "summary": "Funneled ~220 small language models down to the single best fit for a client use case, with a guardrails layer for safe outputs.",
+      "metric": "220 to 1 model selected",
+      "tags": [
+        "LLM eval",
+        "Guardrails",
+        "Applied AI"
+      ],
+      "type": "case-study",
+      "link": "#",
+      "cover": "",
+      "details": "During my Wipro Consulting internship I owned the evaluation that took a field of ~220 small language models down to the one that actually fit the client's constraints. I built a scoring rubric across capability, latency, cost, and safety, ran structured comparisons, and designed a guardrails layer to keep outputs on-policy. The real lesson: picking a model is a product decision in disguise — the 'best' benchmark score loses to the model that fits the user, the budget, and the risk tolerance."
+    },
+    {
+      "id": "audience-brand-match",
+      "title": "Audience Brand Match",
+      "category": "0 to 1 Product · Wipro",
+      "icon": "ti-target-arrow",
+      "summary": "Took a new product from a blank page to a complete BRD — problem, users, requirements, and a path to v1.",
+      "metric": "0 to 1 · BRD shipped",
+      "tags": [
+        "0 to 1",
+        "BRD",
+        "Discovery"
+      ],
+      "type": "case-study",
+      "link": "#",
+      "cover": "",
+      "details": "A greenfield concept to match audiences with the right brands. I led discovery, framed the core problem and target users, and translated it into a complete Business Requirements Document — scope, user stories, success metrics, and a prioritized path to a first version. It sharpened how I cut a fuzzy idea into something a team can actually build."
+    },
+    {
+      "id": "electives-tracker",
+      "title": "Electives & attendance tracker",
+      "category": "Built with Claude · Side project",
+      "icon": "ti-rocket",
+      "summary": "A small app I vibe-coded to fix a real pain at IIM K — tracking electives and attendance without the spreadsheet chaos.",
+      "metric": "Shipped · used by peers",
+      "tags": [
+        "Side project",
+        "Vibe coding",
+        "0 to 1"
+      ],
+      "type": "case-study",
+      "link": "#",
+      "cover": "",
+      "details": "Every term at B-school, elective bidding and attendance turn into spreadsheet chaos. I scratched my own itch and built a small tracker app — scoping the problem, designing the flow, and shipping it fast with AI-assisted coding. Being a CSE grad who can prototype means I can pressure-test an idea myself before asking anyone to build it."
+    }
+  ],
+  "decks": [
+    {
+      "title": "SLM evaluation — how I picked 1 of 220",
+      "description": "My evaluation framework, scoring rubric, and guardrail thinking, walked through end to end.",
+      "embedUrl": "",
+      "thumbnail": ""
+    },
+    {
+      "title": "Product teardown — a 30-minute lens",
+      "description": "The repeatable framework I use to tear down any product and find where I'd place bets.",
+      "embedUrl": "",
+      "thumbnail": ""
+    }
+  ],
+  "thoughts": [
+    {
+      "title": "Why I declined a PPO to chase AI PM",
+      "date": "2026-06-01",
+      "readTime": "4 min read",
+      "excerpt": "The safe path was right there — a pre-placement offer in hand. Here's the reasoning behind walking away from it to bet on the role I actually want.",
+      "url": "#"
+    },
+    {
+      "title": "What evaluating 220 models taught me about product judgment",
+      "date": "2026-05-20",
+      "readTime": "5 min read",
+      "excerpt": "Picking a model is a product decision in disguise. Benchmarks are the start, not the answer. Here's the lens I used to choose.",
+      "url": "#"
+    },
+    {
+      "title": "Learning AI in public: QLoRA & beyond",
+      "date": "2026-05-05",
+      "readTime": "3 min read",
+      "excerpt": "I have working knowledge but real gaps in deep AI topics. Here's how I'm closing them — what's clicking, what isn't yet, and why I share the messy middle.",
+      "url": "#"
+    }
+  ],
+  "contact": {
+    "heading": "Let's build something",
+    "body": "I'm looking for AI Product Manager roles and love talking products, models, and the hard problems in between. If you're hiring or just want to swap notes, reach out.",
+    "ctaLabel": "Email me"
+  }
+}
