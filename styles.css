@@ -229,8 +229,10 @@ a{color:inherit;text-decoration:none;}
   #blob-cursor{display:none;}
   /* Hide Kai on small screens so it never blocks content */
   #kai, #kai-toggle{display:none !important;}
-  /* On mobile the cards fill most of the width so one shows at a time */
-  .grid--cards>*, .grid--decks>*, .grid--thoughts>*{flex:0 0 82%;}
+  /* On mobile, cards are narrower than the screen so the next one peeks in,
+     making it obvious there's more to swipe (not just one card at a time) */
+  .grid--cards, .grid--decks, .grid--thoughts{scroll-padding-left:20px;}
+  .grid--cards>*, .grid--decks>*, .grid--thoughts>*{flex:0 0 78vw; max-width:300px;}
   /* little hint that there's more to swipe */
   #projects .section__lead::after, #decks .section__lead::after, #thoughts .section__lead::after{
     content:" — swipe →"; color:var(--peach); font-weight:700; font-size:13px;
