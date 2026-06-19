@@ -165,17 +165,58 @@
     if (c) {
       if (c.heading) $("contact-title").textContent = c.heading;
       $("contact-body").textContent = c.body || "";
-      $("contact-cta").innerHTML = '<svg class="ico" width="18" height="18"><use href="#i-mail"/></svg> ' + esc(c.ctaLabel || "Email me");
+      const cta = $("contact-cta");
+      if (cta) cta.innerHTML = '<svg class="ico" width="18" height="18"><use href="#i-mail"/></svg> ' + esc(c.ctaLabel || "Email me");
     }
-    if (m && m.email) $("contact-cta").setAttribute("href", "mailto:" + m.email);
+    const email = (m && m.email) || "";
+    const subject = encodeURIComponent("Reaching out — AI PM opportunity / chat");
+    const cta = $("contact-cta");
+    if (cta && email) {
+      // Default mailto: opens the visitor's own mail app (Gmail, Outlook, Apple Mail, whatever
+      // they use), pre-addressed to Arun's email so the reply lands in his inbox.
+      cta.setAttribute("href", "mailto:" + email + "?subject=" + subject);
+      cta.removeAttribute("target");
+      cta.removeAttribute("rel");
+    }
+    // show the address as plain text so recruiters can read/copy it directly
+    const emailText = $("contact-email-text");
+    if (emailText && email) emailText.textContent = email;
+    // Copy-email button
+    const copyBtn = $("contact-copy"), copyLabel = $("contact-copy-label");
+    if (copyBtn && email) {
+      copyBtn.addEventListener("click", () => {
+        const done = () => {
+          copyBtn.classList.add("is-copied");
+          copyBtn.innerHTML = '<svg class="ico" width="18" height="18"><use href="#i-check"/></svg> Copied!';
+          setTimeout(() => { copyBtn.classList.remove("is-copied"); copyBtn.innerHTML = '<svg class="ico" width="18" height="18"><use href="#i-copy"/></svg> Copy email'; }, 1800);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(email).then(done).catch(() => { fallbackCopy(email); done(); });
+        } else { fallbackCopy(email); done(); }
+      });
+    }
+    // Résumé quick-button
+    const resumeBtn = $("contact-resume");
+    if (resumeBtn) {
+      if (m && m.resumeUrl) resumeBtn.setAttribute("href", m.resumeUrl);
+      else resumeBtn.style.display = "none";
+    }
     const s = (m && m.social) || {};
     const links = [];
     if (s.github) links.push('<a href="' + esc(s.github) + '" target="_blank" rel="noopener" aria-label="GitHub"><svg width="21" height="21"><use href="#i-git"/></svg></a>');
     if (s.linkedin) links.push('<a href="' + esc(s.linkedin) + '" target="_blank" rel="noopener" aria-label="LinkedIn"><svg width="21" height="21"><use href="#i-linkedin"/></svg></a>');
     if (s.twitter) links.push('<a href="' + esc(s.twitter) + '" target="_blank" rel="noopener" aria-label="X"><svg width="21" height="21"><use href="#i-ext"/></svg></a>');
-    if (m && m.email) links.push('<a href="mailto:' + esc(m.email) + '" aria-label="Email"><svg width="21" height="21"><use href="#i-mail"/></svg></a>');
+    if (email) links.push('<a href="mailto:' + esc(email) + '" aria-label="Email"><svg width="21" height="21"><use href="#i-mail"/></svg></a>');
     $("contact-social").innerHTML = links.join("");
     if (s.github) $("gh-link").setAttribute("href", s.github);
+  }
+
+  function fallbackCopy(text) {
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select(); document.execCommand("copy"); document.body.removeChild(ta);
+    } catch (e) {}
   }
 
   const empty = (msg) => '<p style="color:var(--ink-faint); font-size:15px; grid-column:1/-1;">' + esc(msg) + '</p>';
@@ -274,11 +315,12 @@
   }
 
   function wireCountUp() {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return;
     const io = new IntersectionObserver((entries) => {
       entries.forEach((en) => {
-        if (!en.isIntersecting) return; const el = en.target; io.unobserve(el);
-        const full = el.getAttribute("data-full"); const m = full.match(/\d[\d,]*/); if (!m) return;
+        if (!en.isIntersecting) return;
+        const el = en.target; io.unobserve(el);
+        const full = el.getAttribute("data-full") || el.textContent;
+        const m = full.match(/[\d,]+/); if (!m) return;
         const target = parseInt(m[0].replace(/,/g, ""), 10);
         const prefix = full.slice(0, m.index), suffix = full.slice(m.index + m[0].length);
         let cur = 0; const inc = Math.max(1, Math.round(target / 28));

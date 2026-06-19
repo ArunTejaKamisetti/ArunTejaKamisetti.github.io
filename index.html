@@ -27,8 +27,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&family=Space+Mono:wght@700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=1781814960123" />
-  <link rel="stylesheet" href="companion.css?v=1781814960123" />
+  <link rel="stylesheet" href="styles.css?v=20260619k" />
+  <link rel="stylesheet" href="companion.css?v=20260619k" />
   <script type="application/ld+json" id="jsonld-person">
   {"@context":"https://schema.org","@type":"Person","name":"Arun Teja Kamisetti","jobTitle":"AI Product Manager","url":"https://aruntejakamisetti.github.io/","email":"mailto:arunteja2000@gmail.com","sameAs":["https://github.com/ArunTejaKamisetti","https://www.linkedin.com/in/aruntejakamisetti"],"knowsAbout":["AI Product Management","Product Strategy","Model Evaluation","User Research"],"alumniOf":["Indian Institute of Management Kozhikode","BMS College of Engineering"],"description":"Engineer-turned-PM building toward AI products people trust."}
   </script>
@@ -57,8 +57,10 @@
     <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M7.5 15h9" stroke="currentColor" stroke-width="2"/></symbol>
     <symbol id="i-trend" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8M21 7v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-    <symbol id="i-linkedin" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4M11 17v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></symbol>
     <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   </defs></svg>
 
   <header class="nav">
@@ -178,7 +180,12 @@
           <span class="section__eyebrow">Say hi</span>
           <h2 class="section__title" id="contact-title">Let's build something</h2>
           <p class="contact__body" id="contact-body"></p>
-          <a href="#" class="btn btn--primary btn--lg" id="contact-cta"><svg class="ico" width="18" height="18"><use href="#i-mail"/></svg> Email me</a>
+          <div class="contact__actions">
+            <a href="#" class="btn btn--primary btn--lg" id="contact-cta"><svg class="ico" width="18" height="18"><use href="#i-mail"/></svg> Email me</a>
+            <button type="button" class="btn btn--ghost btn--lg" id="contact-copy"><svg class="ico" width="18" height="18"><use href="#i-copy"/></svg> <span id="contact-copy-label">Copy email</span></button>
+            <a href="#" class="btn btn--ghost btn--lg" id="contact-resume" target="_blank" rel="noopener"><svg class="ico" width="18" height="18"><use href="#i-dl"/></svg> Résumé</a>
+          </div>
+          <span class="contact__email" id="contact-email-text"></span>
           <div class="contact__social" id="contact-social"></div>
         </div>
       </div>
@@ -188,7 +195,7 @@
   <footer class="footer">
     <div class="container footer__inner">
       <span id="footer-name">© Arun Teja Kamisetti</span>
-      <span class="footer__meta">Designed &amp; built by me · <span class="footer__build">build 2026.06.18</span></span>
+      <span class="footer__meta">Designed &amp; built by me · <span class="footer__build">build 2026.06.19</span></span>
     </div>
   </footer>
 
@@ -211,7 +218,7 @@
     "ogImage": "assets/og-image.png",
     "social": {
       "github": "https://github.com/ArunTejaKamisetti",
-      "linkedin": "www.linkedin.com/in/arun-teja-kamisetti",
+      "linkedin": "https://www.linkedin.com/in/arun-teja-kamisetti",
       "twitter": ""
     },
     "funFacts": [
@@ -414,7 +421,8 @@
   }
 }
   </script>
-  <script src="app.js?v=1781814960123"></script>
-  <script src="companion.js?v=1781814960123"></script>
+
+  <script src="app.js?v=20260619k"></script>
+  <script src="companion.js?v=20260619k"></script>
 </body>
 </html>

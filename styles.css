@@ -193,6 +193,11 @@ a{color:inherit;text-decoration:none;}
 .contact__body{color:var(--peach-soft);font-size:18px;max-width:52ch;margin:0 auto 30px;}
 .contact .btn--primary{background:var(--peach);border-color:var(--peach);color:#fff;}
 .contact .btn--primary:hover{background:var(--cream);border-color:var(--cream);color:var(--ink);box-shadow:4px 4px 0 var(--peach);}
+.contact__actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;}
+.contact .btn--ghost{background:transparent;border:2px solid var(--cream);color:var(--cream);}
+.contact .btn--ghost:hover{background:var(--cream);color:var(--ink);transform:translateY(-2px);box-shadow:4px 4px 0 var(--peach);}
+.contact .btn--ghost.is-copied{background:var(--sage);border-color:var(--sage);color:#fff;}
+.contact__email{display:block;margin-top:16px;font-family:'Space Mono',monospace;font-size:13.5px;color:var(--peach-soft);letter-spacing:.02em;}
 .contact__social{display:flex;justify-content:center;gap:14px;margin-top:30px;}
 .contact__social a{width:48px;height:48px;border-radius:50%;background:transparent;border:2px solid var(--cream);color:var(--cream);font-size:21px;display:flex;align-items:center;justify-content:center;transition:all .22s var(--ease);}
 .contact__social a:hover{background:var(--peach);border-color:var(--peach);color:#fff;transform:translateY(-3px);}
