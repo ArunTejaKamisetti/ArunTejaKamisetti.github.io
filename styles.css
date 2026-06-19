@@ -229,13 +229,19 @@ a{color:inherit;text-decoration:none;}
   #blob-cursor{display:none;}
   /* Hide Kai on small screens so it never blocks content */
   #kai, #kai-toggle{display:none !important;}
-  /* On mobile, cards are narrower than the screen so the next one peeks in,
-     making it obvious there's more to swipe (not just one card at a time) */
-  .grid--cards, .grid--decks, .grid--thoughts{scroll-padding-left:20px;}
-  .grid--cards>*, .grid--decks>*, .grid--thoughts>*{flex:0 0 78vw; max-width:300px;}
-  /* little hint that there's more to swipe */
+  /* On mobile, cards are clearly narrower than the screen so the NEXT card is
+     visibly in frame on first load (~30% peeking) — no guessing there's more. */
+  .grid--cards, .grid--decks, .grid--thoughts{scroll-padding-left:20px;scroll-snap-type:x mandatory;}
+  .grid--cards>*, .grid--decks>*, .grid--thoughts>*{flex:0 0 70vw; max-width:280px;}
+  /* persistent right-edge fade so the row always looks like it continues */
+  #projects .container, #decks .container, #thoughts .container{position:relative;}
+  #projects .grid::after, #decks .grid::after, #thoughts .grid::after{content:"";}
+  /* a one-time auto "nudge" when the row enters view hints it's swipeable */
+  .grid--cards.cw-nudge, .grid--decks.cw-nudge, .grid--thoughts.cw-nudge{animation:cwNudge 1.1s ease 1;}
+  @keyframes cwNudge{0%{transform:translateX(0)}30%{transform:translateX(-34px)}55%{transform:translateX(0)}70%{transform:translateX(-16px)}100%{transform:translateX(0)}}
+  /* clear swipe affordance under the heading */
   #projects .section__lead::after, #decks .section__lead::after, #thoughts .section__lead::after{
-    content:" — swipe →"; color:var(--peach); font-weight:700; font-size:13px;
+    content:" · swipe for more →"; color:var(--peach); font-weight:700; font-size:13px;
   }
   /* GitHub grid scrolls horizontally on mobile too */
   .ghgrid{aspect-ratio:auto; grid-auto-columns:13px; grid-template-rows:repeat(7,13px); overflow-x:auto; -webkit-overflow-scrolling:touch;}

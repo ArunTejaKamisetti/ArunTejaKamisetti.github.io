@@ -312,6 +312,26 @@
     if (!("IntersectionObserver" in window)) { els.forEach((el) => el.classList.add("visible")); return; }
     const io = new IntersectionObserver((entries) => entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("visible"); io.unobserve(en.target); } }), { threshold: 0.12 });
     els.forEach((el) => io.observe(el));
+    wireSwipeHint();
+  }
+
+  // On mobile, when a card row first scrolls into view, give it ONE gentle
+  // nudge so the user instantly sees the cards move = "this is swipeable".
+  function wireSwipeHint() {
+    if (!("IntersectionObserver" in window)) return;
+    if (!window.matchMedia || !window.matchMedia("(max-width: 820px)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const rows = document.querySelectorAll(".grid--cards, .grid--decks, .grid--thoughts");
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        const row = en.target; io.unobserve(row);
+        // only nudge if there's actually more than fits on screen
+        if (row.scrollWidth <= row.clientWidth + 24) return;
+        setTimeout(() => { row.classList.add("cw-nudge"); setTimeout(() => row.classList.remove("cw-nudge"), 1200); }, 350);
+      });
+    }, { threshold: 0.4 });
+    rows.forEach((r) => io.observe(r));
   }
 
   function wireCountUp() {
