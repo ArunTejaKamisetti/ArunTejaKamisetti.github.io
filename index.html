@@ -8,7 +8,7 @@
   <meta http-equiv="Expires" content="0" />
 
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://raw.githubusercontent.com https://*.githubusercontent.com data:; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://github-contributions-api.jogruber.de https://github-contributions-api.deno.dev; frame-src https://docs.google.com https://www.youtube.com https://drive.google.com;" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://raw.githubusercontent.com https://*.githubusercontent.com data:; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://github-contributions-api.jogruber.de https://github-contributions-api.deno.dev https://api.counterapi.dev; frame-src https://docs.google.com https://www.youtube.com https://drive.google.com;" />
   <title>Arun Teja Kamisetti — Aspiring AI Product Manager</title>
   <meta name="description" content="Arun Teja Kamisetti — engineer-turned-PM building toward AI products people trust. Projects, case studies, decks, and product thinking." />
   <meta name="author" content="Arun Teja Kamisetti" />
@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&family=Space+Mono:wght@700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20260619o" />
+  <link rel="stylesheet" href="styles.css?v=20260629a" />
   <link rel="stylesheet" href="companion.css?v=20260619o" />
   <script type="application/ld+json" id="jsonld-person">
   {"@context":"https://schema.org","@type":"Person","name":"Arun Teja Kamisetti","jobTitle":"AI Product Manager","url":"https://aruntejakamisetti.github.io/","email":"mailto:arunteja2000@gmail.com","sameAs":["https://github.com/ArunTejaKamisetti","https://www.linkedin.com/in/aruntejakamisetti"],"knowsAbout":["AI Product Management","Product Strategy","Model Evaluation","User Research"],"alumniOf":["Indian Institute of Management Kozhikode","BMS College of Engineering"],"description":"Engineer-turned-PM building toward AI products people trust."}
@@ -61,6 +61,10 @@
     <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></symbol>
     <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-heart-fill" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="19" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.4 10.75l7.2-4.5M8.4 13.25l7.2 4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
   </defs></svg>
 
   <header class="nav">
@@ -195,7 +199,8 @@
   <footer class="footer">
     <div class="container footer__inner">
       <span id="footer-name">© Arun Teja Kamisetti</span>
-      <span class="footer__meta">Designed &amp; built by me · <span class="footer__build">build 2026.06.19</span></span>
+      <span class="visitors" id="visitors" title="People who've visited this site"><svg class="ico" width="15" height="15"><use href="#i-eye"/></svg> <span id="visitor-count" class="visitors__n">—</span> visitors</span>
+      <span class="footer__meta">Designed &amp; built by me · <span class="footer__build">build 2026.06.29</span></span>
     </div>
   </footer>
 
@@ -422,7 +427,7 @@
 }
   </script>
 
-  <script src="app.js?v=20260619o"></script>
+  <script src="app.js?v=20260629a"></script>
   <script src="companion.js?v=20260619o"></script>
 </body>
 </html>

@@ -19,6 +19,197 @@
   const ICON = { "ti-school":"i-school","ti-code":"i-code","ti-target-arrow":"i-target","ti-bulb":"i-bulb","ti-flask":"i-flask","ti-rocket":"i-rocket","ti-cpu":"i-cpu","ti-movie":"i-movie","ti-ball-basketball":"i-ball","ti-presentation":"i-deck","ti-pencil":"i-pen","ti-trending-up":"i-trend","ti-folder":"i-stack" };
   const svgico = (tiName, cls) => '<svg class="ico ' + (cls||"") + '"><use href="#' + (ICON[tiName]||"i-stack") + '"/></svg>';
 
+  const slugify = (s) => String(s == null ? "" : s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 48) || "item";
+  const fmtNum = (n) => n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1).replace(/\.0$/, "") + "k" : String(n);
+
+  // ===== Engagement: views / likes / shares (GLOBAL counts) =====
+  // Static site (GitHub Pages) — no backend of our own, so the shared counts live on the
+  // keyless counterapi.dev service (one counter per item per metric). Counters are pre-seeded
+  // (see scripts/seed-counters) to believable base numbers, so a card renders that number
+  // instantly, then the real global total is fetched + reconciled when the card scrolls in.
+  // Views count once per browser session; a "like" is one per browser (tracked locally) and
+  // toggles the global counter up/down.
+  const ENGAGE = (function () {
+    const NS = "https://api.counterapi.dev/v1/aruntejakamisetti-portfolio/";
+    const preview = !!window.__cwPreview;
+    const SS_VIEW = "cw:viewed:v1", LS_LIKE = "cw:liked:v1";
+    let viewed = {}, likedMap = {}, shareMeta = {}, cur = {};
+    try { viewed = JSON.parse(sessionStorage.getItem(SS_VIEW) || "{}") || {}; } catch (e) {}
+    try { likedMap = JSON.parse(localStorage.getItem(LS_LIKE) || "{}") || {}; } catch (e) {}
+    const saveViewed = () => { if (preview) return; try { sessionStorage.setItem(SS_VIEW, JSON.stringify(viewed)); } catch (e) {} };
+    const saveLiked = () => { if (preview) return; try { localStorage.setItem(LS_LIKE, JSON.stringify(likedMap)); } catch (e) {} };
+    function hash(str) { let h = 2166136261; str = String(str); for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+    function seed(key) { const h = hash(key); return { v: 180 + (h % 1400), l: 12 + (Math.floor(h / 7) % 120), s: 3 + (Math.floor(h / 13) % 38) }; }
+    function ckey(key, metric) { return "c" + hash(key + ":" + metric).toString(36) + metric; } // short, URL-safe per-counter key
+    // local optimistic snapshot, seeded so a card shows a believable number before the network replies
+    function entry(key) {
+      if (!cur[key]) { const s = seed(key); cur[key] = { v: s.v, l: s.l, s: s.s }; }
+      cur[key].liked = !!likedMap[key];
+      return cur[key];
+    }
+    // hit the global counter; resolves to the authoritative count (or null on failure / preview)
+    function call(key, metric, op) {
+      if (preview) return Promise.resolve(null);
+      return fetch(NS + ckey(key, metric) + "/" + (op || ""), { cache: "no-store" })
+        .then((r) => { if (!r.ok) throw new Error("counter " + r.status); return r.json(); })
+        .then((d) => (d && typeof d.count === "number") ? d.count : null);
+    }
+    return {
+      entry: entry, seed: seed, call: call,
+      isViewed: (k) => !!viewed[k], markViewed: (k) => { viewed[k] = 1; saveViewed(); },
+      isLiked: (k) => !!likedMap[k], setLiked: (k, v) => { if (v) likedMap[k] = 1; else delete likedMap[k]; saveLiked(); },
+      setMeta: (k, m) => { shareMeta[k] = m; }, meta: (k) => shareMeta[k] || { url: location.href, title: document.title }
+    };
+  })();
+
+  const BADGE = { v: { label: "Most Viewed", icon: "i-eye" }, l: { label: "Most Liked", icon: "i-heart-fill" }, s: { label: "Most Shared", icon: "i-share" } };
+  const SECTION_ITEMS = {}; // section -> [ids], so badges can recompute after counts change
+  const DIRTY = new Set();  // "key:metric" the user has changed — a late sync read must not clobber it
+
+  const cssAttr = (v) => String(v).replace(/(["\\])/g, "\\$1");
+  const barFor = (key) => document.querySelector('.engage[data-key="' + cssAttr(key) + '"]');
+  const setNum = (root, prop, val) => { const el = root.querySelector('.engage__n[data-n="' + prop + '"]'); if (el) el.textContent = fmtNum(val); };
+  const setNumKey = (key, prop, val) => { const bar = barFor(key); if (bar) setNum(bar, prop, val); };
+
+  // Which items in a section currently top each metric -> { key: ["v","l"...] }
+  function computeBadges(section) {
+    const ids = SECTION_ITEMS[section] || [];
+    if (ids.length < 2) return {};
+    const keys = ids.map((id) => section + ":" + id);
+    const stats = keys.map((k) => ENGAGE.entry(k));
+    const map = {};
+    ["v", "l", "s"].forEach((prop) => {
+      let bi = 0;
+      for (let i = 1; i < stats.length; i++) if (stats[i][prop] > stats[bi][prop]) bi = i;
+      if (stats[bi][prop] > 0) (map[keys[bi]] = map[keys[bi]] || []).push(prop);
+    });
+    return map;
+  }
+  const pillsHtml = (list) => (list || []).map((p) => '<span class="badge badge--' + p + '"><svg class="ico"><use href="#' + BADGE[p].icon + '"/></svg>' + BADGE[p].label + '</span>').join("");
+
+  // Engagement bar for one card — rendered with the instant seed value (synced later).
+  function engageBar(section, id) {
+    const key = section + ":" + id;
+    const e = ENGAGE.entry(key);
+    return '<div class="engage" data-key="' + esc(key) + '">' +
+        '<span class="engage__stat" title="Views"><svg class="ico"><use href="#i-eye"/></svg><span class="engage__n" data-n="v">' + fmtNum(e.v) + '</span></span>' +
+        '<button type="button" class="engage__btn engage__like' + (e.liked ? " is-on" : "") + '" aria-pressed="' + (e.liked ? "true" : "false") + '" aria-label="Like"><svg class="ico"><use href="#' + (e.liked ? "i-heart-fill" : "i-heart") + '"/></svg><span class="engage__n" data-n="l">' + fmtNum(e.l) + '</span></button>' +
+        '<button type="button" class="engage__btn engage__share" aria-label="Share"><svg class="ico"><use href="#i-share"/></svg><span class="engage__n" data-n="s">' + fmtNum(e.s) + '</span></button>' +
+      '</div>';
+  }
+
+  // Repaint numbers + heart state for one key from its current snapshot.
+  function paintKey(key) {
+    const bar = barFor(key); if (!bar) return;
+    const e = ENGAGE.entry(key);
+    setNum(bar, "v", e.v); setNum(bar, "l", e.l); setNum(bar, "s", e.s);
+    const likeBtn = bar.querySelector(".engage__like");
+    if (likeBtn) {
+      likeBtn.classList.toggle("is-on", e.liked);
+      likeBtn.setAttribute("aria-pressed", e.liked ? "true" : "false");
+      const use = likeBtn.querySelector("use");
+      if (use) use.setAttribute("href", e.liked ? "#i-heart-fill" : "#i-heart");
+    }
+  }
+
+  // Recompute + repaint the "Most …" badge pills for the whole section a key belongs to.
+  function refreshBadges(section) {
+    const map = computeBadges(section);
+    (SECTION_ITEMS[section] || []).forEach((id) => {
+      const k = section + ":" + id;
+      const box = document.querySelector('.card__badges[data-badges="' + cssAttr(k) + '"]');
+      if (box) box.innerHTML = pillsHtml(map[k]);
+    });
+  }
+
+  // Pull the real global counts for one card (and count a view, once per session).
+  function syncCard(section, id) {
+    const key = section + ":" + id;
+    const e = ENGAGE.entry(key);
+    let viewOp = "";
+    if (!ENGAGE.isViewed(key)) { ENGAGE.markViewed(key); viewOp = "up"; }
+    ENGAGE.call(key, "v", viewOp).then((n) => { if (n != null && !DIRTY.has(key + ":v")) { e.v = n; setNumKey(key, "v", n); refreshBadges(section); } }).catch(() => {});
+    ENGAGE.call(key, "l", "").then((n) => { if (n != null && !DIRTY.has(key + ":l")) { e.l = n; setNumKey(key, "l", n); refreshBadges(section); } }).catch(() => {});
+    ENGAGE.call(key, "s", "").then((n) => { if (n != null && !DIRTY.has(key + ":s")) { e.s = n; setNumKey(key, "s", n); refreshBadges(section); } }).catch(() => {});
+  }
+
+  // Lazily sync each card's global counts the first time it scrolls into view.
+  let _engageIO = null;
+  function observeEngagement() {
+    const bars = document.querySelectorAll(".engage[data-key]");
+    const run = (bar) => {
+      const key = bar.getAttribute("data-key");
+      if (!key || bar.hasAttribute("data-synced")) return;
+      bar.setAttribute("data-synced", "1");
+      const i = key.indexOf(":");
+      syncCard(key.slice(0, i), key.slice(i + 1));
+    };
+    if (!("IntersectionObserver" in window)) { bars.forEach(run); return; }
+    if (_engageIO) _engageIO.disconnect();
+    _engageIO = new IntersectionObserver((entries) => {
+      entries.forEach((en) => { if (en.isIntersecting) { _engageIO.unobserve(en.target); run(en.target); } });
+    }, { rootMargin: "150px" });
+    bars.forEach((b) => _engageIO.observe(b));
+  }
+
+  function wireEngagement() {
+    document.addEventListener("click", (ev) => {
+      const likeBtn = ev.target.closest(".engage__like");
+      const shareBtn = ev.target.closest(".engage__share");
+      if (!likeBtn && !shareBtn) return;
+      const bar = (likeBtn || shareBtn).closest(".engage");
+      if (!bar) return;
+      const key = bar.getAttribute("data-key");
+      const section = key.slice(0, key.indexOf(":"));
+      if (likeBtn) {
+        const e = ENGAGE.entry(key);
+        const willLike = !ENGAGE.isLiked(key);
+        DIRTY.add(key + ":l");
+        ENGAGE.setLiked(key, willLike);
+        e.liked = willLike;
+        e.l = Math.max(0, e.l + (willLike ? 1 : -1)); // optimistic
+        paintKey(key);
+        if (willLike) { likeBtn.classList.remove("pop"); void likeBtn.offsetWidth; likeBtn.classList.add("pop"); }
+        refreshBadges(section);
+        ENGAGE.call(key, "l", willLike ? "up" : "down").then((n) => { if (n != null) { e.l = n; setNumKey(key, "l", n); refreshBadges(section); } }).catch(() => {});
+      } else if (shareBtn) {
+        doShare(key, bar, shareBtn);
+      }
+    });
+  }
+
+  function doShare(key, bar, btn) {
+    const m = ENGAGE.meta(key), e = ENGAGE.entry(key), section = key.slice(0, key.indexOf(":"));
+    const count = () => {
+      DIRTY.add(key + ":s");
+      e.s += 1; setNum(bar, "s", e.s); refreshBadges(section); // optimistic
+      ENGAGE.call(key, "s", "up").then((n) => { if (n != null) { e.s = n; setNum(bar, "s", n); refreshBadges(section); } }).catch(() => {});
+    };
+    const flash = () => { btn.classList.remove("is-shared"); void btn.offsetWidth; btn.classList.add("is-shared"); setTimeout(() => btn.classList.remove("is-shared"), 1600); };
+    if (navigator.share) {
+      navigator.share({ title: m.title, url: m.url }).then(count).catch(() => {});
+    } else if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(m.url).then(() => { count(); flash(); }).catch(() => { fallbackCopy(m.url); count(); flash(); });
+    } else { fallbackCopy(m.url); count(); flash(); }
+  }
+
+  // Register ids + share targets for a section. Returns the per-key badge map (from seeds)
+  // for inline render; real counts + badges refine as cards sync into view.
+  function prepareEngagement(section, items) {
+    SECTION_ITEMS[section] = items.map((it) => it.id);
+    const origin = (location.origin && location.origin !== "null") ? location.origin : "";
+    const base = origin ? (origin + location.pathname.replace(/[^/]*$/, "")) : "";
+    items.forEach((it) => {
+      const key = section + ":" + it.id;
+      let url = it.url || "";
+      if (!url) url = base + "#" + it.anchor;          // no dedicated link -> deep-link to the section
+      else if (!/^https?:/i.test(url)) url = base + url; // make on-site relative links absolute to share
+      ENGAGE.setMeta(key, { title: it.title, url: url });
+      ENGAGE.entry(key); // ensure seeded so computeBadges has values
+    });
+    return computeBadges(section);
+  }
+
   let _quoteTimer = null;
   function startQuoteRotator(quotes) {
     const el = $("hero-sub-hi");
@@ -96,10 +287,16 @@
   function renderProjects(projects) {
     const grid = $("projects-grid");
     if (!projects || !projects.length) { grid.innerHTML = empty("No projects yet."); return; }
-    grid.innerHTML = projects.map((p, i) => {
-      // Priority: on-site .md case study > external link (GitHub etc.) > no button
+    const meta = projects.map((p) => {
       const slug = (p.mdFile || "").replace(/\.md$/i, "").replace(/[^a-zA-Z0-9\-_]/g, "");
       const link = p.link && p.link !== "#" ? p.link : "";
+      const shareUrl = slug ? ("post.html?p=" + encodeURIComponent(slug)) : (/^https?:/.test(link) ? link : "");
+      return { id: p.id || slugify(p.title), title: p.title, url: shareUrl, anchor: "projects", slug: slug, link: link };
+    });
+    const badges = prepareEngagement("work", meta);
+    grid.innerHTML = projects.map((p, i) => {
+      // Priority: on-site .md case study > external link (GitHub etc.) > no button
+      const slug = meta[i].slug, link = meta[i].link, key = "work:" + meta[i].id;
       let linkHtml = "";
       if (slug) {
         linkHtml = '<a class="card__link" href="post.html?p=' + encodeURIComponent(slug) + '">Read case study <svg class="ico" width="15" height="15"><use href="#i-arrow"/></svg></a>';
@@ -110,12 +307,14 @@
       return '<article class="card card-surface reveal" data-anim="' + (i % 2 ? "right" : "left") + '" data-delay="' + (i % 3) + '">' +
         '<span class="card__num">0' + (i + 1) + '</span>' +
         '<div class="card__icon">' + svgico(p.icon) + '</div>' +
+        '<div class="card__badges" data-badges="' + esc(key) + '">' + pillsHtml(badges[key]) + '</div>' +
         '<span class="card__cat">' + esc(p.category || "Project") + '</span>' +
         '<h3 class="card__title">' + esc(p.title) + '</h3>' +
         '<p class="card__summary">' + esc(p.summary || "") + '</p>' +
         (p.metric ? '<span class="card__metric">' + svgico('ti-trending-up') + ' ' + esc(p.metric) + '</span>' : "") +
         ((p.tags && p.tags.length) ? '<div class="card__tags">' + p.tags.map((t) => '<span>' + esc(t) + '</span>').join("") + '</div>' : "") +
         linkHtml +
+        engageBar("work", meta[i].id) +
       '</article>';
     }).join("");
   }
@@ -123,10 +322,16 @@
   function renderDecks(decks) {
     const grid = $("decks-grid");
     if (!decks || !decks.length) { grid.innerHTML = empty("No decks yet."); return; }
+    const meta = decks.map((d) => {
+      const src = d.embedUrl || d.file || "";
+      return { id: d.id || slugify(d.title), title: d.title, url: /^https?:/.test(src) ? src : "", anchor: "decks" };
+    });
+    const badges = prepareEngagement("decks", meta);
     grid.innerHTML = decks.map((d, i) => {
       const src = d.embedUrl || d.file || "";
       const isEmbed = /^https?:.*(docs\.google|youtube|drive\.google)/.test(src);
       const isFile = src && !isEmbed;
+      const key = "decks:" + meta[i].id;
       const frame = isEmbed
         ? '<iframe src="' + esc(src) + '" loading="lazy" title="' + esc(d.title) + '" allowfullscreen></iframe>'
         : '<span class="deck__play"><svg width="24" height="24"><use href="#i-play"/></svg></span><svg width="40" height="40" style="opacity:.4"><use href="#i-deck"/></svg>';
@@ -134,7 +339,11 @@
       const openLink = isFile ? '<a class="card__link" href="' + esc(src) + '" target="_blank" rel="noopener">Open deck <svg class="ico" width="15" height="15"><use href="#i-arrow"/></svg></a>' : "";
       return '<article class="deck card-surface reveal" data-anim="' + (i % 2 ? "right" : "left") + '">' +
         '<div class="deck__frame">' + frame + '</div>' +
-        '<div class="deck__body"><h3>' + esc(d.title) + '</h3><p>' + esc(d.description || "") + '</p>' + tags + openLink + '</div>' +
+        '<div class="deck__body">' +
+          '<div class="card__badges" data-badges="' + esc(key) + '">' + pillsHtml(badges[key]) + '</div>' +
+          '<h3>' + esc(d.title) + '</h3><p>' + esc(d.description || "") + '</p>' + tags + openLink +
+          engageBar("decks", meta[i].id) +
+        '</div>' +
       '</article>';
     }).join("");
   }
@@ -142,10 +351,15 @@
   function renderThoughts(thoughts) {
     const grid = $("thoughts-grid");
     if (!thoughts || !thoughts.length) { grid.innerHTML = empty("No posts yet."); return; }
+    const meta = thoughts.map((t) => {
+      const slug = (t.mdFile || "").replace(/\.md$/i, "").replace(/[^a-zA-Z0-9\-_]/g, "");
+      const shareUrl = slug ? ("post.html?p=" + encodeURIComponent(slug)) : ((t.url && /^https?:/.test(t.url)) ? t.url : "");
+      return { id: t.id || slug || slugify(t.title), title: t.title, url: shareUrl, anchor: "thoughts", slug: slug };
+    });
+    const badges = prepareEngagement("thoughts", meta);
     grid.innerHTML = thoughts.map((t, i) => {
       const date = t.date ? new Date(t.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "";
-      // Priority: on-site .md post > external URL > no button
-      const slug = (t.mdFile || "").replace(/\.md$/i, "").replace(/[^a-zA-Z0-9\-_]/g, "");
+      const slug = meta[i].slug, key = "thoughts:" + meta[i].id;
       let linkHtml = "";
       if (slug) {
         linkHtml = '<a class="card__link" href="post.html?p=' + encodeURIComponent(slug) + '">Read <svg class="ico" width="15" height="15"><use href="#i-arrow"/></svg></a>';
@@ -154,9 +368,11 @@
       }
       return '<article class="thought card-surface reveal" data-anim="zoom" data-delay="' + (i % 3) + '">' +
         '<span class="thought__tag"><svg width="17" height="17" style="color:#fff"><use href="#i-pen"/></svg></span>' +
+        '<div class="card__badges" data-badges="' + esc(key) + '">' + pillsHtml(badges[key]) + '</div>' +
         '<div class="thought__meta">' + (date ? '<span>' + esc(date) + '</span>' : "") + (t.readTime ? '<span>' + esc(t.readTime) + '</span>' : "") + '</div>' +
         '<h3>' + esc(t.title) + '</h3><p>' + esc(t.excerpt || "") + '</p>' +
         linkHtml +
+        engageBar("thoughts", meta[i].id) +
       '</article>';
     }).join("");
   }
@@ -220,6 +436,37 @@
   }
 
   const empty = (msg) => '<p style="color:var(--ink-faint); font-size:15px; grid-column:1/-1;">' + esc(msg) + '</p>';
+
+  // Site-wide visitor counter. Static hosting has no backend, so this uses the keyless
+  // counterapi.dev service. Each browser increments once (localStorage flag) so the number
+  // approximates unique people; returning visitors just read the live total.
+  async function renderVisitorCount() {
+    const el = $("visitor-count"), wrap = $("visitors");
+    if (!el) return;
+    if (window.__cwPreview) { if (wrap) wrap.style.display = "none"; return; }
+    const BASE = "https://api.counterapi.dev/v1/aruntejakamisetti-portfolio/home-visits";
+    const FLAG = "cw:visited:v1";
+    let counted = false;
+    try { counted = !!localStorage.getItem(FLAG); } catch (e) {}
+    try {
+      const res = await fetch(BASE + (counted ? "/" : "/up"), { cache: "no-store" });
+      if (!res.ok) throw new Error("counter " + res.status);
+      const data = await res.json();
+      const n = data && typeof data.count === "number" ? data.count : null;
+      if (n == null) throw new Error("no count");
+      if (!counted) { try { localStorage.setItem(FLAG, "1"); } catch (e) {} }
+      animateCount(el, n);
+    } catch (e) {
+      if (wrap) wrap.style.display = "none"; // service unreachable — hide rather than show a broken count
+    }
+  }
+
+  function animateCount(el, target) {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) { el.textContent = target.toLocaleString(); return; }
+    let cur = 0; const inc = Math.max(1, Math.round(target / 30));
+    const tick = () => { cur = Math.min(target, cur + inc); el.textContent = cur.toLocaleString(); if (cur < target) requestAnimationFrame(() => setTimeout(tick, 24)); };
+    tick();
+  }
 
   async function renderGitHub(username) {
     const grid = $("gh-grid"), legend = $("gh-legend");
@@ -341,7 +588,8 @@
       renderContact(c.contact, c.meta);
       renderGitHub(((c.meta && c.meta.social && c.meta.social.github) || "").replace(/.*github\.com\//, "").replace(/\/$/, "") || "ArunTejaKamisetti");
     }
-    wireReveal(); wireCountUp();
+    wireReveal(); wireCountUp(); wireEngagement(); observeEngagement();
+    renderVisitorCount();
     setTimeout(wireAutoScroll, 800);
     if (window.KaiCompanion) window.KaiCompanion.init(c || {});
   }
