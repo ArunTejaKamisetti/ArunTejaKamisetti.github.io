@@ -24,13 +24,13 @@
 
   // ===== Engagement: views / likes / shares (GLOBAL counts) =====
   // Static site (GitHub Pages) — no backend of our own, so the shared counts live on the
-  // keyless counterapi.dev service (one counter per item per metric). Counters are pre-seeded
-  // (see scripts/seed-counters) to believable base numbers, so a card renders that number
-  // instantly, then the real global total is fetched + reconciled when the card scrolls in.
-  // Views count once per browser session; a "like" is one per browser (tracked locally) and
-  // toggles the global counter up/down.
+  // keyless counterapi.dev service (one counter per item per metric). Counts are REAL: every
+  // counter starts at zero and only moves on genuine activity. A card renders 0, then fetches
+  // the live global total when it scrolls into view. A view counts once per browser session;
+  // a "like" is one per browser (tracked locally) and toggles the global counter up/down.
   const ENGAGE = (function () {
     const NS = "https://api.counterapi.dev/v1/aruntejakamisetti-portfolio/";
+    const CV = "r1"; // counter-key version — bump to start every card counter fresh from zero
     const preview = !!window.__cwPreview;
     const SS_VIEW = "cw:viewed:v1", LS_LIKE = "cw:liked:v1";
     let viewed = {}, likedMap = {}, shareMeta = {}, cur = {};
@@ -39,11 +39,10 @@
     const saveViewed = () => { if (preview) return; try { sessionStorage.setItem(SS_VIEW, JSON.stringify(viewed)); } catch (e) {} };
     const saveLiked = () => { if (preview) return; try { localStorage.setItem(LS_LIKE, JSON.stringify(likedMap)); } catch (e) {} };
     function hash(str) { let h = 2166136261; str = String(str); for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
-    function seed(key) { const h = hash(key); return { v: 180 + (h % 1400), l: 12 + (Math.floor(h / 7) % 120), s: 3 + (Math.floor(h / 13) % 38) }; }
-    function ckey(key, metric) { return "c" + hash(key + ":" + metric).toString(36) + metric; } // short, URL-safe per-counter key
-    // local optimistic snapshot, seeded so a card shows a believable number before the network replies
+    function ckey(key, metric) { return "c" + hash(key + ":" + metric + ":" + CV).toString(36) + metric; } // short, URL-safe per-counter key
+    // local snapshot — starts at zero, filled in from the live global counters as they load
     function entry(key) {
-      if (!cur[key]) { const s = seed(key); cur[key] = { v: s.v, l: s.l, s: s.s }; }
+      if (!cur[key]) cur[key] = { v: 0, l: 0, s: 0 };
       cur[key].liked = !!likedMap[key];
       return cur[key];
     }
@@ -55,14 +54,14 @@
         .then((d) => (d && typeof d.count === "number") ? d.count : null);
     }
     return {
-      entry: entry, seed: seed, call: call,
+      entry: entry, call: call,
       isViewed: (k) => !!viewed[k], markViewed: (k) => { viewed[k] = 1; saveViewed(); },
       isLiked: (k) => !!likedMap[k], setLiked: (k, v) => { if (v) likedMap[k] = 1; else delete likedMap[k]; saveLiked(); },
       setMeta: (k, m) => { shareMeta[k] = m; }, meta: (k) => shareMeta[k] || { url: location.href, title: document.title }
     };
   })();
 
-  const BADGE = { v: { label: "Most Viewed", icon: "i-eye" }, l: { label: "Most Liked", icon: "i-heart-fill" }, s: { label: "Most Shared", icon: "i-share" } };
+  const AWARD = { v: { label: "Most viewed", icon: "i-eye" }, l: { label: "Most liked", icon: "i-heart-fill" }, s: { label: "Most shared", icon: "i-share" } };
   const SECTION_ITEMS = {}; // section -> [ids], so badges can recompute after counts change
   const DIRTY = new Set();  // "key:metric" the user has changed — a late sync read must not clobber it
 
@@ -71,7 +70,9 @@
   const setNum = (root, prop, val) => { const el = root.querySelector('.engage__n[data-n="' + prop + '"]'); if (el) el.textContent = fmtNum(val); };
   const setNumKey = (key, prop, val) => { const bar = barFor(key); if (bar) setNum(bar, prop, val); };
 
-  // Which items in a section currently top each metric -> { key: ["v","l"...] }
+  // Which item in a section is the *clear* leader for each metric -> { key: ["v","l"...] }.
+  // Requires a strict, unique leader with a non-zero count, so nothing is awarded on a tie
+  // (e.g. everything at 0, or several items tied at 1) — only on genuine standout activity.
   function computeBadges(section) {
     const ids = SECTION_ITEMS[section] || [];
     if (ids.length < 2) return {};
@@ -79,13 +80,13 @@
     const stats = keys.map((k) => ENGAGE.entry(k));
     const map = {};
     ["v", "l", "s"].forEach((prop) => {
-      let bi = 0;
-      for (let i = 1; i < stats.length; i++) if (stats[i][prop] > stats[bi][prop]) bi = i;
-      if (stats[bi][prop] > 0) (map[keys[bi]] = map[keys[bi]] || []).push(prop);
+      let max = -1, bi = -1, tie = false;
+      stats.forEach((s, i) => { const val = s[prop] || 0; if (val > max) { max = val; bi = i; tie = false; } else if (val === max) { tie = true; } });
+      if (bi >= 0 && max > 0 && !tie) (map[keys[bi]] = map[keys[bi]] || []).push(prop);
     });
     return map;
   }
-  const pillsHtml = (list) => (list || []).map((p) => '<span class="badge badge--' + p + '"><svg class="ico"><use href="#' + BADGE[p].icon + '"/></svg>' + BADGE[p].label + '</span>').join("");
+  const awardsHtml = (list) => (list || []).map((p) => '<span class="award award--' + p + '" data-label="' + AWARD[p].label + '" title="' + AWARD[p].label + '" aria-label="' + AWARD[p].label + '"><svg class="ico"><use href="#' + AWARD[p].icon + '"/></svg></span>').join("");
 
   // Engagement bar for one card — rendered with the instant seed value (synced later).
   function engageBar(section, id) {
@@ -112,13 +113,13 @@
     }
   }
 
-  // Recompute + repaint the "Most …" badge pills for the whole section a key belongs to.
+  // Recompute + repaint the corner award medallions for the whole section a key belongs to.
   function refreshBadges(section) {
     const map = computeBadges(section);
     (SECTION_ITEMS[section] || []).forEach((id) => {
       const k = section + ":" + id;
-      const box = document.querySelector('.card__badges[data-badges="' + cssAttr(k) + '"]');
-      if (box) box.innerHTML = pillsHtml(map[k]);
+      const box = document.querySelector('.card__awards[data-badges="' + cssAttr(k) + '"]');
+      if (box) box.innerHTML = awardsHtml(map[k]);
     });
   }
 
@@ -193,8 +194,8 @@
     } else { fallbackCopy(m.url); count(); flash(); }
   }
 
-  // Register ids + share targets for a section. Returns the per-key badge map (from seeds)
-  // for inline render; real counts + badges refine as cards sync into view.
+  // Register ids + share targets for a section. Returns the per-key award map (empty at first,
+  // since counts start at zero); real counts + awards fill in as cards sync into view.
   function prepareEngagement(section, items) {
     SECTION_ITEMS[section] = items.map((it) => it.id);
     const origin = (location.origin && location.origin !== "null") ? location.origin : "";
@@ -205,7 +206,7 @@
       if (!url) url = base + "#" + it.anchor;          // no dedicated link -> deep-link to the section
       else if (!/^https?:/i.test(url)) url = base + url; // make on-site relative links absolute to share
       ENGAGE.setMeta(key, { title: it.title, url: url });
-      ENGAGE.entry(key); // ensure seeded so computeBadges has values
+      ENGAGE.entry(key); // ensure present so computeBadges has an entry
     });
     return computeBadges(section);
   }
@@ -305,9 +306,9 @@
         linkHtml = '<a class="card__link" href="' + esc(link) + '" ' + (/^https?:/.test(link) ? 'target="_blank" rel="noopener"' : "") + '>' + linkLabel + ' <svg class="ico" width="15" height="15"><use href="#i-arrow"/></svg></a>';
       }
       return '<article class="card card-surface reveal" data-anim="' + (i % 2 ? "right" : "left") + '" data-delay="' + (i % 3) + '">' +
+        '<div class="card__awards" data-badges="' + esc(key) + '">' + awardsHtml(badges[key]) + '</div>' +
         '<span class="card__num">0' + (i + 1) + '</span>' +
         '<div class="card__icon">' + svgico(p.icon) + '</div>' +
-        '<div class="card__badges" data-badges="' + esc(key) + '">' + pillsHtml(badges[key]) + '</div>' +
         '<span class="card__cat">' + esc(p.category || "Project") + '</span>' +
         '<h3 class="card__title">' + esc(p.title) + '</h3>' +
         '<p class="card__summary">' + esc(p.summary || "") + '</p>' +
@@ -338,9 +339,9 @@
       const tags = (d.tags && d.tags.length) ? '<div class="card__tags">' + d.tags.map((t) => '<span>' + esc(t) + '</span>').join("") + '</div>' : "";
       const openLink = isFile ? '<a class="card__link" href="' + esc(src) + '" target="_blank" rel="noopener">Open deck <svg class="ico" width="15" height="15"><use href="#i-arrow"/></svg></a>' : "";
       return '<article class="deck card-surface reveal" data-anim="' + (i % 2 ? "right" : "left") + '">' +
+        '<div class="card__awards" data-badges="' + esc(key) + '">' + awardsHtml(badges[key]) + '</div>' +
         '<div class="deck__frame">' + frame + '</div>' +
         '<div class="deck__body">' +
-          '<div class="card__badges" data-badges="' + esc(key) + '">' + pillsHtml(badges[key]) + '</div>' +
           '<h3>' + esc(d.title) + '</h3><p>' + esc(d.description || "") + '</p>' + tags + openLink +
           engageBar("decks", meta[i].id) +
         '</div>' +
@@ -367,8 +368,8 @@
         linkHtml = '<a class="card__link" href="' + esc(t.url) + '" ' + (/^https?:/.test(t.url) ? 'target="_blank" rel="noopener"' : "") + '>Read <svg class="ico" width="15" height="15"><use href="#i-arrow"/></svg></a>';
       }
       return '<article class="thought card-surface reveal" data-anim="zoom" data-delay="' + (i % 3) + '">' +
+        '<div class="card__awards" data-badges="' + esc(key) + '">' + awardsHtml(badges[key]) + '</div>' +
         '<span class="thought__tag"><svg width="17" height="17" style="color:#fff"><use href="#i-pen"/></svg></span>' +
-        '<div class="card__badges" data-badges="' + esc(key) + '">' + pillsHtml(badges[key]) + '</div>' +
         '<div class="thought__meta">' + (date ? '<span>' + esc(date) + '</span>' : "") + (t.readTime ? '<span>' + esc(t.readTime) + '</span>' : "") + '</div>' +
         '<h3>' + esc(t.title) + '</h3><p>' + esc(t.excerpt || "") + '</p>' +
         linkHtml +
