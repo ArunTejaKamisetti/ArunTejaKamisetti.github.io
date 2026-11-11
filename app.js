@@ -482,32 +482,47 @@
       $("gh-total").textContent = "GitHub graph shows on the live site";
       return;
     }
-    try {
-      const res = await fetch("https://github-contributions-api.deno.dev/" + encodeURIComponent(username) + ".json");
-      if (!res.ok) throw new Error("gh api");
-      const data = await res.json();
-      let weeks = data.contributions || [];
-      if (!weeks.length) throw new Error("empty");
-      // show the FULL year so the count matches GitHub and the grid fills the card
-      const max = Math.max(1, ...weeks.flat().map((d) => d.contributionCount || 0));
-      let html = "";
-      weeks.forEach((week, col) => {
-        week.forEach((d) => {
-          const cnt = d.contributionCount || 0;
-          const dow = new Date(d.date + "T00:00:00").getDay();
-          let lvl = 0; if (cnt > 0) lvl = Math.min(4, Math.ceil((cnt / max) * 4));
-          html += '<span class="cell" style="grid-column:' + (col + 1) + ';grid-row:' + (dow + 1) + ';background:' + shades[lvl] + '" title="' + d.date + ': ' + cnt + ' contributions"></span>';
+    // Source 1: same-origin contributions.json (refreshed daily by .github/workflows/contributions.yml)
+    // Source 2: public jogruber API as a fallback. (The old deno.dev API went offline -> blank graph.)
+    const sources = [
+      { url: "contributions.json?d=" + new Date().toISOString().slice(0, 10), map: (d) => d },
+      { url: "https://github-contributions-api.jogruber.de/v4/" + encodeURIComponent(username) + "?y=last",
+        map: (d) => {
+          const days = (d.contributions || []).map((x) => ({ date: x.date, contributionCount: x.count, level: x.level }));
+          const weeks = []; let cur = [];
+          days.forEach((x) => { if (new Date(x.date + "T00:00:00").getDay() === 0 && cur.length) { weeks.push(cur); cur = []; } cur.push(x); });
+          if (cur.length) weeks.push(cur);
+          return { contributions: weeks, totalContributions: d.total ? d.total.lastYear : undefined };
+        } }
+    ];
+    for (const src of sources) {
+      try {
+        const res = await fetch(src.url, { cache: "no-cache" });
+        if (!res.ok) throw new Error("gh api");
+        const data = src.map(await res.json());
+        const weeks = data.contributions || [];
+        if (!weeks.length) throw new Error("empty");
+        const max = Math.max(1, ...weeks.flat().map((d) => d.contributionCount || 0));
+        let html = "";
+        weeks.forEach((week, col) => {
+          week.forEach((d) => {
+            const cnt = d.contributionCount || 0;
+            const dow = new Date(d.date + "T00:00:00").getDay();
+            // prefer GitHub's own intensity level so the grid matches the profile exactly
+            let lvl = (typeof d.level === "number") ? d.level : (cnt > 0 ? Math.min(4, Math.ceil((cnt / max) * 4)) : 0);
+            html += '<span class="cell" style="grid-column:' + (col + 1) + ';grid-row:' + (dow + 1) + ';background:' + shades[lvl] + '" title="' + d.date + ': ' + cnt + ' contribution' + (cnt === 1 ? "" : "s") + '"></span>';
+          });
         });
-      });
-      grid.innerHTML = html;
-      const total = (typeof data.totalContributions === "number") ? data.totalContributions : weeks.flat().reduce((s, d) => s + (d.contributionCount||0), 0);
-      $("gh-total").textContent = total.toLocaleString() + " contributions in the last year";
-      return;
-    } catch (e) { /* placeholder */ }
+        grid.innerHTML = html;
+        const total = (typeof data.totalContributions === "number") ? data.totalContributions : weeks.flat().reduce((s, d) => s + (d.contributionCount || 0), 0);
+        $("gh-total").textContent = total.toLocaleString() + " contributions in the last year";
+        return;
+      } catch (e) { /* try next source */ }
+    }
     let html = "";
     for (let i = 0; i < 53 * 7; i++) { html += '<span class="cell" style="grid-column:' + (Math.floor(i/7)+1) + ';grid-row:' + ((i%7)+1) + '"></span>'; }
     grid.innerHTML = html;
-    $("gh-total").textContent = "Live contribution graph loads when hosted";
+    $("gh-total").textContent = "Contribution graph unavailable right now";
   }
 
   // Gentle auto-scroll for the card rows. Pauses on hover/touch/manual scroll, loops seamlessly.
