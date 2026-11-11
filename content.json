@@ -8,7 +8,7 @@
       "MANAGER"
     ],
     "tagline": "I build AI products people can actually trust.",
-    "subtagline": "CSE grad and ex-Sandvine engineer, now an aspiring AI PM at IIM Kozhikode. I evaluate models, ship 0 to 1, and care most about outcomes — not output.",
+    "subtagline": "IIM Kozhikode PGP student and aspiring AI PM. I evaluate models and ship 0 to 1, and I care most about outcomes, not output. Before this: CSE grad and SE II.",
     "location": "IIM Kozhikode, India",
     "email": "arunteja2000@gmail.com",
     "resumeUrl": "assets/Arun_Teja_Kamisetti_Resume.pdf",
@@ -22,12 +22,11 @@
     "funFacts": [
       "District & state-level quiz champion in school — I still chase a hard question.",
       "Represented my school basketball team; I still hoop, plus badminton and football.",
-      "My brother is doing his MBA at IIM Calcutta while I'm at IIM Kozhikode — a friendly Holy Trinity rivalry.",
+      "My brother is doing his MBA at IIM Calcutta while I'm at IIM Kozhikode — a friendly rivalry.",
       "Big Telugu cinema buff and an anime watcher across genres.",
       "Core committee at Rotaract Club, BMSCE — led a bunch of goodwill events.",
       "Interned at Fidelity and Samsung R&D before my Sandvine engineering stint.",
-      "I funneled ~220 small language models down to the one that actually fit.",
-      "I declined a PPO to go all-in on becoming an AI PM at a frontier lab."
+      "I funneled ~220 small language models down to the one that actually fit."
     ],
     "quote": "Strong opinions, loosely held — show me a sound argument and I'll change my mind fast.",
     "aiQuotes": [
@@ -40,7 +39,7 @@
   },
   "about": {
     "heading": "About me",
-    "body": "Hi, I'm Arun. I'm a CSE grad (BMSCE '22) who spent ~2 years as a software engineer at Sandvine, with earlier internships at Fidelity Investments and Samsung R&D. A layoff turned into a gap year — I used it to crack CAT and land at IIM Kozhikode. At my Wipro Consulting internship I evaluated ~220 small language models down to one and shipped a 0 to 1 BRD. Then I made the deliberate bet: I declined a pre-placement offer to chase becoming an AI Product Manager at a frontier lab. I think like an engineer, decide like a PM, and obsess over outcomes. I'm an ambivert — shy in new rooms, all-in once I'm comfortable — a critical thinker who'll happily change his mind for a better argument. Off the clock: anime, Telugu cinema, basketball, and trying new things.",
+    "body": "I’m Arun, a PGP student at IIM Kozhikode who started as an engineer and now works on the question behind the code: what’s worth building, and for whom? I studied CSE at BMSCE, worked as an SE II, and interned at Samsung R&D and Fidelity Investments. At Wipro Consulting, I evaluated ~220 small language models for a single use case and wrote a 0-to-1 BRD. Alongside my studies, I build agentic AI systems and take on case competitions, and I was a National Semi-Finalist at the Tata Imagination Challenge 2025 and at The Ken Case Competition (top 7% among 6,000+ teams). Engineer by training, strategist by habit, and I care about outcomes, not output.",
     "highlights": [
       {
         "label": "Now",
@@ -49,17 +48,17 @@
       },
       {
         "label": "Before",
-        "value": "SWE @ Sandvine · CSE @ BMSCE '22",
+        "value": "SWE II @ Sandvine · CSE @ BMSCE '22",
         "icon": "ti-code"
       },
       {
         "label": "Recently",
-        "value": "Applied-AI intern @ Wipro Consulting",
+        "value": "Consulting Intern @ Wipro Consulting, TMT",
         "icon": "ti-flask"
       },
       {
         "label": "Goal",
-        "value": "AI PM @ a frontier lab (Anthropic / OpenAI / Google)",
+        "value": "AI Product Manager/Consultant",
         "icon": "ti-target-arrow"
       }
     ]
