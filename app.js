@@ -475,17 +475,17 @@
     const shades = ["var(--cell-empty,#e6dac8)", "#FFC9A8", "#FF9D5C", "#FF6A2B", "#C9461A"];
     legend.innerHTML = shades.map((c) => '<span class="cell" style="background:' + c + '"></span>').join("");
     if (!username) return;
-    // In the admin live-preview, skip the network call (it's sandboxed) and show a neutral placeholder
-    if (window.__cwPreview) {
+    const placeholder = (msg) => {
       let ph = ""; for (let i = 0; i < 53 * 7; i++) ph += '<span class="cell" style="grid-column:' + (Math.floor(i/7)+1) + ';grid-row:' + ((i%7)+1) + '"></span>';
-      grid.innerHTML = ph;
-      $("gh-total").textContent = "GitHub graph shows on the live site";
-      return;
-    }
-    // Source 1: same-origin contributions.json (refreshed daily by .github/workflows/contributions.yml)
-    // Source 2: public jogruber API as a fallback. (The old deno.dev API went offline -> blank graph.)
+      grid.innerHTML = ph; $("gh-total").textContent = msg;
+    };
+    // Three sources, fetched in PARALLEL. Whichever is freshest wins:
+    //  1. contrib-data branch (refreshed by .github/workflows/contributions.yml every ~2h + on every push)
+    //  2. jogruber public API (live-ish, ~1h cache) — independent backup
+    //  3. contributions.json on main (old snapshot — last resort, also works offline / in admin preview)
+    const bust = "?t=" + Math.floor(Date.now() / 300000); // new URL every 5 min -> never a stale browser cache
     const sources = [
-      { url: "contributions.json?d=" + new Date().toISOString().slice(0, 10), map: (d) => d },
+      { url: "https://raw.githubusercontent.com/" + encodeURIComponent(username) + "/" + encodeURIComponent(username) + ".github.io/contrib-data/contributions.json" + bust, map: (d) => d },
       { url: "https://github-contributions-api.jogruber.de/v4/" + encodeURIComponent(username) + "?y=last",
         map: (d) => {
           const days = (d.contributions || []).map((x) => ({ date: x.date, contributionCount: x.count, level: x.level }));
@@ -493,36 +493,55 @@
           days.forEach((x) => { if (new Date(x.date + "T00:00:00").getDay() === 0 && cur.length) { weeks.push(cur); cur = []; } cur.push(x); });
           if (cur.length) weeks.push(cur);
           return { contributions: weeks, totalContributions: d.total ? d.total.lastYear : undefined };
-        } }
+        } },
+      { url: "contributions.json" + bust, map: (d) => d }
     ];
-    for (const src of sources) {
-      try {
-        const res = await fetch(src.url, { cache: "no-cache" });
-        if (!res.ok) throw new Error("gh api");
-        const data = src.map(await res.json());
-        const weeks = data.contributions || [];
-        if (!weeks.length) throw new Error("empty");
-        const max = Math.max(1, ...weeks.flat().map((d) => d.contributionCount || 0));
-        let html = "";
-        weeks.forEach((week, col) => {
-          week.forEach((d) => {
-            const cnt = d.contributionCount || 0;
-            const dow = new Date(d.date + "T00:00:00").getDay();
-            // prefer GitHub's own intensity level so the grid matches the profile exactly
-            let lvl = (typeof d.level === "number") ? d.level : (cnt > 0 ? Math.min(4, Math.ceil((cnt / max) * 4)) : 0);
-            html += '<span class="cell" style="grid-column:' + (col + 1) + ';grid-row:' + (dow + 1) + ';background:' + shades[lvl] + '" title="' + d.date + ': ' + cnt + ' contribution' + (cnt === 1 ? "" : "s") + '"></span>';
-          });
+    // freshness = (last day in the calendar, total). Later day wins; same day -> higher total wins.
+    const score = (data) => {
+      const days = (data.contributions || []).flat();
+      const last = days.length ? days[days.length - 1].date : "";
+      const total = (typeof data.totalContributions === "number") ? data.totalContributions : days.reduce((s, d) => s + (d.contributionCount || 0), 0);
+      return { last, total };
+    };
+    let best = null;
+    const draw = (data) => {
+      const weeks = data.contributions || [];
+      const max = Math.max(1, ...weeks.flat().map((d) => d.contributionCount || 0));
+      let html = "";
+      weeks.forEach((week, col) => {
+        week.forEach((d) => {
+          const cnt = d.contributionCount || 0;
+          const dow = new Date(d.date + "T00:00:00").getDay();
+          // prefer GitHub's own intensity level so the grid matches the profile exactly
+          const lvl = (typeof d.level === "number") ? d.level : (cnt > 0 ? Math.min(4, Math.ceil((cnt / max) * 4)) : 0);
+          html += '<span class="cell" style="grid-column:' + (col + 1) + ';grid-row:' + (dow + 1) + ';background:' + shades[lvl] + '" title="' + d.date + ': ' + cnt + ' contribution' + (cnt === 1 ? "" : "s") + '"></span>';
         });
-        grid.innerHTML = html;
-        const total = (typeof data.totalContributions === "number") ? data.totalContributions : weeks.flat().reduce((s, d) => s + (d.contributionCount || 0), 0);
-        $("gh-total").textContent = total.toLocaleString() + " contributions in the last year";
-        return;
-      } catch (e) { /* try next source */ }
+      });
+      grid.innerHTML = html;
+      const sc = score(data);
+      $("gh-total").textContent = sc.total.toLocaleString() + " contributions in the last year";
+      if (data.updated) $("gh-total").title = "Updated " + data.updated.replace("T", " ").replace("Z", " UTC");
+    };
+    const load = async () => {
+      await Promise.allSettled(sources.map(async (src) => {
+        const res = await fetch(src.url, { cache: "no-store" });
+        if (!res.ok) throw new Error("gh " + res.status);
+        const data = src.map(await res.json());
+        if (!(data.contributions || []).length) throw new Error("empty");
+        const sc = score(data);
+        if (!best || sc.last > best.last || (sc.last === best.last && sc.total > best.total)) { best = sc; draw(data); }
+      }));
+    };
+    await load();
+    if (!best) placeholder(window.__cwPreview ? "GitHub graph shows on the live site" : "Contribution graph unavailable right now");
+    // keep it current for long-open tabs: re-check when the tab comes back after 10+ minutes
+    if (!window.__cwPreview && !renderGitHub._wired) {
+      renderGitHub._wired = true;
+      let lastLoad = Date.now();
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible" && Date.now() - lastLoad > 600000) { lastLoad = Date.now(); load(); }
+      });
     }
-    let html = "";
-    for (let i = 0; i < 53 * 7; i++) { html += '<span class="cell" style="grid-column:' + (Math.floor(i/7)+1) + ';grid-row:' + ((i%7)+1) + '"></span>'; }
-    grid.innerHTML = html;
-    $("gh-total").textContent = "Contribution graph unavailable right now";
   }
 
   // Gentle auto-scroll for the card rows. Pauses on hover/touch/manual scroll, loops seamlessly.

@@ -1,13 +1,18 @@
 name: Refresh GitHub contribution graph
+# Writes contributions.json to a separate data-only branch (contrib-data) instead of main.
+#  - no more bot commits on main  -> no merge conflicts / failed pushes from deploy.bat
+#  - no Pages rebuild needed       -> the site reads it straight from raw.githubusercontent.com
 on:
   schedule:
-    - cron: "17 3 * * *"   # daily
-  workflow_dispatch:
+    - cron: "23 */2 * * *"      # every ~2 hours (GitHub may delay scheduled runs)
   push:
-    branches: [main]
-    paths: [scripts/fetch_contributions.py]
+    branches: [main]            # every publish also refreshes the graph within ~1 min
+  workflow_dispatch:
 permissions:
   contents: write
+concurrency:
+  group: contrib-refresh
+  cancel-in-progress: true
 jobs:
   refresh:
     runs-on: ubuntu-latest
@@ -15,10 +20,17 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
-      - run: python3 scripts/fetch_contributions.py ArunTejaKamisetti
-      - name: Commit if changed
+      - name: Fetch calendar
         run: |
+          for i in 1 2 3; do python3 scripts/fetch_contributions.py ArunTejaKamisetti && break; sleep 20; done
+          test -s contributions.json
+      - name: Publish to contrib-data branch
+        run: |
+          mkdir -p /tmp/out && cp contributions.json /tmp/out/
+          cd /tmp/out
+          git init -q -b contrib-data
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add contributions.json
-          git diff --cached --quiet || (git commit -m "chore: refresh contribution graph" && git push)
+          git commit -qm "data: contribution graph $(date -u +%FT%TZ)"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" contrib-data

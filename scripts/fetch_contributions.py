@@ -45,7 +45,7 @@ m = re.search(r"([\d,]+)\s+contributions?\s+in the last year", re.sub(r"\s+", " 
 total = int(m.group(1).replace(",", "")) if m else sum(d["contributionCount"] for d in days)
 
 out = {"user": user, "totalContributions": total, "contributions": weeks,
-       "updated": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%MZ")}
+       "updated": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%MZ")}
 path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "contributions.json")
 with open(path, "w", encoding="utf-8") as f:
     json.dump(out, f, separators=(",", ":"))

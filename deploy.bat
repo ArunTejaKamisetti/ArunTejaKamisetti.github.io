@@ -12,6 +12,8 @@ git add -A
 set /p msg="Commit message (or press Enter for 'update'): "
 if "%msg%"=="" set msg=update
 git commit -m "%msg%"
+REM Pull any remote changes first so the push never gets rejected
+git pull --rebase --autostash
 git push
 echo.
 echo === Done! Your live site updates in about a minute. ===
