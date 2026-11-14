@@ -149,83 +149,108 @@
   "projects": [
     {
       "id": "cartis",
-      "title": "Cartis: agentic shopping assistant",
+      "title": "Cartis: AI shopping agent",
       "category": "AI product · Case competition",
       "icon": "ti-target-arrow",
-      "summary": "AI shopping agent: say what you need once, get three trusted picks. Built to cut returns.",
+      "summary": "Say what you need once, get three trusted picks. Fewer returns.",
       "metric": "Top 7% of 6,000+ teams",
       "tags": [
         "Product strategy",
-        "Customer discovery"
+        "Discovery",
+        "0 to 1"
       ],
       "type": "case-study",
       "link": "https://github.com/ArunTejaKamisetti/cartis",
       "mdFile": "cartis.md",
-      "details": "A buyer-side shopping agent for Indian shoppers: speak once, get three picks with the reasons. Review risk scoring, zero-form onboarding from order emails, and Pine Labs + Delhivery rails."
+      "details": "A buyer-side shopping agent for Indian shoppers: speak once, get three picks with the reasons. Review risk scoring, zero-form onboarding from order emails, and Pine Labs + Delhivery rails.",
+      "metrics": [
+        "Top 7% of 6,000+ teams",
+        "7+ API integrations"
+      ]
     },
     {
       "id": "agentic-ai-automation",
-      "title": "Agentic AI automation portfolio",
+      "title": "Agentic AI portfolio",
       "category": "Process redesign · AI",
       "icon": "ti-cpu",
-      "summary": "AI agents that take repetitive marketing and alumni work off people's plates, with human approval.",
-      "metric": "5 funnel stages automated",
+      "summary": "AI agents that run repetitive marketing and alumni work, with human sign-off.",
+      "metric": "5+ n8n agents",
       "tags": [
-        "Process improvement",
+        "Process redesign",
+        "Automation",
         "KPIs"
       ],
       "type": "case-study",
       "link": "https://github.com/ArunTejaKamisetti/agents_portfolio1",
       "mdFile": "agentic-ai-automation.md",
-      "details": "AlumniMatch (explainable 1:1 alumni invites), a multi-agent media assistant, an ad-script engine, a social publisher and a voice speed-to-lead agent."
+      "details": "AlumniMatch (explainable 1:1 alumni invites), a multi-agent media assistant, an ad-script engine, a social publisher and a voice speed-to-lead agent.",
+      "metrics": [
+        "5+ n8n agents",
+        "40+ tool integrations"
+      ]
     },
     {
       "id": "kampus-schedule",
       "title": "KampusSchedule",
       "category": "0 to 1 · Side project",
       "icon": "ti-school",
-      "summary": "One app replacing five campus tools for timetables, attendance, buses and meals. No sign-up.",
-      "metric": "5 tools → 1 app",
+      "summary": "One campus app for timetables, attendance, buses and meals. No sign-up.",
+      "metric": "500+ DAU",
       "tags": [
         "MVP",
-        "User research"
+        "User research",
+        "Retention"
       ],
       "type": "case-study",
       "link": "https://github.com/ArunTejaKamisetti/schedule-app",
       "mdFile": "kampus-schedule.md",
-      "details": "Syncs from the official timetable sheet, pushes alerts when a class changes, and finds common free time with friends."
+      "details": "Syncs from the official timetable sheet, pushes alerts when a class changes, and finds common free time with friends.",
+      "metrics": [
+        "500+ DAU",
+        "5 tools consolidated"
+      ]
     },
     {
       "id": "slm-evaluation",
       "title": "AI model due diligence",
       "category": "Consulting · Wipro",
       "icon": "ti-flask",
-      "summary": "Due diligence on ~220 AI models to pick the best fit for a client on cost, risk and value.",
+      "summary": "Picked the best-fit AI model for a client on cost, risk and value.",
       "metric": "93% projected cost savings",
       "tags": [
         "Due diligence",
-        "Cost-benefit"
+        "Cost-benefit",
+        "Responsible AI"
       ],
       "type": "case-study",
       "link": "#",
       "cover": "",
-      "details": "During my Wipro Consulting internship I owned the evaluation that took a field of ~220 small language models down to the one that actually fit the client's constraints. I built a scoring rubric across capability, latency, cost, and safety, ran structured comparisons, and designed a guardrails layer to keep outputs on-policy. The real lesson: picking a model is a product decision in disguise — the 'best' benchmark score loses to the model that fits the user, the budget, and the risk tolerance. The work unlocked 93% projected cost savings for the client."
+      "details": "During my Wipro Consulting internship I owned the evaluation that took a field of ~220 small language models down to the one that actually fit the client's constraints. I built a scoring rubric across capability, latency, cost, and safety, ran structured comparisons, and designed a guardrails layer to keep outputs on-policy. The real lesson: picking a model is a product decision in disguise — the 'best' benchmark score loses to the model that fits the user, the budget, and the risk tolerance. The work unlocked 93% projected cost savings for the client.",
+      "metrics": [
+        "93% projected cost savings",
+        "220+ models evaluated"
+      ]
     },
     {
       "id": "audience-brand-match",
       "title": "Audience Brand Match",
       "category": "0 to 1 · Wipro",
       "icon": "ti-target-arrow",
-      "summary": "Brand-to-ad match tool for TV ad sales teams, taken from a blank page to a full BRD.",
+      "summary": "Brand-to-ad match tool for TV ad sales, from blank page to BRD.",
       "metric": "USD 10 mn+ revenue upside",
       "tags": [
         "0 to 1",
-        "BRD"
+        "BRD",
+        "Market research"
       ],
       "type": "case-study",
       "link": "#",
       "cover": "",
-      "details": "A greenfield concept to match audiences with the right brands. I led discovery, framed the core problem and target users, and translated it into a complete Business Requirements Document — scope, user stories, success metrics, and a prioritized path to a first version. It sharpened how I cut a fuzzy idea into something a team can actually build. Sized at USD 10 mn+ revenue upside and 20% faster pitch prep for ad sales teams."
+      "details": "A greenfield concept to match audiences with the right brands. I led discovery, framed the core problem and target users, and translated it into a complete Business Requirements Document — scope, user stories, success metrics, and a prioritized path to a first version. It sharpened how I cut a fuzzy idea into something a team can actually build. Sized at USD 10 mn+ revenue upside and 20% faster pitch prep for ad sales teams.",
+      "metrics": [
+        "USD 10 mn+ revenue upside",
+        "20% faster pitch prep"
+      ]
     }
   ],
   "decks": [

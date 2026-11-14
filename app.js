@@ -321,7 +321,7 @@
         '<span class="card__cat">' + esc(p.category || "Project") + '</span>' +
         '<h3 class="card__title">' + esc(p.title) + '</h3>' +
         '<p class="card__summary">' + esc(p.summary || "") + '</p>' +
-        (p.metric ? '<span class="card__metric">' + svgico('ti-trending-up') + ' ' + esc(p.metric) + '</span>' : "") +
+        ((p.metrics && p.metrics.length) || p.metric ? '<div class="card__metrics">' + (p.metrics && p.metrics.length ? p.metrics : [p.metric]).map((m) => '<span class="card__metric">' + svgico('ti-trending-up') + ' ' + esc(m) + '</span>').join("") + '</div>' : "") +
         ((p.tags && p.tags.length) ? '<div class="card__tags">' + p.tags.map((t) => '<span>' + esc(t) + '</span>').join("") + '</div>' : "") +
         linkHtml +
         engageBar("work", meta[i].id) +
