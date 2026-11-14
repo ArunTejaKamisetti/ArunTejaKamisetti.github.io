@@ -242,7 +242,7 @@
       if (a.heading) $("about-title").innerHTML = '<span class="title-ic"><svg width="28" height="28"><use href="#i-user"/></svg></span>' + esc(a.heading);
       var ic = function(name, cls){ return '<span class="inline-ic ' + (cls||"") + '" aria-hidden="true">' + svgico(name) + '</span>'; };
       $("about-body").innerHTML = esc(a.body || "")
-        .replace(/(AI Product Manager|declined a pre-placement offer|outcomes|frontier lab)/g, "<strong>$1</strong>")
+        .replace(/(IIM Kozhikode|what’s worth building, and for whom\?|Samsung R&amp;D|Fidelity Investments|Wipro Consulting|~220 small language models|0-to-1 BRD|agentic AI systems|National Semi-Finalist|top 7% among 6,000\+ teams|AI Product Manager|declined a pre-placement offer|outcomes|frontier lab)/g, "<strong>$1</strong>")
         .replace(/software engineer/i, "software engineer " + ic("ti-code","sage"))
         .replace(/\banime\b/i, "anime " + ic("ti-movie","plum"))
         .replace(/basketball/i, "basketball " + ic("ti-ball-basketball","gold"));
@@ -291,7 +291,7 @@
     const meta = projects.map((p) => {
       const slug = (p.mdFile || "").replace(/\.md$/i, "").replace(/[^a-zA-Z0-9\-_]/g, "");
       const link = p.link && p.link !== "#" ? p.link : "";
-      const shareUrl = slug ? ("post.html?p=" + encodeURIComponent(slug)) : (/^https?:/.test(link) ? link : "");
+      const shareUrl = slug ? ("post.html?w=" + encodeURIComponent(slug)) : (/^https?:/.test(link) ? link : "");
       return { id: p.id || slugify(p.title), title: p.title, url: shareUrl, anchor: "projects", slug: slug, link: link };
     });
     const badges = prepareEngagement("work", meta);
@@ -299,13 +299,23 @@
       // Priority: on-site .md case study > external link (GitHub etc.) > no button
       const slug = meta[i].slug, link = meta[i].link, key = "work:" + meta[i].id;
       let linkHtml = "";
+      const arrow = ' <svg class="ico" width="15" height="15"><use href="#i-arrow"/></svg>';
+      const ext = (u) => /^https?:/.test(u) ? ' target="_blank" rel="noopener"' : "";
+      const linkLabel = /github\.com/.test(link) ? "GitHub" : (p.type === "deck" ? "View deck" : "View project");
+      let open = "", openKind = "";
       if (slug) {
-        linkHtml = '<a class="card__link" href="post.html?p=' + encodeURIComponent(slug) + '">Read case study <svg class="ico" width="15" height="15"><use href="#i-arrow"/></svg></a>';
+        open = "post.html?w=" + encodeURIComponent(slug); openKind = "page";
+        linkHtml = '<a class="card__link" href="' + open + '">Read case study' + arrow + '</a>';
+        if (link) linkHtml += '<a class="card__link card__link--gh" href="' + esc(link) + '"' + ext(link) + '>' + linkLabel + arrow + '</a>';
       } else if (link) {
-        const linkLabel = /github\.com/.test(link) ? "View on GitHub" : (p.type === "deck" ? "View deck" : "View project");
-        linkHtml = '<a class="card__link" href="' + esc(link) + '" ' + (/^https?:/.test(link) ? 'target="_blank" rel="noopener"' : "") + '>' + linkLabel + ' <svg class="ico" width="15" height="15"><use href="#i-arrow"/></svg></a>';
+        open = link; openKind = /^https?:/.test(link) ? "ext" : "page";
+        linkHtml = '<a class="card__link" href="' + esc(link) + '"' + ext(link) + '>' + linkLabel + arrow + '</a>';
+      } else if (p.details) {
+        openKind = "modal";
+        linkHtml = '<button type="button" class="card__link card__more" data-idx="' + i + '">Read more' + arrow + '</button>';
       }
-      return '<article class="card card-surface reveal" data-anim="' + (i % 2 ? "right" : "left") + '" data-delay="' + (i % 3) + '">' +
+      if (linkHtml) linkHtml = '<div class="card__links">' + linkHtml + '</div>';
+      return '<article class="card card-surface reveal is-clickable" tabindex="0" role="link" aria-label="' + esc(p.title) + '" data-open="' + esc(open) + '" data-open-kind="' + openKind + '" data-idx="' + i + '" data-anim="' + (i % 2 ? "right" : "left") + '" data-delay="' + (i % 3) + '">' +
         '<div class="card__awards" data-badges="' + esc(key) + '">' + awardsHtml(badges[key]) + '</div>' +
         '<span class="card__num">0' + (i + 1) + '</span>' +
         '<div class="card__icon">' + svgico(p.icon) + '</div>' +
@@ -317,7 +327,56 @@
         linkHtml +
         engageBar("work", meta[i].id) +
       '</article>';
-    }).join("");
+    }).join("");    wireCardOpen(grid, projects);
+  }
+
+  // Whole Work card opens its case study (or GitHub, or a details modal).
+  function wireCardOpen(grid, projects) {
+    if (grid._wired) { grid._projects = projects; return; }
+    grid._wired = true; grid._projects = projects;
+    const go = (card) => {
+      const kind = card.getAttribute("data-open-kind"), url = card.getAttribute("data-open");
+      const p = grid._projects[+card.getAttribute("data-idx")];
+      if (kind === "page" && url) location.href = url;
+      else if (kind === "ext" && url) window.open(url, "_blank", "noopener");
+      else if (p) openWorkModal(p);
+    };
+    grid.addEventListener("click", (ev) => {
+      const more = ev.target.closest(".card__more");
+      if (more) { ev.preventDefault(); const p = grid._projects[+more.getAttribute("data-idx")]; if (p) openWorkModal(p); return; }
+      if (ev.target.closest("a, button, .engage")) return;
+      const card = ev.target.closest(".card.is-clickable"); if (card) go(card);
+    });
+    grid.addEventListener("keydown", (ev) => {
+      if (ev.key !== "Enter" && ev.key !== " ") return;
+      const card = ev.target.closest && ev.target.closest(".card.is-clickable");
+      if (card && ev.target === card) { ev.preventDefault(); go(card); }
+    });
+  }
+
+  function openWorkModal(p) {
+    let m = document.getElementById("work-modal");
+    if (m) m.remove();
+    m = document.createElement("div");
+    m.id = "work-modal"; m.className = "wmodal"; m.setAttribute("role", "dialog"); m.setAttribute("aria-modal", "true");
+    const link = p.link && p.link !== "#" ? p.link : "";
+    m.innerHTML = '<div class="wmodal__box card-surface">' +
+      '<button type="button" class="wmodal__x" aria-label="Close">×</button>' +
+      '<span class="card__cat">' + esc(p.category || "Project") + '</span>' +
+      '<h3 class="wmodal__title">' + esc(p.title) + '</h3>' +
+      (p.metric ? '<span class="card__metric">' + svgico('ti-trending-up') + ' ' + esc(p.metric) + '</span>' : "") +
+      '<p class="wmodal__body">' + esc(p.details || p.summary || "") + '</p>' +
+      ((p.tags && p.tags.length) ? '<div class="card__tags">' + p.tags.map((t) => '<span>' + esc(t) + '</span>').join("") + '</div>' : "") +
+      (link ? '<a class="card__link" href="' + esc(link) + '" target="_blank" rel="noopener">Open link <svg class="ico" width="15" height="15"><use href="#i-arrow"/></svg></a>' : "") +
+    '</div>';
+    document.body.appendChild(m);
+    document.body.style.overflow = "hidden";
+    const close = () => { m.remove(); document.body.style.overflow = ""; document.removeEventListener("keydown", onKey); };
+    const onKey = (e) => { if (e.key === "Escape") close(); };
+    m.addEventListener("click", (e) => { if (e.target === m || e.target.closest(".wmodal__x")) close(); });
+    document.addEventListener("keydown", onKey);
+    requestAnimationFrame(() => m.classList.add("show"));
+    const x = m.querySelector(".wmodal__x"); if (x) x.focus();
   }
 
   function renderDecks(decks) {

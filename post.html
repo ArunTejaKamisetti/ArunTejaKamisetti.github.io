@@ -30,6 +30,10 @@
     .post-body code{font-family:'Space Mono',monospace;font-size:.88em;background:var(--cream-2);padding:2px 6px;border-radius:6px;}
     .post-body pre{background:var(--ink);color:var(--cream);padding:18px 20px;border-radius:14px;overflow:auto;margin:0 0 24px;}
     .post-body pre code{background:none;padding:0;color:inherit;}
+    .post-table{overflow-x:auto;margin:0 0 24px;}
+    .post-body table{width:100%;border-collapse:collapse;font-size:15px;border:2px solid var(--ink);border-radius:12px;}
+    .post-body th,.post-body td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top;}
+    .post-body th{background:var(--cream-2);font-weight:700;}
     .post-body hr{border:none;border-top:2px solid var(--line);margin:38px 0;}
     .post-body img{max-width:100%;border-radius:14px;border:2px solid var(--ink);margin:8px 0 24px;}
     .reader__err{font-size:17px;color:var(--ink-faint);}
@@ -97,6 +101,12 @@
         if(h){ closeList(); html.push("<h"+h[1].length+">"+inline(h[2])+"</h"+h[1].length+">"); continue; }
         if(/^>\s?/.test(ln)){ closeList(); html.push("<blockquote>"+inline(ln.replace(/^>\s?/,""))+"</blockquote>"); continue; }
         if(/^---+\s*$/.test(ln)){ closeList(); html.push("<hr/>"); continue; }
+        if(/^\s*\|.*\|\s*$/.test(ln)){ closeList();
+          var rows=[]; while(i<lines.length && /^\s*\|.*\|\s*$/.test(lines[i])){ rows.push(lines[i]); i++; } i--;
+          var cells=function(r){ return r.trim().replace(/^\|/,"").replace(/\|$/,"").split("|").map(function(c){return c.trim();}); };
+          var t='<div class="post-table"><table>'; var hasHead=rows.length>1 && /^\s*\|?[\s:\-|]+\|?\s*$/.test(rows[1]);
+          rows.forEach(function(r,ri){ if(hasHead && ri===1) return; var tag=(hasHead && ri===0)?"th":"td"; t+="<tr>"+cells(r).map(function(c){return "<"+tag+">"+inline(c)+"</"+tag+">";}).join("")+"</tr>"; });
+          html.push(t+"</table></div>"); continue; }
         var ol=ln.match(/^\s*\d+\.\s+(.*)$/);
         var ul=ln.match(/^\s*[-*]\s+(.*)$/);
         if(ol){ if(!listOrdered)closeList(); listOrdered=true; listBuf.push(ol[1]); continue; }
@@ -110,13 +120,15 @@
     }
 
     function qs(k){ var m=new RegExp("[?&]"+k+"=([^&]+)").exec(location.search); return m?decodeURIComponent(m[1]):""; }
-    var slug=qs("p").replace(/[^a-zA-Z0-9\-_]/g,""); // sanitize: filename only
+    var isWork=!!qs("w");
+    var slug=(qs("w")||qs("p")).replace(/[^a-zA-Z0-9\-_]/g,""); // sanitize: filename only
+    if(isWork){ var bk=document.querySelector(".reader__back"); if(bk){ bk.setAttribute("href","index.html#projects"); bk.innerHTML="&larr; Back to all work"; } }
     var body=document.getElementById("post-body");
     var metaEl=document.getElementById("post-meta");
     if(!slug){ body.innerHTML='<p class="reader__err">No post specified.</p>'; return; }
 
-    fetch("assets/thoughts/"+slug+".md",{cache:"no-store"})
-      .then(function(r){ if(!r.ok) throw new Error("not found"); return r.text(); })
+    var getMd=function(dir){ return fetch("assets/"+dir+"/"+slug+".md",{cache:"no-store"}).then(function(r){ if(!r.ok) throw new Error("not found"); return r.text(); }); };
+    (isWork ? getMd("work").catch(function(){ return getMd("thoughts"); }) : getMd("thoughts"))
       .then(function(text){
         // optional frontmatter: ---\ntitle: ..\ndate: ..\nreadTime: ..\n---
         var fm={}; var m=text.match(/^---\n([\s\S]*?)\n---\n?/);
@@ -132,7 +144,7 @@
         body.innerHTML=rendered;
       })
       .catch(function(){
-        body.innerHTML='<p class="reader__err">This post isn’t available yet. <a href="index.html#thoughts" style="color:var(--peach)">Go back to thoughts</a>.</p>';
+        body.innerHTML='<p class="reader__err">This post isn’t available yet. <a href="index.html#'+(isWork?"projects":"thoughts")+'" style="color:var(--peach)">Go back</a>.</p>';
       });
   })();
   </script>

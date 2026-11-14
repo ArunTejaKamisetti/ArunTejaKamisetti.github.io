@@ -74,55 +74,133 @@
   ],
   "skills": [
     {
-      "name": "AI product strategy",
-      "where": "Shaping product bets during my Wipro applied-AI work and self-study via the Anthropic architecture course."
+      "name": "Due diligence",
+      "where": "Built a 5-stage due diligence tool with a cost-benefit analysis of 200 AI models at Wipro Consulting (TMT), unlocking 93% projected cost savings."
     },
     {
-      "name": "Model & SLM evaluation",
-      "where": "Funneled ~220 small language models down to one at my Wipro Consulting internship."
+      "name": "Go-to-market strategy",
+      "where": "Led GTM in my PM internship at Whattamatch (Founder's Office), acquiring 500+ users in 3 months."
     },
     {
-      "name": "Guardrails & responsible AI",
-      "where": "Designed a guardrails layer to keep model outputs on-policy at Wipro."
+      "name": "Process redesign",
+      "where": "Redesigned an executive prep process at Wipro Consulting (TMT), cutting prep time by 85% and protecting USD 2 mn+ in projected ARR."
     },
     {
-      "name": "0 to 1 product thinking",
-      "where": "Took Audience Brand Match from a blank page to a complete BRD."
+      "name": "Customer discovery",
+      "where": "Ran 20+ customer interviews in my PM internship at Whattamatch (Founder's Office) that shaped 3+ shipped features."
     },
     {
-      "name": "BRDs & PRDs",
-      "where": "Wrote the full BRD for Audience Brand Match at Wipro."
+      "name": "Market research & benchmarking",
+      "where": "Benchmarked 7+ incumbents to find whitespace in the USD 120 bn+ TV ad sales market at Wipro Consulting (TMT)."
     },
     {
-      "name": "User research & empathy",
-      "where": "Framing target users and needs during product discovery at Wipro."
+      "name": "Competitive analysis",
+      "where": "Benchmarked 3+ rival platforms in my PM internship at Whattamatch (Founder's Office) to shape the founder's strategy."
     },
     {
-      "name": "Roadmapping & prioritization",
-      "where": "Prioritized scope and a path to v1 in the Audience Brand Match BRD."
+      "name": "Business case development",
+      "where": "Sized USD 10 mn+ revenue upside for a brand-to-ad match tool for ad sales teams at Wipro Consulting (TMT)."
     },
     {
-      "name": "Data analysis (SQL)",
-      "where": "Built on my CSE foundation and ~2 years engineering at Sandvine."
+      "name": "0 to 1 product development",
+      "where": "Shipped 3+ features end to end in my PM internship at Whattamatch (Founder's Office), and took Audience Brand Match from a blank page to a full BRD at Wipro."
     },
     {
-      "name": "Vibe coding / rapid prototyping",
-      "where": "Vibe-coded an electives & attendance tracker app at IIM K using Claude."
+      "name": "Persona mapping & segmentation",
+      "where": "Mapped 4 buyer personas for the TV ad sales opportunity at Wipro Consulting (TMT)."
+    },
+    {
+      "name": "KPIs & product analytics",
+      "where": "Owned the research-to-analytics loop in my PM internship at Whattamatch (Founder's Office); earlier documented 7+ KPIs at Sandvine."
+    },
+    {
+      "name": "Hypothesis-driven problem solving",
+      "where": "Framed explainable recommendations forecast to speed up opportunity spotting by 10% at Wipro Consulting (TMT)."
+    },
+    {
+      "name": "PRDs & BRDs",
+      "where": "Wrote the full BRD for Audience Brand Match at Wipro Consulting (TMT)."
+    },
+    {
+      "name": "Client deliverables & quality",
+      "where": "Kept 95% deliverable accuracy across 18 customer needs with a 10-check validation at Wipro Consulting (TMT)."
+    },
+    {
+      "name": "Roadmap prioritization",
+      "where": "Prioritized features from customer interviews in my PM internship at Whattamatch (Founder's Office), and a path to v1 for Audience Brand Match."
     },
     {
       "name": "Stakeholder management",
-      "where": "Working across client teams during consulting projects at Wipro."
+      "where": "Worked across client teams at Wipro Consulting (TMT); held a 4.0+/5 peer rating through my Sandvine tenure."
     },
     {
-      "name": "Critical thinking & problem-solving",
-      "where": "State-level quiz champion roots; the lens I bring to every product call."
+      "name": "Agile & sprint planning",
+      "where": "Kept a 95%+ story closure rate across 10+ releases in Scrum teams at Sandvine."
     },
     {
-      "name": "Go-to-market",
-      "where": "Studying GTM as part of my PGP at IIM Kozhikode and product self-learning."
+      "name": "AI product strategy",
+      "where": "Chose the right-fit model for a client use case at Wipro Consulting (TMT), and designed Cartis and KampusSchedule end to end."
+    },
+    {
+      "name": "Executive storytelling",
+      "where": "National Semi-Finalist at The Ken Case Competition (top 7% of 6,000+ teams) and the Tata Imagination Challenge 2025."
     }
   ],
   "projects": [
+    {
+      "id": "cartis",
+      "title": "Cartis: agentic shopping assistant",
+      "category": "0 to 1 Product · The Ken Case Competition",
+      "icon": "ti-target-arrow",
+      "summary": "Voice-first agent that turns one request into three explained picks. Built for The Ken's Great Rewiring 2026, where we were National Semi-Finalists (top 7% of 6,000+ teams).",
+      "metric": "30/30 tests · 3 explained picks",
+      "tags": [
+        "0 to 1",
+        "Agentic AI",
+        "Customer discovery",
+        "North Star"
+      ],
+      "type": "case-study",
+      "link": "https://github.com/ArunTejaKamisetti/cartis",
+      "mdFile": "cartis.md",
+      "details": "A buyer-side shopping agent for Indian shoppers: speak once, get three picks with the reasons. Review risk scoring, zero-form onboarding from order emails, and Pine Labs + Delhivery rails."
+    },
+    {
+      "id": "agentic-ai-automation",
+      "title": "Agentic AI automation portfolio",
+      "category": "Process redesign · Agentic AI",
+      "icon": "ti-cpu",
+      "summary": "Five agent systems that turn slow, manual marketing and alumni workflows into AI-first processes with a human in the loop, covering the full funnel.",
+      "metric": "5 agents · 280+ steps · 40+ integrations",
+      "tags": [
+        "Process improvement",
+        "Human-in-the-loop",
+        "KPIs",
+        "Value chain"
+      ],
+      "type": "case-study",
+      "link": "https://github.com/ArunTejaKamisetti/agents_portfolio1",
+      "mdFile": "agentic-ai-automation.md",
+      "details": "AlumniMatch (explainable 1:1 alumni invites), a multi-agent media assistant, an ad-script engine, a social publisher and a voice speed-to-lead agent."
+    },
+    {
+      "id": "kampus-schedule",
+      "title": "KampusSchedule",
+      "category": "0 to 1 Product · Side project",
+      "icon": "ti-school",
+      "summary": "A public web app that brings classes, attendance, buses, the mess menu and friends' schedules into one screen for IIM Kozhikode students.",
+      "metric": "172 tests · 1 app for 5 sources",
+      "tags": [
+        "MVP",
+        "User research",
+        "Prioritization",
+        "Retention"
+      ],
+      "type": "case-study",
+      "link": "https://github.com/ArunTejaKamisetti/schedule-app",
+      "mdFile": "kampus-schedule.md",
+      "details": "Syncs from the official timetable sheet, pushes alerts when a class changes, and finds common free time with friends."
+    },
     {
       "id": "slm-evaluation",
       "title": "SLM evaluation & guardrails",
@@ -156,23 +234,6 @@
       "link": "#",
       "cover": "",
       "details": "A greenfield concept to match audiences with the right brands. I led discovery, framed the core problem and target users, and translated it into a complete Business Requirements Document — scope, user stories, success metrics, and a prioritized path to a first version. It sharpened how I cut a fuzzy idea into something a team can actually build."
-    },
-    {
-      "id": "electives-tracker",
-      "title": "Electives & attendance tracker",
-      "category": "Built with Claude · Side project",
-      "icon": "ti-rocket",
-      "summary": "A small app I vibe-coded to fix a real pain at IIM K — tracking electives and attendance without the spreadsheet chaos.",
-      "metric": "Shipped · used by peers",
-      "tags": [
-        "Side project",
-        "Vibe coding",
-        "0 to 1"
-      ],
-      "type": "case-study",
-      "link": "#",
-      "cover": "",
-      "details": "Every term at B-school, elective bidding and attendance turn into spreadsheet chaos. I scratched my own itch and built a small tracker app — scoping the problem, designing the flow, and shipping it fast with AI-assisted coding. Being a CSE grad who can prototype means I can pressure-test an idea myself before asking anyone to build it."
     }
   ],
   "decks": [

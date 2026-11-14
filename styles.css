@@ -297,3 +297,19 @@ a{color:inherit;text-decoration:none;}
 .grid--cards,.grid--decks,.grid--thoughts{scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent);mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent);scroll-behavior:auto;}
 .grid--cards::-webkit-scrollbar,.grid--decks::-webkit-scrollbar,.grid--thoughts::-webkit-scrollbar{display:none;}
 /* keep a touch o
+/* ---- Work cards: whole card opens the case study ---- */
+.card.is-clickable{cursor:pointer;}
+.card.is-clickable:focus-visible{outline:3px solid var(--peach);outline-offset:3px;}
+.card__links{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin-top:auto;padding-top:6px;position:relative;z-index:1;}
+.card__links .card__link{margin:0;}
+button.card__link{background:none;border:0;padding:0;font:inherit;font-size:14px;font-weight:700;cursor:pointer;}
+.card__link--gh{color:var(--ink-soft);}
+/* details modal (cards without a case-study file) */
+.wmodal{position:fixed;inset:0;z-index:80;background:rgba(20,14,10,.45);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .2s var(--ease);}
+.wmodal.show{opacity:1;}
+.wmodal__box{position:relative;max-width:620px;width:100%;max-height:85vh;overflow:auto;padding:30px;display:flex;flex-direction:column;gap:12px;transform:translateY(10px);transition:transform .25s var(--ease);}
+.wmodal.show .wmodal__box{transform:none;}
+.wmodal__title{font-family:var(--font-display);font-size:24px;margin:0;color:var(--ink);}
+.wmodal__body{font-size:16px;line-height:1.75;color:var(--ink-soft);margin:0;}
+.wmodal__x{position:absolute;top:12px;right:14px;width:36px;height:36px;border-radius:50%;border:2px solid var(--ink);background:var(--surface);color:var(--ink);font-size:20px;line-height:1;cursor:pointer;}
+.wmodal__x:hover{background:var(--peach);color:#fff;border-color:var(--peach);}

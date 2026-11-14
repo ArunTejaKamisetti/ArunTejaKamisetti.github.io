@@ -39,20 +39,54 @@
   function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
   function chance(p){ return Math.random() < p; }
 
-  // Big, varied dialogue pools — general + per-section. Drawn via no-repeat bags.
+  // Kai speaks only in fun facts and quotes: no filler noises.
+  const PRODUCT_FACTS = [
+    "Fun fact: the product manager role traces back to a 1931 P&G memo by Neil McElroy proposing a 'Brand Man'.",
+    "Fun fact: Slack began as an internal chat tool for a video game called Glitch.",
+    "Fun fact: Instagram started as Burbn, a check-in app. The team cut everything except photos.",
+    "Fun fact: YouTube was first pitched as a video dating site.",
+    "Fun fact: Twitter grew out of Odeo, a podcasting company.",
+    "Fun fact: Amazon's 'two-pizza rule' says a team should be small enough to feed with two pizzas.",
+    "Fun fact: Gmail launched on April 1, 2004, and many people thought it was a prank."
+  ];
+  const CONSULTING_FACTS = [
+    "Fun fact: the MECE principle was popularised by Barbara Minto at McKinsey.",
+    "Fun fact: BCG's growth-share matrix was created by Bruce Henderson in 1970.",
+    "Fun fact: the 80/20 rule is named after Vilfredo Pareto, who noticed 20% of people owned 80% of Italy's land.",
+    "Fun fact: Michael Porter published his Five Forces framework in 1979."
+  ];
+  const TECH_FACTS = [
+    "Fun fact: the term 'artificial intelligence' was coined for the 1956 Dartmouth workshop.",
+    "Fun fact: the first computer 'bug' was a real moth found in Harvard's Mark II in 1947.",
+    "Fun fact: the word 'robot' comes from Karel Čapek's 1920 play R.U.R.",
+    "Fun fact: the 2017 paper 'Attention Is All You Need' introduced the Transformer behind today's LLMs.",
+    "Fun fact: Linus Torvalds wrote the first version of Git in about two weeks in 2005."
+  ];
+  const QUOTES = [
+    "“The essence of strategy is choosing what not to do.” — Michael Porter",
+    "“People don't want a quarter-inch drill. They want a quarter-inch hole.” — Theodore Levitt",
+    "“If you're not embarrassed by the first version of your product, you've launched too late.” — Reid Hoffman",
+    "“Your most unhappy customers are your greatest source of learning.” — Bill Gates",
+    "“Fall in love with the problem, not the solution.” — Uri Levine",
+    "“Make something people want.” — Paul Graham",
+    "“The best way to predict the future is to invent it.” — Alan Kay",
+    "“There is nothing so useless as doing efficiently that which should not be done at all.” — Peter Drucker"
+  ];
   const LINES = {
-    general: ["meow!","purr~","hi there 🐾","just vibing","oh, hello!","*stretches*","boop","hehe","✨","what're we building?","peekaboo","mrrp?","i like it here","*flops over*","zoomies incoming","tail wag","🐾","*blinks slowly*"],
-    work:    ["220 models? show-off 😼","ooh, shipping things","this one's solid","product brain go brrr","0 to 1, nice","measured outcomes 👀","i'd hire him","*nods approvingly*","big builder energy"],
-    decks:   ["slides! my favorite","*adjusts tiny glasses*","clean deck 📊","storytelling, huh","next slide please","ooh pretty charts","*pretends to take notes*"],
-    thoughts:["*curls up to read*","mmm, good thinking","*yawns* …cozy reads","deep thoughts 🐾","i'm listening…","*nods along*","wise words","*reads over your shoulder*","tell me more"],
-    github:  ["look at those squares!","green grass 🌱","commit streak 💪","proud of this one","busy little builder","*counts the dots*"],
-    contact: ["say hi to him! 💌","he replies fast, promise","go on, reach out ✨","good vibes only 💜","*hopeful eyes*","this is the part where you click","slide into that inbox 📨"],
-    hero:    ["welcome! 🐾","scroll on, friend","glad you're here ✨","let's explore"]
+    general:  PRODUCT_FACTS.concat(CONSULTING_FACTS, TECH_FACTS, QUOTES),
+    work:     PRODUCT_FACTS.concat(QUOTES.slice(0, 5)),
+    decks:    CONSULTING_FACTS.concat(QUOTES.slice(0, 2)),
+    thoughts: QUOTES.slice(),
+    github:   TECH_FACTS.slice(),
+    contact:  [],
+    hero:     QUOTES.slice()
   };
-  const bag = {};
-  Object.keys(LINES).forEach(k => bag[k] = makeBag(LINES[k]));
+  let bag = {};
+  function rebuildBags(){ bag = {}; Object.keys(LINES).forEach(k => { if (LINES[k].length) bag[k] = makeBag(LINES[k]); }); }
+  rebuildBags();
   const formBag = makeBag(FORM_LIST);
-  function line(section){ const k = LINES[section] ? section : "general"; return bag[k](); }
+  function line(section){ const k = bag[section] ? section : "general"; return bag[k](); }
+  const SAY_MS = 7000; // long enough to actually read a fact
 
   function build() {
     wrap = document.createElement("div");
@@ -158,37 +192,38 @@
     startBlink();
 
     // Pick ONE of several random "personalities" for this visit
+    const sec = forcedLine || "general";
     const routines = [
       // playful
-      () => { seq([["bounce","happy"],["wiggle","curious"],["spin","wow"]]); maybeSay(0.6, "general"); },
+      () => { seq([["bounce","happy"],["wiggle","curious"],["spin","wow"]]); maybeSay(1, sec); },
       // sleepy / yawn
-      () => { setMood("sleepy"); setTimeout(()=>{ bodyAnim("stretch"); setMood("yawn"); }, 500); setTimeout(()=>setMood("sleepy"), 1500); maybeSay(0.5, "general", ["*yawn*","so cozy…","five more minutes…","zzz…"]); },
+      () => { setMood("sleepy"); setTimeout(()=>{ bodyAnim("stretch"); setMood("yawn"); }, 500); setTimeout(()=>setMood("sleepy"), 1500); maybeSay(1, sec); },
       // curious tilt + look around
-      () => { bodyAnim("tilt"); setMood("curious"); setTimeout(()=>{ bodyAnim("nod"); setMood("happy"); }, 1200); maybeSay(0.6, "general"); },
+      () => { bodyAnim("tilt"); setMood("curious"); setTimeout(()=>{ bodyAnim("nod"); setMood("happy"); }, 1200); maybeSay(1, sec); },
       // happy float
-      () => { bodyAnim("float"); setTimeout(()=>bodyAnim("float"),1600); setMood("happy"); maybeSay(0.5, "general"); },
+      () => { bodyAnim("float"); setTimeout(()=>bodyAnim("float"),1600); setMood("happy"); maybeSay(1, sec); },
       // excited
-      () => { seq([["hop","wow"],["bounce","star"],["wiggle","happy"]]); maybeSay(0.7, "general"); }
+      () => { seq([["hop","wow"],["bounce","star"],["wiggle","happy"]]); maybeSay(1, sec); }
     ];
     pick(routines)();
 
     clearTimeout(hideTimer);
-    hideTimer=setTimeout(()=>{ if(!pinned) leave(); }, 4200+Math.random()*2600);
+    hideTimer=setTimeout(()=>{ if(!pinned) leave(); }, SAY_MS+1600);
   }
   function seq(steps){ steps.forEach((s,i)=> setTimeout(()=>{ if(!alive)return; bodyAnim(s[0]); setMood(s[1]); }, 400 + i*1100)); }
-  function maybeSay(p, section, custom){ if(chance(p)) setTimeout(()=>say(custom?pick(custom):line(section), 2200), 600+Math.random()*400); }
+  function maybeSay(p, section, custom){ if(chance(p)) setTimeout(()=>say(custom?pick(custom):line(section), SAY_MS), 600+Math.random()*400); }
 
   function leave(){ stopBlink(); poofAt(); wrap.style.opacity="0"; wrap.style.transform="scale(.3)"; setTimeout(()=>{ if(!pinned) wrap.style.display="none"; },380); }
 
-  function scheduleVisit(){ clearTimeout(visitTimer); visitTimer=setTimeout(()=>{ visit(); scheduleVisit(); }, 13000+Math.random()*14000); }
+  function scheduleVisit(){ clearTimeout(visitTimer); visitTimer=setTimeout(()=>{ visit(); scheduleVisit(); }, 60000+Math.random()*45000); }
 
   function celebrate(){
     pinned=true; clearTimeout(hideTimer); wrap.style.display="block";
     requestAnimationFrame(()=>{ wrap.style.opacity="1"; wrap.style.transform="scale(1)"; });
     setMood("love"); bodyAnim("spin"); poofAt(); startBlink();
     const pool=(CONTENT.funFacts||[]).slice(); if(CONTENT.quote) pool.push("“"+CONTENT.quote+"”");
-    say(pool.length?pick(pool):"meow! 🎉", 5500);
-    setTimeout(()=>{ pinned=false; leave(); }, 5600);
+    say(pool.length?pick(pool):line("general"), SAY_MS);
+    setTimeout(()=>{ pinned=false; leave(); }, SAY_MS+600);
   }
 
   // Clicking Kai: react with random mood + line, shapeshift, NOT a fixed sequence
@@ -202,10 +237,8 @@
     startBlink();
     if(clickCount>=6){ clickCount=0; celebrate(); return; }
     // randomised reactions; occasional special "easter" line
-    const pokeLines = ["meow!","purr~","hehe","that tickles!","boop back atcha","again? 🐾","mrrp!","✨","ok ok i'm awake","*giggles*"];
-    if(chance(0.12)) say(pick(["pet me more 💜","you found me 👀","secret: try the arrow keys ↑↑↓↓","i live in the margins"]), 1900);
-    else say(pick(pokeLines), 1400);
-    clearTimeout(hideTimer); hideTimer=setTimeout(()=>{ pinned=false; leave(); }, 3600);
+    say(line("general"), SAY_MS);
+    clearTimeout(hideTimer); hideTimer=setTimeout(()=>{ pinned=false; leave(); }, SAY_MS+600);
   }
 
   // ---- React to what section the pointer is over (desktop) ----
@@ -213,28 +246,27 @@
   // it stays surprising. Throttled so it doesn't spam.
   let reactCooldown = 0;
   const SECTION_REACT = {
-    contact: { moods:["star","love"], anim:["bounce","float"], p:0.85 },   // bright pleasing eyes
-    thoughts:{ moods:["sleepy","yawn","curious"], anim:["nod","stretch","tilt"], p:0.6 }, // nods / yawns
-    projects:{ moods:["wow","proud","curious"], anim:["wiggle","hop","nod"], p:0.55 },
-    decks:   { moods:["curious","happy"], anim:["tilt","nod"], p:0.5 },
-    github:  { moods:["proud","wow"], anim:["bounce","spin"], p:0.6 },
+    contact: { moods:["star","love"], anim:["bounce","float"], p:0.35 },   // bright pleasing eyes
+    thoughts:{ moods:["sleepy","yawn","curious"], anim:["nod","stretch","tilt"], p:0.2 }, // nods / yawns
+    projects:{ moods:["wow","proud","curious"], anim:["wiggle","hop","nod"], p:0.25 },
+    decks:   { moods:["curious","happy"], anim:["tilt","nod"], p:0.2 },
+    github:  { moods:["proud","wow"], anim:["bounce","spin"], p:0.2 },
     home:    { moods:["happy"], anim:["float"], p:0.3 }
   };
   function reactToSection(id){
     const cfg = SECTION_REACT[id]; if(!cfg) return;
     const now = Date.now();
-    if (now - reactCooldown < 3500) return;      // throttle
+    if (now - reactCooldown < 30000) return;      // throttle
     if (!chance(cfg.p)) { reactCooldown = now; return; } // sometimes ignore = stays random
     reactCooldown = now;
     if (pinned) return;
     // show Kai if hidden, then react
     const present = wrap && wrap.style.display !== "none" && wrap.style.opacity === "1";
-    if (!present) { visit(pick(cfg.moods)); }
-    else { setMood(pick(cfg.moods)); }
+    if (present) return;  // already talking: don't interrupt
+    visit(pick(cfg.moods), id === "projects" ? "work" : id);
     bodyAnim(pick(cfg.anim));
-    if (chance(0.55)) setTimeout(()=>say(line(id), 2400), 500);
     // linger a touch longer while you're in a section
-    clearTimeout(hideTimer); hideTimer=setTimeout(()=>{ if(!pinned) leave(); }, 4800+Math.random()*2000);
+    clearTimeout(hideTimer); hideTimer=setTimeout(()=>{ if(!pinned) leave(); }, SAY_MS+1600);
   }
 
   function wireSectionReactions(){
@@ -254,13 +286,17 @@
   function konami(){ const seq=["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"]; let i=0; document.addEventListener("keydown",(e)=>{ const k=e.key.length===1?e.key.toLowerCase():e.key; i=k===seq[i]?i+1:(k===seq[0]?1:0); if(i===seq.length){ i=0; celebrate(); } }); }
 
   function init(content){
-    if(content && content.meta){ CONTENT.funFacts=content.meta.funFacts||[]; CONTENT.quote=content.meta.quote||""; }
+    if(content && content.meta){ CONTENT.funFacts=content.meta.funFacts||[]; CONTENT.quote=content.meta.quote||"";
+      const about = CONTENT.funFacts.map(f => "About Arun: " + f);
+      LINES.contact = about.slice(); LINES.general = LINES.general.concat(about);
+      if (CONTENT.quote) LINES.thoughts.push("Arun's motto: “" + CONTENT.quote + "”");
+      rebuildBags(); }
     const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const tog=build(); setForm("cat"); setMood("happy");
     wrap.addEventListener("click",(e)=>{ e.stopPropagation(); onPoke(); });
-    tog.addEventListener("click",()=>{ visit(pick(["happy","star","love"])); say(pick(["hi! 🐾","you rang?","missed me?","here! ✨"]),2200); });
+    tog.addEventListener("click",()=>{ visit(pick(["happy","star","love"])); say(line("general"), SAY_MS); });
     if(!reduced){
-      setTimeout(()=>{ visit("happy", "hero"); scheduleVisit(); }, 4000);
+      setTimeout(()=>{ visit("happy", "hero"); scheduleVisit(); }, 9000);
       wireSectionReactions();
       konami();
     }
