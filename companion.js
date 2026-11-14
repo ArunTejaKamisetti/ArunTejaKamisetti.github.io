@@ -91,7 +91,7 @@
   function build() {
     wrap = document.createElement("div");
     wrap.id = "kai"; wrap.setAttribute("aria-hidden", "true");
-    wrap.style.cssText = "position:fixed;left:16px;top:50%;width:" + SIZE + "px;height:" + SIZE + "px;z-index:55;pointer-events:auto;cursor:pointer;opacity:0;transform:scale(.3);transition:opacity .35s var(--ease),transform .4s var(--ease);will-change:transform,opacity;display:none;";
+    wrap.style.cssText = "position:fixed;left:10px;top:50%;width:" + SIZE + "px;height:" + SIZE + "px;z-index:55;pointer-events:auto;cursor:pointer;opacity:0;transform:scale(.3);transition:opacity .35s var(--ease),transform .4s var(--ease);will-change:transform,opacity;display:none;";
     wrap.innerHTML = '<div id="kai-bubble"></div><div id="kai-body"><svg width="' + SIZE + '" height="' + SIZE + '" viewBox="0 0 104 104" id="kai-svg"><ellipse cx="52" cy="94" rx="18" ry="3.5" fill="#241B14" opacity="0.12"/><g id="kai-form"></g><g id="kai-face"></g></svg></div>';
     document.body.appendChild(wrap);
     svg = document.getElementById("kai-svg"); bodyEl = document.getElementById("kai-body");
@@ -164,7 +164,31 @@
 
   function poofAt(){ if(!wrap)return; const r=wrap.getBoundingClientRect(); const cx=r.left+r.width/2, cy=r.top+r.height/2; const cols=["#FF6A2B","#5FAE7E","#E8B24C","#7A5C8E","#7A5CFF","#fff"]; for(let i=0;i<16;i++){ const s=document.createElement("span"); s.className="kai-particle"; const a=(Math.PI*2*i)/16, d=28+Math.random()*34; s.style.cssText="position:fixed;left:"+cx+"px;top:"+cy+"px;width:9px;height:9px;border-radius:50%;background:"+cols[i%cols.length]+";z-index:57;pointer-events:none;"; s.style.setProperty("--dx",Math.cos(a)*d+"px"); s.style.setProperty("--dy",Math.sin(a)*d+"px"); document.body.appendChild(s); setTimeout(()=>s.remove(),760);} }
 
-  function randomTop(){ const vh=window.innerHeight; return Math.max(90, Math.min(vh-SIZE-90, vh*(0.3+Math.random()*0.4))); }
+  function randomTop(){ const vh=window.innerHeight; return Math.max(280, Math.min(vh-SIZE-40, vh*(0.45+Math.random()*0.35))); }
+  // Free space to the left of the page content. Kai only roams there, so he never covers anything.
+  function gutterWidth(){
+    const c = document.querySelector(".section .container") || document.querySelector(".container");
+    if (!c) return 0;
+    const pad = parseFloat(getComputedStyle(c).paddingLeft) || 0;
+    return c.getBoundingClientRect().left + pad;
+  }
+  const MIN_GUTTER = 170;
+  // Place Kai: in the left margin when it is wide enough; otherwise (only when the visitor summons him)
+  // tucked in the bottom-right corner above the summon button.
+  function placeKai(manual){
+    const g = gutterWidth();
+    const b = document.getElementById("kai-bubble");
+    if (g >= MIN_GUTTER) {
+      wrap.style.left = "10px"; wrap.style.right = "auto"; wrap.style.bottom = "auto";
+      wrap.style.top = randomTop() + "px";
+      if (b) { b.style.left = "0"; b.style.right = "auto"; b.style.maxWidth = Math.min(260, g - 22) + "px"; }
+      return true;
+    }
+    if (!manual) return false;
+    wrap.style.left = "auto"; wrap.style.right = "20px"; wrap.style.top = "auto"; wrap.style.bottom = "80px";
+    if (b) { b.style.left = "auto"; b.style.right = "0"; b.style.maxWidth = "240px"; }
+    return true;
+  }
 
   // Full-body animations — expanded set
   function bodyAnim(kind){
@@ -182,12 +206,12 @@
   }
 
   // A "visit": pop in (random form + spot), do a RANDOM little routine, leave.
-  function visit(forcedMood, forcedLine){
+  function visit(forcedMood, forcedLine, manual){
     if(!alive || pinned || document.visibilityState!=="visible") return;
+    if(!placeKai(manual)) return;
     setForm(formBag());
     setMood(forcedMood || "happy");
     wrap.style.display="block";
-    wrap.style.top = randomTop()+"px";
     requestAnimationFrame(()=>{ wrap.style.opacity="1"; wrap.style.transform="scale(1)"; poofAt(); });
     startBlink();
 
@@ -218,6 +242,7 @@
   function scheduleVisit(){ clearTimeout(visitTimer); visitTimer=setTimeout(()=>{ visit(); scheduleVisit(); }, 60000+Math.random()*45000); }
 
   function celebrate(){
+    placeKai(true);
     pinned=true; clearTimeout(hideTimer); wrap.style.display="block";
     requestAnimationFrame(()=>{ wrap.style.opacity="1"; wrap.style.transform="scale(1)"; });
     setMood("love"); bodyAnim("spin"); poofAt(); startBlink();
@@ -285,6 +310,7 @@
 
   function konami(){ const seq=["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"]; let i=0; document.addEventListener("keydown",(e)=>{ const k=e.key.length===1?e.key.toLowerCase():e.key; i=k===seq[i]?i+1:(k===seq[0]?1:0); if(i===seq.length){ i=0; celebrate(); } }); }
 
+  window.addEventListener("resize", () => { if (wrap && wrap.style.display !== "none" && wrap.style.left !== "auto" && gutterWidth() < MIN_GUTTER && !pinned) leave(); });
   function init(content){
     if(content && content.meta){ CONTENT.funFacts=content.meta.funFacts||[]; CONTENT.quote=content.meta.quote||"";
       const about = CONTENT.funFacts.map(f => "About Arun: " + f);
@@ -294,7 +320,7 @@
     const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const tog=build(); setForm("cat"); setMood("happy");
     wrap.addEventListener("click",(e)=>{ e.stopPropagation(); onPoke(); });
-    tog.addEventListener("click",()=>{ visit(pick(["happy","star","love"])); say(line("general"), SAY_MS); });
+    tog.addEventListener("click",()=>{ pinned=false; visit(pick(["happy","star","love"]), "general", true); });
     if(!reduced){
       setTimeout(()=>{ visit("happy", "hero"); scheduleVisit(); }, 9000);
       wireSectionReactions();

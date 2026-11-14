@@ -6,7 +6,7 @@ readTime: 3 min read
 
 # KampusSchedule: one app for an IIM Kozhikode student's day
 
-> **Result:** A live, public web app that brings classes, attendance, campus buses, the mess menu and friends' schedules into one place for IIM Kozhikode students. It syncs from the official timetable sheet, sends push alerts when a class changes, and is backed by **172 automated test cases**.
+> **Result:** A live, public web app that brings classes, attendance, campus buses, the mess menu and friends' schedules into one place for IIM Kozhikode students. It replaces **five scattered tools with one**, needs **no sign-up**, and alerts students the moment a class changes.
 
 **Role:** Product owner and solo builder · **Type:** 0-to-1 side product · **Stack:** Next.js web app (installable on phones), Supabase, Google Sheets sync, push notifications, Vercel
 
@@ -17,7 +17,7 @@ readTime: 3 min read
 - **Replaced five sources with one screen.** Timetable sheet, attendance tracking, bus timings, mess menu and exam slots now live in a single "Today" view.
 - **No sign-up wall.** Students open the link and start using the core features straight away, which removes the biggest **activation** hurdle.
 - **Real-time change alerts.** When the timetable sheet changes, the app spots the difference and sends a push notification, with class reminders before each session.
-- **Built for reliability.** 172 automated test cases cover attendance maths, clash detection, reminders, sync and calendar export.
+- **Less coordination overhead.** Students compare timetables with friends and find common free time for group work in seconds, instead of messaging back and forth.
 
 ## Situation
 

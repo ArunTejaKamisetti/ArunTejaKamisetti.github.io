@@ -305,14 +305,13 @@
       let open = "", openKind = "";
       if (slug) {
         open = "post.html?w=" + encodeURIComponent(slug); openKind = "page";
-        linkHtml = '<a class="card__link" href="' + open + '">Read case study' + arrow + '</a>';
-        if (link) linkHtml += '<a class="card__link card__link--gh" href="' + esc(link) + '"' + ext(link) + '>' + linkLabel + arrow + '</a>';
+        if (link) linkHtml = '<a class="card__link card__link--gh" href="' + esc(link) + '"' + ext(link) + '>' + linkLabel + ' ↗</a>';
       } else if (link) {
         open = link; openKind = /^https?:/.test(link) ? "ext" : "page";
         linkHtml = '<a class="card__link" href="' + esc(link) + '"' + ext(link) + '>' + linkLabel + arrow + '</a>';
       } else if (p.details) {
         openKind = "modal";
-        linkHtml = '<button type="button" class="card__link card__more" data-idx="' + i + '">Read more' + arrow + '</button>';
+        linkHtml = '';
       }
       if (linkHtml) linkHtml = '<div class="card__links">' + linkHtml + '</div>';
       return '<article class="card card-surface reveal is-clickable" tabindex="0" role="link" aria-label="' + esc(p.title) + '" data-open="' + esc(open) + '" data-open-kind="' + openKind + '" data-idx="' + i + '" data-anim="' + (i % 2 ? "right" : "left") + '" data-delay="' + (i % 3) + '">' +

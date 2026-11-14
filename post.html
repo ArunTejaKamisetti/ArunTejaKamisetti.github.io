@@ -128,7 +128,7 @@
     if(!slug){ body.innerHTML='<p class="reader__err">No post specified.</p>'; return; }
 
     var getMd=function(dir){ return fetch("assets/"+dir+"/"+slug+".md",{cache:"no-store"}).then(function(r){ if(!r.ok) throw new Error("not found"); return r.text(); }); };
-    (isWork ? getMd("work").catch(function(){ return getMd("thoughts"); }) : getMd("thoughts"))
+    (isWork ? getMd("projects").catch(function(){ return getMd("thoughts"); }) : getMd("thoughts"))
       .then(function(text){
         // optional frontmatter: ---\ntitle: ..\ndate: ..\nreadTime: ..\n---
         var fm={}; var m=text.match(/^---\n([\s\S]*?)\n---\n?/);

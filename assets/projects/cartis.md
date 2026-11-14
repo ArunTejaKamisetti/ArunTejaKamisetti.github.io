@@ -6,7 +6,7 @@ readTime: 4 min read
 
 # Cartis: an agentic shopping assistant for Indian shoppers
 
-> **Result:** A working v1 that turns one spoken request into three explained picks, running end to end on live data. It passed 30/30 automated tests and 27/27 UI checks, and it was built for The Ken's Great Rewiring Case Competition 2026, where our team was a **National Semi-Finalist (top 7% of 6,000+ teams)**.
+> **Result:** **National Semi-Finalist (top 7% of 6,000+ teams)** at The Ken's Great Rewiring Case Competition 2026, with a working product that turns one spoken request into three trusted picks, aimed at fewer returns for shoppers and sellers.
 
 **Role:** Product lead and builder (team of 3, IIM Kozhikode) · **Type:** 0-to-1 product, case competition · **Stack:** Claude agent, Python/FastAPI, voice (Gnani.ai), Pine Labs and Delhivery rails
 
@@ -16,7 +16,7 @@ readTime: 4 min read
 
 - **Shipped a working MVP, not a slide.** Shoppers speak in English or Hinglish and get a shortlist of three, with the reasons read out loud and shown on screen.
 - **Found a hidden quality signal.** Every shirt we tested averaged 4.2★ to 4.6★, yet the share of angry 1★ buyers ranged from **2.4% to about 10%**: a 4x gap the star average hides. Cartis makes that gap visible.
-- **Built quality in from day one.** The product passed **30/30 automated tests** and **27/27 UI checks** across desktop and phone screens before the demo.
+- **Built a business case for partners.** Positioned the agent around **return reduction**, a shared win for shoppers, sellers, payments (Pine Labs) and logistics (Delhivery) partners.
 - **Zero-form onboarding.** Cartis learns size, usual spend and preferred brands from past order emails, so the shopper never fills in a preference quiz.
 
 ## Situation

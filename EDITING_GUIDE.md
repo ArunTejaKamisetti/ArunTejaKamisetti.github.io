@@ -98,7 +98,7 @@ If you published on Medium / LinkedIn / Substack instead, leave **Post file** bl
 
 > Rule of thumb: a Post file always wins over an External link. Leave both blank and the card simply shows no Read button.
 
-**Work case studies** work the same way: put the `.md` in `assets/work/` (or `assets/thoughts/`) and set the **Case-study file** field. The card then shows **Read case study** plus a **GitHub** link, and clicking anywhere on the card opens the case study. Cards with no file but with *details* open a pop-up instead.
+**Work case studies** work the same way: put the `.md` in `assets/projects/` and set the **Case-study file** field. Clicking anywhere on the card opens the case study; the small GitHub link opens the repo. Cards with no file but with *details* open a pop-up instead.
 
 ---
 

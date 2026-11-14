@@ -150,15 +150,13 @@
     {
       "id": "cartis",
       "title": "Cartis: agentic shopping assistant",
-      "category": "0 to 1 Product · The Ken Case Competition",
+      "category": "AI product · Case competition",
       "icon": "ti-target-arrow",
-      "summary": "Voice-first agent that turns one request into three explained picks. Built for The Ken's Great Rewiring 2026, where we were National Semi-Finalists (top 7% of 6,000+ teams).",
-      "metric": "30/30 tests · 3 explained picks",
+      "summary": "AI shopping agent: say what you need once, get three trusted picks. Built to cut returns.",
+      "metric": "Top 7% of 6,000+ teams",
       "tags": [
-        "0 to 1",
-        "Agentic AI",
-        "Customer discovery",
-        "North Star"
+        "Product strategy",
+        "Customer discovery"
       ],
       "type": "case-study",
       "link": "https://github.com/ArunTejaKamisetti/cartis",
@@ -168,15 +166,13 @@
     {
       "id": "agentic-ai-automation",
       "title": "Agentic AI automation portfolio",
-      "category": "Process redesign · Agentic AI",
+      "category": "Process redesign · AI",
       "icon": "ti-cpu",
-      "summary": "Five agent systems that turn slow, manual marketing and alumni workflows into AI-first processes with a human in the loop, covering the full funnel.",
-      "metric": "5 agents · 280+ steps · 40+ integrations",
+      "summary": "AI agents that take repetitive marketing and alumni work off people's plates, with human approval.",
+      "metric": "5 funnel stages automated",
       "tags": [
         "Process improvement",
-        "Human-in-the-loop",
-        "KPIs",
-        "Value chain"
+        "KPIs"
       ],
       "type": "case-study",
       "link": "https://github.com/ArunTejaKamisetti/agents_portfolio1",
@@ -186,15 +182,13 @@
     {
       "id": "kampus-schedule",
       "title": "KampusSchedule",
-      "category": "0 to 1 Product · Side project",
+      "category": "0 to 1 · Side project",
       "icon": "ti-school",
-      "summary": "A public web app that brings classes, attendance, buses, the mess menu and friends' schedules into one screen for IIM Kozhikode students.",
-      "metric": "172 tests · 1 app for 5 sources",
+      "summary": "One app replacing five campus tools for timetables, attendance, buses and meals. No sign-up.",
+      "metric": "5 tools → 1 app",
       "tags": [
         "MVP",
-        "User research",
-        "Prioritization",
-        "Retention"
+        "User research"
       ],
       "type": "case-study",
       "link": "https://github.com/ArunTejaKamisetti/schedule-app",
@@ -203,37 +197,35 @@
     },
     {
       "id": "slm-evaluation",
-      "title": "SLM evaluation & guardrails",
-      "category": "Applied AI · Wipro",
+      "title": "AI model due diligence",
+      "category": "Consulting · Wipro",
       "icon": "ti-flask",
-      "summary": "Funneled ~220 small language models down to the single best fit for a client use case, with a guardrails layer for safe outputs.",
-      "metric": "220 to 1 model selected",
+      "summary": "Due diligence on ~220 AI models to pick the best fit for a client on cost, risk and value.",
+      "metric": "93% projected cost savings",
       "tags": [
-        "LLM eval",
-        "Guardrails",
-        "Applied AI"
+        "Due diligence",
+        "Cost-benefit"
       ],
       "type": "case-study",
       "link": "#",
       "cover": "",
-      "details": "During my Wipro Consulting internship I owned the evaluation that took a field of ~220 small language models down to the one that actually fit the client's constraints. I built a scoring rubric across capability, latency, cost, and safety, ran structured comparisons, and designed a guardrails layer to keep outputs on-policy. The real lesson: picking a model is a product decision in disguise — the 'best' benchmark score loses to the model that fits the user, the budget, and the risk tolerance."
+      "details": "During my Wipro Consulting internship I owned the evaluation that took a field of ~220 small language models down to the one that actually fit the client's constraints. I built a scoring rubric across capability, latency, cost, and safety, ran structured comparisons, and designed a guardrails layer to keep outputs on-policy. The real lesson: picking a model is a product decision in disguise — the 'best' benchmark score loses to the model that fits the user, the budget, and the risk tolerance. The work unlocked 93% projected cost savings for the client."
     },
     {
       "id": "audience-brand-match",
       "title": "Audience Brand Match",
-      "category": "0 to 1 Product · Wipro",
+      "category": "0 to 1 · Wipro",
       "icon": "ti-target-arrow",
-      "summary": "Took a new product from a blank page to a complete BRD — problem, users, requirements, and a path to v1.",
-      "metric": "0 to 1 · BRD shipped",
+      "summary": "Brand-to-ad match tool for TV ad sales teams, taken from a blank page to a full BRD.",
+      "metric": "USD 10 mn+ revenue upside",
       "tags": [
         "0 to 1",
-        "BRD",
-        "Discovery"
+        "BRD"
       ],
       "type": "case-study",
       "link": "#",
       "cover": "",
-      "details": "A greenfield concept to match audiences with the right brands. I led discovery, framed the core problem and target users, and translated it into a complete Business Requirements Document — scope, user stories, success metrics, and a prioritized path to a first version. It sharpened how I cut a fuzzy idea into something a team can actually build."
+      "details": "A greenfield concept to match audiences with the right brands. I led discovery, framed the core problem and target users, and translated it into a complete Business Requirements Document — scope, user stories, success metrics, and a prioritized path to a first version. It sharpened how I cut a fuzzy idea into something a team can actually build. Sized at USD 10 mn+ revenue upside and 20% faster pitch prep for ad sales teams."
     }
   ],
   "decks": [

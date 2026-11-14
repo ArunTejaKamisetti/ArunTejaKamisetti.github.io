@@ -6,7 +6,7 @@ readTime: 4 min read
 
 # Agentic AI automation portfolio: five agents for marketing and growth
 
-> **Result:** Five working agent systems (13 workflows, **280+ steps, 40+ integrations**) that cover the full marketing funnel, from research to measurement. Each one turns a slow, manual task into an **AI-first process with a human in the loop**, and each comes with its own North Star and guardrail metrics.
+> **Result:** Five AI agents that automate **all five stages of the marketing funnel**, from research to measurement, turning one idea into three channel-ready posts and calling new leads within seconds. Each one turns a slow, manual task into an **AI-first process with a human in the loop**, and each comes with its own North Star and guardrail metrics.
 
 **Role:** Product owner and builder · **Type:** Process automation, operating-model redesign · **Stack:** n8n, OpenAI and Gemini models, Google Workspace, Meta, LinkedIn, Telegram, Retell AI (voice)
 
