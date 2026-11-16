@@ -209,48 +209,6 @@
         "500+ DAU",
         "5 tools consolidated"
       ]
-    },
-    {
-      "id": "slm-evaluation",
-      "title": "AI model due diligence",
-      "category": "Consulting · Wipro",
-      "icon": "ti-flask",
-      "summary": "Picked the best-fit AI model for a client on cost, risk and value.",
-      "metric": "93% projected cost savings",
-      "tags": [
-        "Due diligence",
-        "Cost-benefit",
-        "Responsible AI"
-      ],
-      "type": "case-study",
-      "link": "#",
-      "cover": "",
-      "details": "During my Wipro Consulting internship I owned the evaluation that took a field of ~220 small language models down to the one that actually fit the client's constraints. I built a scoring rubric across capability, latency, cost, and safety, ran structured comparisons, and designed a guardrails layer to keep outputs on-policy. The real lesson: picking a model is a product decision in disguise — the 'best' benchmark score loses to the model that fits the user, the budget, and the risk tolerance. The work unlocked 93% projected cost savings for the client.",
-      "metrics": [
-        "93% projected cost savings",
-        "220+ models evaluated"
-      ]
-    },
-    {
-      "id": "audience-brand-match",
-      "title": "Audience Brand Match",
-      "category": "0 to 1 · Wipro",
-      "icon": "ti-target-arrow",
-      "summary": "Brand-to-ad match tool for TV ad sales, from blank page to BRD.",
-      "metric": "USD 10 mn+ revenue upside",
-      "tags": [
-        "0 to 1",
-        "BRD",
-        "Market research"
-      ],
-      "type": "case-study",
-      "link": "#",
-      "cover": "",
-      "details": "A greenfield concept to match audiences with the right brands. I led discovery, framed the core problem and target users, and translated it into a complete Business Requirements Document — scope, user stories, success metrics, and a prioritized path to a first version. It sharpened how I cut a fuzzy idea into something a team can actually build. Sized at USD 10 mn+ revenue upside and 20% faster pitch prep for ad sales teams.",
-      "metrics": [
-        "USD 10 mn+ revenue upside",
-        "20% faster pitch prep"
-      ]
     }
   ],
   "decks": [
