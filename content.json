@@ -213,10 +213,18 @@
   ],
   "decks": [
     {
-      "title": "SLM evaluation — how I picked 1 of 220",
-      "description": "My evaluation framework, scoring rubric, and guardrail thinking, walked through end to end.",
+      "title": "SLM Evaluation Framework: picking 1 model from ~200",
+      "description": "A 6-step framework to choose the right small AI model: Kano needs, pass marks, a 5-stage funnel, a weighted scorecard, finalists by role and guardrails.",
       "embedUrl": "",
-      "thumbnail": ""
+      "thumbnail": "assets/decks/SLM_Evaluation_Framework.jpg",
+      "id": "slm-evaluation-framework",
+      "tags": [
+        "Kano model",
+        "Weighted scoring",
+        "Trade-offs",
+        "Guardrails"
+      ],
+      "file": "assets/decks/SLM_Evaluation_Framework.pdf"
     },
     {
       "title": "Product teardown — a 30-minute lens",

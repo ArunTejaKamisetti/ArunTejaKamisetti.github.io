@@ -393,6 +393,8 @@
       const key = "decks:" + meta[i].id;
       const frame = isEmbed
         ? '<iframe src="' + esc(src) + '" loading="lazy" title="' + esc(d.title) + '" allowfullscreen></iframe>'
+        : (isFile && d.thumbnail)
+        ? '<a class="deck__thumb" href="' + esc(src) + '" target="_blank" rel="noopener" aria-label="Open ' + esc(d.title) + '"><img src="' + esc(d.thumbnail) + '" alt="' + esc(d.title) + ' — first slide" loading="lazy"><span class="deck__play"><svg width="24" height="24"><use href="#i-play"/></svg></span></a>'
         : '<span class="deck__play"><svg width="24" height="24"><use href="#i-play"/></svg></span><svg width="40" height="40" style="opacity:.4"><use href="#i-deck"/></svg>';
       const tags = (d.tags && d.tags.length) ? '<div class="card__tags">' + d.tags.map((t) => '<span>' + esc(t) + '</span>').join("") + '</div>' : "";
       const openLink = isFile ? '<a class="card__link" href="' + esc(src) + '" target="_blank" rel="noopener">Open deck <svg class="ico" width="15" height="15"><use href="#i-arrow"/></svg></a>' : "";

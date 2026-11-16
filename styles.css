@@ -322,3 +322,10 @@ button.card__link{background:none;border:0;padding:0;font:inherit;font-size:14px
 /* two metric pills per work card */
 .card__metrics{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
 .card__metrics .card__metric{margin-bottom:0;padding:5px 12px;font-size:12.5px;}
+
+/* deck thumbnail preview (PDF decks) */
+.deck__thumb{position:relative;display:block;width:100%;height:100%;}
+.deck__thumb img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;transition:transform .35s var(--ease);}
+.deck__thumb .deck__play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;background:rgba(36,27,20,.78);display:flex;align-items:center;justify-content:center;opacity:.9;transition:opacity .25s;}
+.deck:hover .deck__thumb img{transform:scale(1.03);}
+.deck:hover .deck__thumb .deck__play{opacity:1;}
