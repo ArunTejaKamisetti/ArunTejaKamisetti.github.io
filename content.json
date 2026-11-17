@@ -1,265 +1,279 @@
 {
-  "meta": {
-    "name": "Arun Teja Kamisetti",
-    "role": "Aspiring AI Product Manager",
-    "heroLines": [
-      "AI",
-      "PRODUCT",
-      "MANAGER"
-    ],
-    "tagline": "I build AI products people can actually trust.",
-    "subtagline": "IIM Kozhikode PGP student and aspiring AI PM. I evaluate models and ship 0 to 1, and I care most about outcomes, not output. Before this: CSE grad and SE II.",
-    "location": "IIM Kozhikode, India",
-    "email": "arunteja2000@gmail.com",
-    "resumeUrl": "assets/Arun_Teja_Kamisetti_Resume.pdf",
-    "siteUrl": "https://aruntejakamisetti.github.io",
-    "ogImage": "assets/og-image.png",
-    "social": {
-      "github": "https://github.com/ArunTejaKamisetti",
-      "linkedin": "https://www.linkedin.com/in/arun-teja-kamisetti",
-      "twitter": ""
-    },
-    "funFacts": [
-      "District & state-level quiz champion in school — I still chase a hard question.",
-      "Represented my school basketball team; I still hoop, plus badminton and football.",
-      "My brother is doing his MBA at IIM Calcutta while I'm at IIM Kozhikode — a friendly rivalry.",
-      "Big Telugu cinema buff and an anime watcher across genres.",
-      "Core committee at Rotaract Club, BMSCE — led a bunch of goodwill events.",
-      "Interned at Fidelity and Samsung R&D before my Sandvine engineering stint.",
-      "Tata Imagination Challenge - National Semi-Finalist, 2025",
-      "The Ken Case Competition - National Semi-Finalist among 6000+ teams, 2026",
-      "I funneled ~220 small language models down to the one that actually fit."
-    ],
-    "quote": "Strong opinions, loosely held — show me a sound argument and I'll change my mind fast.",
-    "aiQuotes": [
-      "“Attention is all you need.”",
-      "“Scale is all you need.”",
-      "“The best way to predict the future is to build it.”",
-      "“Make something people want.”",
-      "“Models want to learn.”"
-    ]
+ "meta": {
+  "name": "Arun Teja Kamisetti",
+  "role": "Aspiring AI Product Manager",
+  "heroLines": [
+   "AI",
+   "PRODUCT",
+   "MANAGER"
+  ],
+  "tagline": "I build AI products people can actually trust.",
+  "subtagline": "IIM Kozhikode PGP student and aspiring AI PM. I evaluate models and ship 0 to 1, and I care most about outcomes, not output. Before this: CSE grad and SE II.",
+  "location": "IIM Kozhikode, India",
+  "email": "arunteja2000@gmail.com",
+  "resumeUrl": "assets/Arun_Teja_Kamisetti_Resume.pdf",
+  "siteUrl": "https://aruntejakamisetti.github.io",
+  "ogImage": "assets/og-image.png",
+  "social": {
+   "github": "https://github.com/ArunTejaKamisetti",
+   "linkedin": "https://www.linkedin.com/in/arun-teja-kamisetti",
+   "twitter": ""
   },
-  "about": {
-    "heading": "About me",
-    "body": "I’m Arun, a PGP student at IIM Kozhikode who started as an engineer and now works on the question behind the code: what’s worth building, and for whom? I studied CSE at BMSCE, worked as an SE II, and interned at Samsung R&D and Fidelity Investments. At Wipro Consulting, I evaluated ~220 small language models for a single use case and wrote a 0-to-1 BRD. Alongside my studies, I build agentic AI systems and take on case competitions, and I was a National Semi-Finalist at the Tata Imagination Challenge 2025 and at The Ken Case Competition (top 7% among 6,000+ teams). Engineer by training, strategist by habit, and I care about outcomes, not output.",
-    "highlights": [
-      {
-        "label": "Now",
-        "value": "PGP @ IIM Kozhikode (2025-27)",
-        "icon": "ti-school"
-      },
-      {
-        "label": "Before",
-        "value": "SWE II @ Sandvine · CSE @ BMSCE '22",
-        "icon": "ti-code"
-      },
-      {
-        "label": "Recently",
-        "value": "Consulting Intern @ Wipro Consulting, TMT",
-        "icon": "ti-flask"
-      },
-      {
-        "label": "Goal",
-        "value": "AI Product Manager/Consultant",
-        "icon": "ti-target-arrow"
-      }
-    ]
+  "funFacts": [
+   "District & state-level quiz champion in school — I still chase a hard question.",
+   "Represented my school basketball team; I still hoop, plus badminton and football.",
+   "My brother is doing his MBA at IIM Calcutta while I'm at IIM Kozhikode — a friendly rivalry.",
+   "Big Telugu cinema buff and an anime watcher across genres.",
+   "Core committee at Rotaract Club, BMSCE — led a bunch of goodwill events.",
+   "Interned at Fidelity and Samsung R&D before my Sandvine engineering stint.",
+   "Tata Imagination Challenge - National Semi-Finalist, 2025",
+   "The Ken Case Competition - National Semi-Finalist among 6000+ teams, 2026",
+   "I funneled ~220 small language models down to the one that actually fit."
+  ],
+  "quote": "Strong opinions, loosely held — show me a sound argument and I'll change my mind fast.",
+  "aiQuotes": [
+   "“Attention is all you need.”",
+   "“Scale is all you need.”",
+   "“The best way to predict the future is to build it.”",
+   "“Make something people want.”",
+   "“Models want to learn.”"
+  ]
+ },
+ "about": {
+  "heading": "About me",
+  "body": "I’m Arun, a PGP student at IIM Kozhikode who started as an engineer and now works on the question behind the code: what’s worth building, and for whom? I studied CSE at BMSCE, worked as an SE II, and interned at Samsung R&D and Fidelity Investments. At Wipro Consulting, I evaluated ~220 small language models for a single use case and wrote a 0-to-1 BRD. Alongside my studies, I build agentic AI systems and take on case competitions, and I was a National Semi-Finalist at the Tata Imagination Challenge 2025 and at The Ken Case Competition (top 7% among 6,000+ teams). Engineer by training, strategist by habit, and I care about outcomes, not output.",
+  "highlights": [
+   {
+    "label": "Now",
+    "value": "PGP @ IIM Kozhikode (2025-27)",
+    "icon": "ti-school"
+   },
+   {
+    "label": "Before",
+    "value": "SWE II @ Sandvine · CSE @ BMSCE '22",
+    "icon": "ti-code"
+   },
+   {
+    "label": "Recently",
+    "value": "Consulting Intern @ Wipro Consulting, TMT",
+    "icon": "ti-flask"
+   },
+   {
+    "label": "Goal",
+    "value": "AI Product Manager/Consultant",
+    "icon": "ti-target-arrow"
+   }
+  ]
+ },
+ "journey": [
+  "CSE @ BMSCE",
+  "SWE @ Sandvine",
+  "Layoff to CAT",
+  "PGP @ IIM K",
+  "AI PM"
+ ],
+ "skills": [
+  {
+   "name": "Due diligence",
+   "where": "Built a 5-stage due diligence tool with a cost-benefit analysis of 200 AI models at Wipro Consulting (TMT), unlocking 93% projected cost savings."
   },
-  "journey": [
-    "CSE @ BMSCE",
-    "SWE @ Sandvine",
-    "Layoff to CAT",
-    "PGP @ IIM K",
-    "AI PM"
-  ],
-  "skills": [
-    {
-      "name": "Due diligence",
-      "where": "Built a 5-stage due diligence tool with a cost-benefit analysis of 200 AI models at Wipro Consulting (TMT), unlocking 93% projected cost savings."
-    },
-    {
-      "name": "Go-to-market strategy",
-      "where": "Led GTM in my PM internship at Whattamatch (Founder's Office), acquiring 500+ users in 3 months."
-    },
-    {
-      "name": "Process redesign",
-      "where": "Redesigned an executive prep process at Wipro Consulting (TMT), cutting prep time by 85% and protecting USD 2 mn+ in projected ARR."
-    },
-    {
-      "name": "Customer discovery",
-      "where": "Ran 20+ customer interviews in my PM internship at Whattamatch (Founder's Office) that shaped 3+ shipped features."
-    },
-    {
-      "name": "Market research & benchmarking",
-      "where": "Benchmarked 7+ incumbents to find whitespace in the USD 120 bn+ TV ad sales market at Wipro Consulting (TMT)."
-    },
-    {
-      "name": "Competitive analysis",
-      "where": "Benchmarked 3+ rival platforms in my PM internship at Whattamatch (Founder's Office) to shape the founder's strategy."
-    },
-    {
-      "name": "Business case development",
-      "where": "Sized USD 10 mn+ revenue upside for a brand-to-ad match tool for ad sales teams at Wipro Consulting (TMT)."
-    },
-    {
-      "name": "0 to 1 product development",
-      "where": "Shipped 3+ features end to end in my PM internship at Whattamatch (Founder's Office), and took Audience Brand Match from a blank page to a full BRD at Wipro."
-    },
-    {
-      "name": "Persona mapping & segmentation",
-      "where": "Mapped 4 buyer personas for the TV ad sales opportunity at Wipro Consulting (TMT)."
-    },
-    {
-      "name": "KPIs & product analytics",
-      "where": "Owned the research-to-analytics loop in my PM internship at Whattamatch (Founder's Office); earlier documented 7+ KPIs at Sandvine."
-    },
-    {
-      "name": "Hypothesis-driven problem solving",
-      "where": "Framed explainable recommendations forecast to speed up opportunity spotting by 10% at Wipro Consulting (TMT)."
-    },
-    {
-      "name": "PRDs & BRDs",
-      "where": "Wrote the full BRD for Audience Brand Match at Wipro Consulting (TMT)."
-    },
-    {
-      "name": "Client deliverables & quality",
-      "where": "Kept 95% deliverable accuracy across 18 customer needs with a 10-check validation at Wipro Consulting (TMT)."
-    },
-    {
-      "name": "Roadmap prioritization",
-      "where": "Prioritized features from customer interviews in my PM internship at Whattamatch (Founder's Office), and a path to v1 for Audience Brand Match."
-    },
-    {
-      "name": "Stakeholder management",
-      "where": "Worked across client teams at Wipro Consulting (TMT); held a 4.0+/5 peer rating through my Sandvine tenure."
-    },
-    {
-      "name": "Agile & sprint planning",
-      "where": "Kept a 95%+ story closure rate across 10+ releases in Scrum teams at Sandvine."
-    },
-    {
-      "name": "AI product strategy",
-      "where": "Chose the right-fit model for a client use case at Wipro Consulting (TMT), and designed Cartis and KampusSchedule end to end."
-    },
-    {
-      "name": "Executive storytelling",
-      "where": "National Semi-Finalist at The Ken Case Competition (top 7% of 6,000+ teams) and the Tata Imagination Challenge 2025."
-    }
-  ],
-  "projects": [
-    {
-      "id": "cartis",
-      "title": "Cartis: AI shopping agent",
-      "category": "AI product · Case competition",
-      "icon": "ti-target-arrow",
-      "summary": "Say what you need once, get three trusted picks. Fewer returns.",
-      "metric": "Top 7% of 6,000+ teams",
-      "tags": [
-        "Product strategy",
-        "Discovery",
-        "0 to 1"
-      ],
-      "type": "case-study",
-      "link": "https://github.com/ArunTejaKamisetti/cartis",
-      "mdFile": "cartis.md",
-      "details": "A buyer-side shopping agent for Indian shoppers: speak once, get three picks with the reasons. Review risk scoring, zero-form onboarding from order emails, and Pine Labs + Delhivery rails.",
-      "metrics": [
-        "Top 7% of 6,000+ teams",
-        "7+ API integrations"
-      ]
-    },
-    {
-      "id": "agentic-ai-automation",
-      "title": "Agentic AI portfolio",
-      "category": "Process redesign · AI",
-      "icon": "ti-cpu",
-      "summary": "AI agents that run repetitive marketing and alumni work, with human sign-off.",
-      "metric": "5+ n8n agents",
-      "tags": [
-        "Process redesign",
-        "Automation",
-        "KPIs"
-      ],
-      "type": "case-study",
-      "link": "https://github.com/ArunTejaKamisetti/agents_portfolio1",
-      "mdFile": "agentic-ai-automation.md",
-      "details": "AlumniMatch (explainable 1:1 alumni invites), a multi-agent media assistant, an ad-script engine, a social publisher and a voice speed-to-lead agent.",
-      "metrics": [
-        "5+ n8n agents",
-        "40+ tool integrations"
-      ]
-    },
-    {
-      "id": "kampus-schedule",
-      "title": "KampusSchedule",
-      "category": "0 to 1 · Side project",
-      "icon": "ti-school",
-      "summary": "One campus app for timetables, attendance, buses and meals. No sign-up.",
-      "metric": "500+ DAU",
-      "tags": [
-        "MVP",
-        "User research",
-        "Retention"
-      ],
-      "type": "case-study",
-      "link": "https://github.com/ArunTejaKamisetti/schedule-app",
-      "mdFile": "kampus-schedule.md",
-      "details": "Syncs from the official timetable sheet, pushes alerts when a class changes, and finds common free time with friends.",
-      "metrics": [
-        "500+ DAU",
-        "5 tools consolidated"
-      ]
-    }
-  ],
-  "decks": [
-    {
-      "title": "SLM Evaluation Framework: picking 1 model from ~200",
-      "description": "A 6-step framework to choose the right small AI model: Kano needs, pass marks, a 5-stage funnel, a weighted scorecard, finalists by role and guardrails.",
-      "embedUrl": "",
-      "thumbnail": "assets/decks/SLM_Evaluation_Framework.jpg",
-      "id": "slm-evaluation-framework",
-      "tags": [
-        "Kano model",
-        "Weighted scoring",
-        "Trade-offs",
-        "Guardrails"
-      ],
-      "file": "assets/decks/SLM_Evaluation_Framework.pdf"
-    },
-    {
-      "title": "Product teardown — a 30-minute lens",
-      "description": "The repeatable framework I use to tear down any product and find where I'd place bets.",
-      "embedUrl": "",
-      "thumbnail": ""
-    }
-  ],
-  "thoughts": [
-    {
-      "title": "Why I declined a PPO to chase AI PM",
-      "date": "2026-06-01",
-      "readTime": "4 min read",
-      "excerpt": "The safe path was right there — a pre-placement offer in hand. Here's the reasoning behind walking away from it to bet on the role I actually want.",
-      "url": "#",
-      "mdFile": "why-i-declined-a-ppo.md"
-    },
-    {
-      "title": "What evaluating 220 models taught me about product judgment",
-      "date": "2026-05-20",
-      "readTime": "5 min read",
-      "excerpt": "Picking a model is a product decision in disguise. Benchmarks are the start, not the answer. Here's the lens I used to choose.",
-      "url": "#"
-    },
-    {
-      "title": "Learning AI in public: QLoRA & beyond",
-      "date": "2026-05-05",
-      "readTime": "3 min read",
-      "excerpt": "I have working knowledge but real gaps in deep AI topics. Here's how I'm closing them — what's clicking, what isn't yet, and why I share the messy middle.",
-      "url": "#"
-    }
-  ],
-  "contact": {
-    "heading": "Let's build something",
-    "body": "I'm looking for AI Product Manager roles and love talking products, models, and the hard problems in between. If you're hiring or just want to swap notes, reach out.",
-    "ctaLabel": "Email me"
+  {
+   "name": "Go-to-market strategy",
+   "where": "Led GTM in my PM internship at Whattamatch (Founder's Office), acquiring 500+ users in 3 months."
+  },
+  {
+   "name": "Process redesign",
+   "where": "Redesigned an executive prep process at Wipro Consulting (TMT), cutting prep time by 85% and protecting USD 2 mn+ in projected ARR."
+  },
+  {
+   "name": "Customer discovery",
+   "where": "Ran 20+ customer interviews in my PM internship at Whattamatch (Founder's Office) that shaped 3+ shipped features."
+  },
+  {
+   "name": "Market research & benchmarking",
+   "where": "Benchmarked 7+ incumbents to find whitespace in the USD 120 bn+ TV ad sales market at Wipro Consulting (TMT)."
+  },
+  {
+   "name": "Competitive analysis",
+   "where": "Benchmarked 3+ rival platforms in my PM internship at Whattamatch (Founder's Office) to shape the founder's strategy."
+  },
+  {
+   "name": "Business case development",
+   "where": "Sized USD 10 mn+ revenue upside for a brand-to-ad match tool for ad sales teams at Wipro Consulting (TMT)."
+  },
+  {
+   "name": "0 to 1 product development",
+   "where": "Shipped 3+ features end to end in my PM internship at Whattamatch (Founder's Office), and took Audience Brand Match from a blank page to a full BRD at Wipro."
+  },
+  {
+   "name": "Persona mapping & segmentation",
+   "where": "Mapped 4 buyer personas for the TV ad sales opportunity at Wipro Consulting (TMT)."
+  },
+  {
+   "name": "KPIs & product analytics",
+   "where": "Owned the research-to-analytics loop in my PM internship at Whattamatch (Founder's Office); earlier documented 7+ KPIs at Sandvine."
+  },
+  {
+   "name": "Hypothesis-driven problem solving",
+   "where": "Framed explainable recommendations forecast to speed up opportunity spotting by 10% at Wipro Consulting (TMT)."
+  },
+  {
+   "name": "PRDs & BRDs",
+   "where": "Wrote the full BRD for Audience Brand Match at Wipro Consulting (TMT)."
+  },
+  {
+   "name": "Client deliverables & quality",
+   "where": "Kept 95% deliverable accuracy across 18 customer needs with a 10-check validation at Wipro Consulting (TMT)."
+  },
+  {
+   "name": "Roadmap prioritization",
+   "where": "Prioritized features from customer interviews in my PM internship at Whattamatch (Founder's Office), and a path to v1 for Audience Brand Match."
+  },
+  {
+   "name": "Stakeholder management",
+   "where": "Worked across client teams at Wipro Consulting (TMT); held a 4.0+/5 peer rating through my Sandvine tenure."
+  },
+  {
+   "name": "Agile & sprint planning",
+   "where": "Kept a 95%+ story closure rate across 10+ releases in Scrum teams at Sandvine."
+  },
+  {
+   "name": "AI product strategy",
+   "where": "Chose the right-fit model for a client use case at Wipro Consulting (TMT), and designed Cartis and KampusSchedule end to end."
+  },
+  {
+   "name": "Executive storytelling",
+   "where": "National Semi-Finalist at The Ken Case Competition (top 7% of 6,000+ teams) and the Tata Imagination Challenge 2025."
   }
+ ],
+ "projects": [
+  {
+   "id": "cartis",
+   "title": "Cartis: AI shopping agent",
+   "category": "AI product · Case competition",
+   "icon": "ti-target-arrow",
+   "summary": "Say what you need once, get three trusted picks. Fewer returns.",
+   "metric": "Top 7% of 6,000+ teams",
+   "tags": [
+    "Product strategy",
+    "Discovery",
+    "0 to 1"
+   ],
+   "type": "case-study",
+   "link": "https://github.com/ArunTejaKamisetti/cartis",
+   "mdFile": "cartis.md",
+   "details": "A buyer-side shopping agent for Indian shoppers: speak once, get three picks with the reasons. Review risk scoring, zero-form onboarding from order emails, and Pine Labs + Delhivery rails.",
+   "metrics": [
+    "Top 7% of 6,000+ teams",
+    "7+ API integrations"
+   ]
+  },
+  {
+   "id": "agentic-ai-automation",
+   "title": "Agentic AI portfolio",
+   "category": "Process redesign · AI",
+   "icon": "ti-cpu",
+   "summary": "AI agents that run repetitive marketing and alumni work, with human sign-off.",
+   "metric": "5+ n8n agents",
+   "tags": [
+    "Process redesign",
+    "Automation",
+    "KPIs"
+   ],
+   "type": "case-study",
+   "link": "https://github.com/ArunTejaKamisetti/agents_portfolio1",
+   "mdFile": "agentic-ai-automation.md",
+   "details": "AlumniMatch (explainable 1:1 alumni invites), a multi-agent media assistant, an ad-script engine, a social publisher and a voice speed-to-lead agent.",
+   "metrics": [
+    "5+ n8n agents",
+    "40+ tool integrations"
+   ]
+  },
+  {
+   "id": "kampus-schedule",
+   "title": "KampusSchedule",
+   "category": "0 to 1 · Side project",
+   "icon": "ti-school",
+   "summary": "One campus app for timetables, attendance, buses and meals. No sign-up.",
+   "metric": "500+ DAU",
+   "tags": [
+    "MVP",
+    "User research",
+    "Retention"
+   ],
+   "type": "case-study",
+   "link": "https://github.com/ArunTejaKamisetti/schedule-app",
+   "mdFile": "kampus-schedule.md",
+   "details": "Syncs from the official timetable sheet, pushes alerts when a class changes, and finds common free time with friends.",
+   "metrics": [
+    "500+ DAU",
+    "5 tools consolidated"
+   ]
+  }
+ ],
+ "decks": [
+  {
+   "title": "SLM Evaluation Framework: picking 1 model from ~200",
+   "description": "A 6-step framework to choose the right small AI model: Kano needs, pass marks, a 5-stage funnel, a weighted scorecard, finalists by role and guardrails.",
+   "embedUrl": "",
+   "thumbnail": "assets/decks/SLM_Evaluation_Framework.jpg",
+   "id": "slm-evaluation-framework",
+   "tags": [
+    "Kano model",
+    "Weighted scoring",
+    "Trade-offs",
+    "Guardrails"
+   ],
+   "file": "assets/decks/SLM_Evaluation_Framework.pdf"
+  },
+  {
+   "title": "Rapido Product Teardown: CIRCLES, North Star & feature metrics",
+   "description": "A PM teardown of Rapido: niche segments, CIRCLES walkthrough, RICE prioritisation, a North Star metric tree, feature → metric maps (incl. Women Riders / Bike Pink) and an experiment design.",
+   "embedUrl": "",
+   "thumbnail": "assets/decks/Rapido_Product_Teardown.jpg",
+   "id": "rapido-product-teardown",
+   "tags": [
+    "CIRCLES",
+    "North Star metric",
+    "RICE",
+    "Product teardown"
+   ],
+   "file": "assets/decks/Rapido_Product_Teardown.pdf"
+  },
+  {
+   "title": "Product teardown — a 30-minute lens",
+   "description": "The repeatable framework I use to tear down any product and find where I'd place bets.",
+   "embedUrl": "",
+   "thumbnail": ""
+  }
+ ],
+ "thoughts": [
+  {
+   "title": "Why I declined a PPO to chase AI PM",
+   "date": "2026-06-01",
+   "readTime": "4 min read",
+   "excerpt": "The safe path was right there — a pre-placement offer in hand. Here's the reasoning behind walking away from it to bet on the role I actually want.",
+   "url": "#",
+   "mdFile": "why-i-declined-a-ppo.md"
+  },
+  {
+   "title": "What evaluating 220 models taught me about product judgment",
+   "date": "2026-05-20",
+   "readTime": "5 min read",
+   "excerpt": "Picking a model is a product decision in disguise. Benchmarks are the start, not the answer. Here's the lens I used to choose.",
+   "url": "#"
+  },
+  {
+   "title": "Learning AI in public: QLoRA & beyond",
+   "date": "2026-05-05",
+   "readTime": "3 min read",
+   "excerpt": "I have working knowledge but real gaps in deep AI topics. Here's how I'm closing them — what's clicking, what isn't yet, and why I share the messy middle.",
+   "url": "#"
+  }
+ ],
+ "contact": {
+  "heading": "Let's build something",
+  "body": "I'm looking for AI Product Manager roles and love talking products, models, and the hard problems in between. If you're hiring or just want to swap notes, reach out.",
+  "ctaLabel": "Email me"
+ }
 }
