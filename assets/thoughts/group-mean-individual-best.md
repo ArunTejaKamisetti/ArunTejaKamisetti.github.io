@@ -1,5 +1,5 @@
 ---
-title: "The Group Mean Paradox: Why Your Best Is a Team Sport"
+title: The Group Mean Paradox: Why Your Best Is a Team Sport
 date: 2026-11-17
 readTime: 3 min read
 ---

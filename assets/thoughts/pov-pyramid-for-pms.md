@@ -1,5 +1,5 @@
 ---
-title: "The POV Pyramid: How PMs Should Think Up While Shipping Down"
+title: The POV Pyramid: How PMs Should Think Up While Shipping Down
 date: 2026-11-17
 readTime: 4 min read
 ---
@@ -8,50 +8,7 @@ Every PM has two clocks running. One is the sprint: *ship this by Friday.* The o
 
 I use a simple mental model to listen to both. I call it the **POV Pyramid**.
 
-<div class="pov-pyramid">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 460" role="img" aria-label="POV Pyramid: Self, Close People, Larger Community, Global Community, Ethereal">
-  <title>The POV Pyramid</title>
-  <style>
-    .lbl{font:600 17px 'Inter',system-ui,sans-serif;fill:#fff;text-anchor:middle}
-    .sub{font:400 12px 'Inter',system-ui,sans-serif;fill:#fff;opacity:.9;text-anchor:middle}
-    .hz{font:500 12px 'Inter',system-ui,sans-serif;fill:#3C3489}
-    .ttl{font:700 18px 'Inter',system-ui,sans-serif;fill:#26215C}
-  </style>
-  <text x="20" y="28" class="ttl">The POV Pyramid</text>
-  <!-- Level 5: Ethereal -->
-  <polygon points="300,50 380,50 412,130 268,130" fill="#26215C"/>
-  <text x="340" y="96" class="lbl">Ethereal</text>
-  <text x="340" y="114" class="sub">purpose · values</text>
-  <!-- Level 4: Global -->
-  <polygon points="268,134 412,134 444,214 236,214" fill="#3C3489"/>
-  <text x="340" y="172" class="lbl">Global Community</text>
-  <text x="340" y="192" class="sub">society · ecosystem</text>
-  <!-- Level 3: Larger community -->
-  <polygon points="236,218 444,218 476,298 204,298" fill="#534AB7"/>
-  <text x="340" y="256" class="lbl">Larger Community</text>
-  <text x="340" y="276" class="sub">users · company · market</text>
-  <!-- Level 2: Close people -->
-  <polygon points="204,302 476,302 508,382 172,382" fill="#7F77DD"/>
-  <text x="340" y="340" class="lbl">Close People</text>
-  <text x="340" y="360" class="sub">team · stakeholders</text>
-  <!-- Level 1: Self -->
-  <polygon points="172,386 508,386 540,450 140,450" fill="#AFA9EC"/>
-  <text x="340" y="416" class="lbl" style="fill:#26215C">Self</text>
-  <text x="340" y="434" class="sub" style="fill:#26215C">skills · OKRs · calendar</text>
-  <!-- Horizons -->
-  <g class="hz">
-    <text x="430" y="94">→ beyond a lifetime</text>
-    <text x="462" y="178">→ this decade</text>
-    <text x="494" y="262">→ this year</text>
-    <text x="526" y="346">→ this quarter</text>
-    <text x="556" y="422">→ this week</text>
-  </g>
-  <!-- Arrow: think up, act down -->
-  <line x1="80" y1="430" x2="80" y2="70" stroke="#534AB7" stroke-width="3" marker-end="url(#a)"/>
-  <defs><marker id="a" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#534AB7"/></marker></defs>
-  <text x="96" y="250" class="hz" transform="rotate(-90 96 250)" text-anchor="middle">think up · act down</text>
-</svg>
-</div>
+![The POV Pyramid: Self, Close People, Larger Community, Global Community, Ethereal](data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA3MjAgNDYwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlBPViBQeXJhbWlkOiBTZWxmLCBDbG9zZSBQZW9wbGUsIExhcmdlciBDb21tdW5pdHksIEdsb2JhbCBDb21tdW5pdHksIEV0aGVyZWFsIj4KICA8dGl0bGU+VGhlIFBPViBQeXJhbWlkPC90aXRsZT4KICA8c3R5bGU+CiAgICAubGJse2ZvbnQ6NjAwIDE3cHggJ0ludGVyJyxzeXN0ZW0tdWksc2Fucy1zZXJpZjtmaWxsOiNmZmY7dGV4dC1hbmNob3I6bWlkZGxlfQogICAgLnN1Yntmb250OjQwMCAxMnB4ICdJbnRlcicsc3lzdGVtLXVpLHNhbnMtc2VyaWY7ZmlsbDojZmZmO29wYWNpdHk6Ljk7dGV4dC1hbmNob3I6bWlkZGxlfQogICAgLmh6e2ZvbnQ6NTAwIDEycHggJ0ludGVyJyxzeXN0ZW0tdWksc2Fucy1zZXJpZjtmaWxsOiMzQzM0ODl9CiAgICAudHRse2ZvbnQ6NzAwIDE4cHggJ0ludGVyJyxzeXN0ZW0tdWksc2Fucy1zZXJpZjtmaWxsOiMyNjIxNUN9CiAgPC9zdHlsZT4KICA8dGV4dCB4PSIyMCIgeT0iMjgiIGNsYXNzPSJ0dGwiPlRoZSBQT1YgUHlyYW1pZDwvdGV4dD4KICAgIDxwb2x5Z29uIHBvaW50cz0iMzAwLDUwIDM4MCw1MCA0MTIsMTMwIDI2OCwxMzAiIGZpbGw9IiMyNjIxNUMiLz4KICA8dGV4dCB4PSIzNDAiIHk9Ijk2IiBjbGFzcz0ibGJsIj5FdGhlcmVhbDwvdGV4dD4KICA8dGV4dCB4PSIzNDAiIHk9IjExNCIgY2xhc3M9InN1YiI+cHVycG9zZSDCtyB2YWx1ZXM8L3RleHQ+CiAgICA8cG9seWdvbiBwb2ludHM9IjI2OCwxMzQgNDEyLDEzNCA0NDQsMjE0IDIzNiwyMTQiIGZpbGw9IiMzQzM0ODkiLz4KICA8dGV4dCB4PSIzNDAiIHk9IjE3MiIgY2xhc3M9ImxibCI+R2xvYmFsIENvbW11bml0eTwvdGV4dD4KICA8dGV4dCB4PSIzNDAiIHk9IjE5MiIgY2xhc3M9InN1YiI+c29jaWV0eSDCtyBlY29zeXN0ZW08L3RleHQ+CiAgICA8cG9seWdvbiBwb2ludHM9IjIzNiwyMTggNDQ0LDIxOCA0NzYsMjk4IDIwNCwyOTgiIGZpbGw9IiM1MzRBQjciLz4KICA8dGV4dCB4PSIzNDAiIHk9IjI1NiIgY2xhc3M9ImxibCI+TGFyZ2VyIENvbW11bml0eTwvdGV4dD4KICA8dGV4dCB4PSIzNDAiIHk9IjI3NiIgY2xhc3M9InN1YiI+dXNlcnMgwrcgY29tcGFueSDCtyBtYXJrZXQ8L3RleHQ+CiAgICA8cG9seWdvbiBwb2ludHM9IjIwNCwzMDIgNDc2LDMwMiA1MDgsMzgyIDE3MiwzODIiIGZpbGw9IiM3Rjc3REQiLz4KICA8dGV4dCB4PSIzNDAiIHk9IjM0MCIgY2xhc3M9ImxibCI+Q2xvc2UgUGVvcGxlPC90ZXh0PgogIDx0ZXh0IHg9IjM0MCIgeT0iMzYwIiBjbGFzcz0ic3ViIj50ZWFtIMK3IHN0YWtlaG9sZGVyczwvdGV4dD4KICAgIDxwb2x5Z29uIHBvaW50cz0iMTcyLDM4NiA1MDgsMzg2IDU0MCw0NTAgMTQwLDQ1MCIgZmlsbD0iI0FGQTlFQyIvPgogIDx0ZXh0IHg9IjM0MCIgeT0iNDE2IiBjbGFzcz0ibGJsIiBzdHlsZT0iZmlsbDojMjYyMTVDIj5TZWxmPC90ZXh0PgogIDx0ZXh0IHg9IjM0MCIgeT0iNDM0IiBjbGFzcz0ic3ViIiBzdHlsZT0iZmlsbDojMjYyMTVDIj5za2lsbHMgwrcgT0tScyDCtyBjYWxlbmRhcjwvdGV4dD4KICAgIDxnIGNsYXNzPSJoeiI+CiAgICA8dGV4dCB4PSI0MzAiIHk9Ijk0Ij7ihpIgYmV5b25kIGEgbGlmZXRpbWU8L3RleHQ+CiAgICA8dGV4dCB4PSI0NjIiIHk9IjE3OCI+4oaSIHRoaXMgZGVjYWRlPC90ZXh0PgogICAgPHRleHQgeD0iNDk0IiB5PSIyNjIiPuKGkiB0aGlzIHllYXI8L3RleHQ+CiAgICA8dGV4dCB4PSI1MjYiIHk9IjM0NiI+4oaSIHRoaXMgcXVhcnRlcjwvdGV4dD4KICAgIDx0ZXh0IHg9IjU1NiIgeT0iNDIyIj7ihpIgdGhpcyB3ZWVrPC90ZXh0PgogIDwvZz4KICAgIDxsaW5lIHgxPSI4MCIgeTE9IjQzMCIgeDI9IjgwIiB5Mj0iNzAiIHN0cm9rZT0iIzUzNEFCNyIgc3Ryb2tlLXdpZHRoPSIzIiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgPGRlZnM+PG1hcmtlciBpZD0iYSIgbWFya2VyV2lkdGg9IjEwIiBtYXJrZXJIZWlnaHQ9IjEwIiByZWZYPSI1IiByZWZZPSI1IiBvcmllbnQ9ImF1dG8iPjxwYXRoIGQ9Ik0wLDAgTDEwLDUgTDAsMTAgeiIgZmlsbD0iIzUzNEFCNyIvPjwvbWFya2VyPjwvZGVmcz4KICA8dGV4dCB4PSI5NiIgeT0iMjUwIiBjbGFzcz0iaHoiIHRyYW5zZm9ybT0icm90YXRlKC05MCA5NiAyNTApIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj50aGluayB1cCDCtyBhY3QgZG93bjwvdGV4dD4KPC9zdmc+)
 
 ## The five levels
 

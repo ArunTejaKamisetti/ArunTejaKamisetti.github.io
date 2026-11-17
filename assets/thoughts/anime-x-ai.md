@@ -1,5 +1,5 @@
 ---
-title: "Anime x AI: If Frontier Models Were Shonen Protagonists"
+title: Anime x AI: If Frontier Models Were Shonen Protagonists
 date: 2026-11-17
 readTime: 5 min read
 ---

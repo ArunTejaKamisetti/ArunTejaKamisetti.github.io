@@ -1,5 +1,5 @@
 ---
-title: "Let Others Win: The Most Human Skill in the Age of AI"
+title: Let Others Win: The Most Human Skill in the Age of AI
 date: 2026-11-17
 readTime: 3 min read
 ---
@@ -16,14 +16,11 @@ The data points one way. The [WEF Future of Jobs Report 2025](https://www.weforu
 
 **Simple example:** an AI can draft a perfect "great job on the launch" message in two seconds. It can't notice that your designer stayed quiet in standup because her idea got cut, and then ask her for a coffee. The first is a task. The second is the job.
 
-## What Rotaract taught me
+## The quiz I didn't answer
 
-At BMSCE, I was on the core committee of our Rotaract Club and led several goodwill events. The biggest lesson wasn't about logistics. It was that **an event works when the volunteers feel it's theirs.**
+In school, our morning prayer assembly had a daily quiz. I loved it and always rushed to answer first. One morning, a younger kid was running up right behind me. Our Principal quietly asked me to step back, so I did, and he answered.
 
-<!-- TODO (Arun): add one specific event here: what it was, who you handed the spotlight to, and what happened. 2–3 sentences. -->
-[Placeholder: one specific Rotaract event and the moment you let someone else lead or take the credit.]
-
-The people who got the credit came back for the next event. And the next one. The ones who didn't drifted away. Credit cost me nothing to give and created loyalty I couldn't have bought.
+That small moment changed things. More kids started trying, and the quiz turned into a real culture in our school. The competition got tougher, and my own practice got better because of it. **Letting him win made the whole game bigger, and I won more inside it.**
 
 ## The research: givers finish first (and last)
 
